@@ -260,7 +260,7 @@
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
-            <th colspan="3" class="table-secondary">
+            <th colspan="2" class="table-secondary">
               <h1 style="color:red ;">Total Course :&nbsp; &nbsp;<b>{{totalCourseDue | currency:'INR'}}</b></h1>
             </th>
             <th colspan="2" class="table-secondary">
@@ -270,7 +270,7 @@
 
           <tr>
             <th scope="col">Date</th>
-            <th scope="col">Transaction No</th>
+            <!-- <th scope="col">Transaction No</th> -->
             <th scope="col">Particulars</th>
             <th scope="col">Comments</th>
             <th scope="col">Amount</th>
@@ -281,7 +281,7 @@
         <ng-template pTemplate="body" let-item>
           <tr>
             <td scope="row">{{item.transaction_date}}</td>
-            <td scope="row">{{item.transaction_number}}</td>
+            <!-- <td scope="row">{{item.transaction_number}}</td> -->
             <td>{{item.ledger_name}}</td>
             <td>{{item.comment}}</td>
             <td align="right">{{item.temp_total_received | currency:'INR'}}</td>
@@ -290,7 +290,7 @@
         </ng-template>
         <ng-template pTemplate="footer">
           <tr>
-            <th colspan="4">Grand Total:</th>
+            <th colspan="3">Grand Total:</th>
             <th align="right">{{receivedGrandTotal | currency:'INR'}}</th>
           </tr>
         </ng-template>

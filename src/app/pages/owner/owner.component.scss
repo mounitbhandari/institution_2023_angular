@@ -231,12 +231,83 @@ body
   padding: 10px;
 }
 // media querry 
+/* @media (min-width: 1009px) and (max-width: 1227px){
+
+  .dash{
+    width: 40%;
+    text-align: left;
+    
+  } 
+  .comdtl{
+    width: 60%;
+    text-align: right;
+    padding: 5px;
+  }
+  .dashbox{
+    width: 80%;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .bday{
+    width: 20%;
+     padding: 0;
+    box-sizing: border-box;
+  }
+  
+} */
+
+@media(max-width: 1008px){
+
+  .dash{
+    width: 100%;
+  }
+  .comdtl{
+    width: 100%;
+    padding: 5px;
+
+  }
+  .dashbox{
+    width: 100%;
+  }
+  .active{
+    width: 47%;
+  }
+  .act, .act1{
+    margin-bottom: .75em;
+  }
+  .bday{
+    width: 100%;
+    margin: 0px;
+  }
+  .mon{
+    width: 100%;
+    margin-bottom: .75em;
+  }
+  mat-tab{
+    width: 100%;
+    font-size: small !important;
+    background-color: white;
+    color: black;
+  }
+  .container #print-AllReceiptBill{
+    width: 100%;
+    font-size: small !important;
+    background-color: white;
+    color: black;
+    padding: 10px;
+  }
+  .stutable{
+    width: 100%;
+    font-size: small;
+  }
+}
 @media(max-width:480px){
   .dash{
     width: 100%;
   }
   .comdtl{
     width: 100%;
+    padding: 5px;
   }
   .dashbox{
     width: 100%;
@@ -278,46 +349,4 @@ body
     font-size: small;
   }
 }
-@media(max-width:768px){
 
-  .dash{
-    width: 100%;
-  }
-  .comdtl{
-    width: 100%;
-  }
-  .dashbox{
-    width: 100%;
-  }
-  .active{
-    width: 47%;
-  }
-  .act, .act1{
-    margin-bottom: .75em;
-  }
-  .bday{
-    width: 100%;
-    margin: 0px;
-  }
-  .mon{
-    width: 100%;
-    margin-bottom: .75em;
-  }
-  mat-tab{
-    width: 100%;
-    font-size: small !important;
-    background-color: white;
-    color: black;
-  }
-  .container #print-AllReceiptBill{
-    width: 100%;
-    font-size: small !important;
-    background-color: white;
-    color: black;
-    padding: 10px;
-  }
-  .stutable{
-    width: 100%;
-    font-size: small;
-  }
-}

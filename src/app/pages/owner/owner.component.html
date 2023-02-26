@@ -1,8 +1,8 @@
 <div class="container-fluid page">
   <div class="header">
     <div class="row d-flex align-items-center justify-content-between">
-      <div class="col-8 dash"> <i class="bi bi-speedometer2"></i>&nbsp; Dashboard</div>
-      <div class="col-4 comdtl">
+      <div class="col-md-8 dash"> <i class="bi bi-speedometer2"></i>&nbsp; Dashboard</div>
+      <div class="col-md-4 comdtl">
         <span class="comname">{{organisationName}} <br></span>
         <hr>
         <i class="bi bi-envelope-fill"></i>&nbsp; Email : {{organisationEmail}}<br>
@@ -138,7 +138,7 @@
                         </div> -->
                         <div class="col-12" align="center">
 
-                          <p style="margin-bottom: 0 ;margin-top: 0 ; font-size: large; font-family: 'Cooper Black';">
+                          <p style="margin-bottom: 0 ;margin-top: 0 ; font-size: large; font-family: 'Cooper Black'; font-weight: bolder;">
                             <!-- Barrackpore Academy Of Information Technology -->{{organisationName}}
                           </p>
                           <p style="margin-bottom: 0 ;margin-top: 0 ; font-size: medium;">{{organisationAddress}},
@@ -192,8 +192,8 @@
                                 <th>Date</th>
                                <!--  <th>Receipt No</th> -->
                                 <th>Fees Name</th>
-                                <th class="text-right">Amount</th>
                                 <th>Comments</th>
+                                <th class="text-right">Amount</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -203,21 +203,21 @@
                                 <td>{{receipt.transaction_date | date:'dd/MM/yyyy'}}</td>
                                 <!-- <td>{{receipt.transaction_number }}</td> -->
                                 <td>{{receipt.ledger_name}}</td>
-                                <td class="text-right">{{receipt.temp_total_received | currency: 'INR'}}</td>
                                 <td>{{receipt.comment}}</td>
+                                <td class="text-right">{{receipt.temp_total_received | currency: 'INR'}}</td>
                               </tr>
 
                             </tbody>
                             <tfoot>
 
                               <tr style="background-color: lightgrey; border-top: 1px solid rgb(1, 1, 19);">
-                                <th colspan="2">&nbsp;</th>
+                                <th colspan="3">&nbsp;</th>
                                 <td class="text-right">Grand Total:</td>
                                 <th class="text-right">{{totalRecepitAmount | currency: 'INR'}}</th>
                                 <th>&nbsp;</th>
                               </tr>
                               <tr style="background-color: lightgrey; border-top: 1px solid rgb(1, 1, 19);">
-                                <th colspan="2">&nbsp;</th>
+                                <th colspan="3">&nbsp;</th>
                                 <td class="text-right">Total Discount:</td>
                                 <th class="text-right">- &nbsp;{{total_discount | currency:
                                   'INR'}}
@@ -227,10 +227,10 @@
                               <tr>
                                 <th>In Words:</th>
                                 <td>:</td>
-                                <th class="text-left">{{rupeeInWords}}</th>
+                                <th colspan="3" class="text-left">{{rupeeInWords}}</th>
                               </tr>
                               <tr style="background-color: lightgrey; border: 1px solid rgb(1, 1, 19);">
-                                <th colspan="2">&nbsp;</th>
+                                <th colspan="3">&nbsp;</th>
                                 <td class="text-right">Current Due</td>
                                 <th class="text-right">{{(total_course_fees - totalRecepitAmount)-total_discount |
                                   currency: 'INR'}}</th>

@@ -319,7 +319,7 @@
             <!--  <th scope="col">#</th> -->
             <th scope="col" style="display: none;">TransactionId</th>
             <th scope="col">Date</th>
-            <th scope="col">Transaction No</th>
+            <!-- <th scope="col">Transaction No</th> -->
             <th scope="col">Charge Name</th>
             <th scope="col">Fees</th>
             <th scope="col">Action</th>
@@ -331,9 +331,9 @@
             <!-- <th scope="row">{{indexOfelement+1}}</th> -->
             <th scope="row" style="display: none;">{{item.id}}</th>
             <td>{{item.transaction_date | date: 'dd/MM/yyyy'}}</td>
-            <td>{{item.transaction_number}}</td>
+            <!-- <td>{{item.transaction_number}}</td> -->
             <td>{{item.ledger_name}}</td>
-            <td align="right">{{item.amount | currency:'INR'}}</td>
+            <td class="text-right">{{item.amount | currency:'INR'}}</td>
             <td><button type="button" class="btn btn-success" (click)="editFeesReceived(item)"><i
                   class="bi bi-pen"></i></button> &nbsp;
             </td>
@@ -342,8 +342,9 @@
         </ng-template>
         <ng-template pTemplate="footer">
           <tr>
-            <th colspan="3">Gross Total</th>
+            <th colspan="2">Gross Total</th>
             <th class="text-right">{{totalFees | currency : 'INR'}}</th>
+            <th>&nbsp;</th>
           </tr>
         </ng-template>
       </p-table>
