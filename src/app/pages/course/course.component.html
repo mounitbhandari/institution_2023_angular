@@ -9,7 +9,7 @@
         <div class="col-xs-12 col-sm-8">
           <div class="main-div">
             <mat-tab-group (selectedIndexChange)="onTabChanged($event)" [(selectedIndex)]="selectedIndex"
-              animationDuration="200ms" style="background-image: linear-gradient(to bottom right, rgb(8, 2, 68), rgb(7, 32, 146)); color: aliceblue; padding: 12px; border-radius: 5px; ">
+              animationDuration="200ms" style="background-image: linear-gradient(to bottom right, rgb(8, 2, 68), rgb(7, 32, 146)); color: aliceblue; padding: 12px; border-radius: 5px; padding:0px;">
               <mat-tab>
                 <ng-template mat-tab-label>
                   <mat-icon class="example-tab-icon">trending_up</mat-icon>
@@ -98,7 +98,7 @@
                           </div>
                           <div class="row">
                             <div class="col-sm-6" style="width:100%">
-                              <h3>Description: &nbsp; Count:&nbsp;{{descriptionInput()}}</h3> 
+                              <h3 style="color:black ; font-weight:bolder ;">Description: &nbsp; Count:&nbsp;{{descriptionInput()}}/{{maxLength}}</h3> 
                              <!-- <h3>Description: &nbsp; Count:&nbsp;{{descriptionLen.length}}/{{this.maxLength}}</h3> -->
                               <textarea class="col-12" formControlName="description" [(ngModel)]="descriptionLen"
                                 [maxlength]="maxLength" [style]="{'height':'120px'}">

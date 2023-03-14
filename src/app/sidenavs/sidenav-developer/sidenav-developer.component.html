@@ -16,11 +16,11 @@
     <mat-icon class="user-image-icon ml-1">keyboard_arrow_down</mat-icon>
   </a>
   <div *ngIf="displayMaster">
-    <a mat-list-item routerLink="/login" routerLinkActive="list-item-active">
-      <mat-icon>child_care</mat-icon> Login
+    <a mat-list-item [routerLink]="['/organisation']" routerLinkActive="list-item-active">
+      <mat-icon>child_care</mat-icon>New Organisation
     </a>
-    <a mat-list-item>
-      <mat-icon>child_care</mat-icon> Child 2
+    <a mat-list-item [routerLink]="['/UserRegistration']" routerLinkActive="list-item-active">
+      <mat-icon>child_care</mat-icon>New User
     </a>
   </div>
 

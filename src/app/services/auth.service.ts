@@ -30,7 +30,8 @@ export interface AuthResponseData {
 // @ts-ignore
 export class AuthService {
   private BASE_API_URL = environment.BASE_API_URL;
-
+  userRegisterArray:any[]=[];
+  userRegisterSubject = new Subject<any[]>();
   // @ts-ignore
   userBehaviorSubject = new BehaviorSubject<User>(null);
   constructor(private commonService: CommonService , private  http: HttpClient, private router: Router, private errorService: ErrorService) { }
@@ -126,7 +127,26 @@ export class AuthService {
     }
   }
 
-
+  updateUser(userData:any){
+    return this.http.patch<any>(this.commonService.getAPI() + '/userUpdate', userData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service',response);
+      if (response.status === 1){
+        this.userRegisterArray.unshift(response.data);
+        this.userRegisterSubject.next([...this.userRegisterArray]);
+      }
+    }))
+  }
+  saveUser(userData:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/register', userData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service',response);
+      if (response.status === 1){
+        this.userRegisterArray.unshift(response.data);
+        this.userRegisterSubject.next([...this.userRegisterArray]);
+      }
+    }))
+  }
   loginTutorial(loginData: any){
     const user = new User(0,
       loginData.userName,
@@ -212,7 +232,22 @@ export class AuthService {
 
   }
 
-
+  fetchAllUserType(){
+    return this.http.get<any>(this.commonService.getAPI() + '/getAllUserTypes')
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.userRegisterArray=response.data;
+      /* console.log("courseList:",this.courseList); */
+      this.userRegisterSubject.next([...this.userRegisterArray]);
+    })));
+  }
+  fetchAllUserList(){
+    return this.http.get<any>(this.commonService.getAPI() + '/getAllUserList')
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.userRegisterArray=response.data;
+      console.log("Student to courseList:",this.userRegisterArray); 
+      this.userRegisterSubject.next([...this.userRegisterArray]);
+    })));
+  }
     logoutAll() {
       // this.userBehaviorSubject.next(null);
       // localStorage.removeItem('user');

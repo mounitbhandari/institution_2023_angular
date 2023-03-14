@@ -54,8 +54,11 @@
 
               </div>
               <div class="row">
-
-                <div class="col-sm-2">
+                <div class="col-sm-4">
+                  <ng-select [items]="feesPurpose" *ngIf="feeNameBoolean" class="custom" appendTo="body"
+                    formControlName="comment" placeholder="Purpose" [(ngModel)]="receivedComments">
+                  </ng-select>
+                </div> <div class="col-sm-2">
                   <mat-form-field style="width:100%" *ngIf="feeNameBoolean">
                     <mat-label>Enter Amount</mat-label>
                     <input matInput formControlName="amount" [(ngModel)]="receivedAmount"
@@ -64,15 +67,7 @@
                   <label *ngIf="isUpdateBtnShown" style="color:forestgreen ; font-size:large;">Total Due:
                     {{totalCourseAmount | currency:'INR'}}</label>
                 </div>
-                <div class="col-sm-4">
-                  <ng-select [items]="feesPurpose" *ngIf="feeNameBoolean" class="custom" appendTo="body"
-                    formControlName="comment" placeholder="Purpose" [(ngModel)]="receivedComments">
-                  </ng-select>
-                  <!--  <mat-form-field style="width:100%" *ngIf="feeNameBoolean">
-                            <mat-label>Enter Comments</mat-label>
-                            <input matInput formControlName="comment" [(ngModel)]="receivedComments">
-                          </mat-form-field> -->
-                </div>
+
                 <div class="col-sm-2" *ngIf="hiddenInput">
                   <div class="form-group">
                     <mat-form-field>

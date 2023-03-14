@@ -141,6 +141,10 @@ const routes: Routes = [
 
   { path: 'AllIncomeReport', loadChildren: () => import('./pages/all-income-report/all-income-report.module').then(m => m.AllIncomeReportModule) },
 
+  { path: 'organisation', loadChildren: () => import('./pages/organisation/organisation.module').then(m => m.OrganisationModule) },
+
+  { path: 'UserRegistration', loadChildren: () => import('./pages/user-registration/user-registration.module').then(m => m.UserRegistrationModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  BASE_API_URL: '/institution_2022/institution_2023_api/public/api',
-  BASE_PUBLIC_URL: '/institution_2022/institution_2023_api/public',
+  BASE_API_URL: '/institution_2023/institution_2023_api/public/api',
+  BASE_PUBLIC_URL: '/institution_2023/institution_2023_api/public',
 };
 
 /*
