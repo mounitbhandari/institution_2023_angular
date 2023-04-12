@@ -9,8 +9,8 @@
         <div class="col-sm-3">
           <mat-form-field style="width:100%;">
             <mat-label>Start Date</mat-label>
-            <input matInput #ref [matDatepicker]="start_date" formControlName="start_date"
-              (dateInput)="setStartSQL(ref.value)">
+            <input matInput #refStartDate [matDatepicker]="start_date" formControlName="start_date"
+              (dateInput)="setStartSQL(refStartDate.value)">
             <div
               *ngIf="allIncomeReportFormGroup.controls['start_date'].errors && allIncomeReportFormGroup.controls['start_date'].touched">
               <mat-error class="text-right" *ngIf="allIncomeReportFormGroup.controls['start_date'].errors['required']">
@@ -25,8 +25,8 @@
         <div class="col-sm-3">
           <mat-form-field style="width:100%;">
             <mat-label>End Date</mat-label>
-            <input matInput #ref [matDatepicker]="end_date" formControlName="end_date"
-              (dateInput)="setEndSQL(ref.value)">
+            <input matInput #refEndDate [matDatepicker]="end_date" formControlName="end_date"
+              (dateInput)="setEndSQL(refEndDate.value)">
             <div
               *ngIf="allIncomeReportFormGroup.controls['end_date'].errors && allIncomeReportFormGroup.controls['end_date'].touched">
               <mat-error class="text-right" *ngIf="allIncomeReportFormGroup.controls['end_date'].errors['required']">End
