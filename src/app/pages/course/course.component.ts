@@ -136,7 +136,7 @@ export class CourseComponent implements OnInit {
     durationTypeId: new FormControl(2, [Validators.required]),
     fullName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(5)]),
     courseCode: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(2)]),
-    shortName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
+    shortName: new FormControl(),
     courseDuration: new FormControl(),
     description: new FormControl(),
     courseId: new FormControl()
@@ -318,7 +318,7 @@ export class CourseComponent implements OnInit {
       durationTypeId: new FormControl(2, [Validators.required]),
       fullName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(5)]),
       courseCode: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(2)]),
-      shortName: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(3)]),
+      shortName: new FormControl(),
       courseDuration: new FormControl(),
       description: new FormControl(),
       courseId: new FormControl()

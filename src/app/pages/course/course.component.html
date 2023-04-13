@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-sm-4">
                               <mat-form-field style="width:100%">
-                                <mat-label>Course Code</mat-label>
+                                <mat-label>Course Code / Class</mat-label>
                                 <input matInput formControlName="courseCode" placeholder="C0001" required>
                                 <div
                                   *ngIf="courseNameFormGroup.controls['courseCode'].errors && courseNameFormGroup.controls['courseCode'].touched">
@@ -54,12 +54,12 @@
                               <mat-form-field style="width:100%">
                                 <mat-label>Short Name</mat-label>
                                 <input matInput formControlName="shortName" placeholder="Short Name" required>
-                                <div
+                                <!-- <div
                                   *ngIf="courseNameFormGroup.controls['shortName'].errors && courseNameFormGroup.controls['shortName'].touched">
                                   <mat-error class="text-right"
                                     *ngIf="courseNameFormGroup.controls['shortName'].errors['required']">
                                     Short Name is required</mat-error>
-                                </div>
+                                </div> -->
                               </mat-form-field>
                             </div>
                             <div class="col-sm-8">
@@ -132,16 +132,7 @@
                     </div>
 
                     <!-- ---- PMessage for Confirmation ----  -->
-                    <p-confirmDialog #cd [style]="{width: '30vw'}" header="Confirmation"
-                      icon="pi pi-exclamation-triangle" [transitionOptions]="'0.8ms'">
-                      <ng-template pTemplate="header">
-                        <h3>Header Content</h3>
-                      </ng-template>
-                      <ng-template pTemplate="footer">
-                        <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
-                        <button type="button" pButton icon="pi pi-check" label="Yes" (click)="cd.accept()"></button>
-                      </ng-template>
-                    </p-confirmDialog>
+                    
                   </div>
                   <!-- ---- End PMessage for Confirmation ----  -->
                   <!-- Card 1 end-->
