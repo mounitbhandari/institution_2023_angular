@@ -16,11 +16,17 @@
     </button> -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-       <!--  <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/owner" style="color:rgb(253, 251, 251) ;" ><mat-icon>home</mat-icon> &nbsp; Home</a>
-        </li> -->
+         <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/owner" style="color:rgb(253, 251, 251) ;" > &nbsp; Home</a>
+        </li> 
         <li class="nav-item">
           <a class="nav-link" href="#" style="color:rgb(253, 251, 251) ;"> &nbsp; About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" style="color:rgb(253, 251, 251) ;"> &nbsp; Product</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" style="color:rgb(253, 251, 251) ;"> &nbsp; Contact us</a>
         </li>
        <!--  <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:rgb(253, 251, 251) ;">
@@ -64,7 +70,7 @@
     </button>
       <div *ngIf="authService.isNotAuthenticated()" class="mr-10">
         <a class="dropdown-item" [routerLink]="['/login']" style="color: dodgerblue;">
-          <mat-icon>power_settings_new</mat-icon>
+         <mat-icon>power_settings_new</mat-icon>
         </a>
   
   <!--      <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
