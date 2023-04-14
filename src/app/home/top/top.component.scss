@@ -25,6 +25,7 @@
   font-size: 3.5rem;
   margin: 0;
   padding: 0;
+  line-height: 1;
 }
 .masthead .projectHead{
   color: red;
@@ -34,6 +35,90 @@
 .masthead .projectContact{
   color: red;
   text-align: right;
+}
+@media(max-width:480px){
+  .masthead h1, .masthead .h1 {
+    font-size: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+  .masthead .projectHead{
+    width: 100%;
+    color: red;
+    text-align: right;
+    margin-top: -60%;
+    
+  }
+  .masthead .projectContact{
+    width: 100%;
+    color: red;
+    text-align: right;
+  }
+  .domain{
+    width: 100%;
+    font-size: medium !important;
+    text-align: right;
+    //margin-top: -25%;
+  }
+  .domain-sub{
+    font-size: small !important;
+    text-align: right;
+    font-style: italic;
+  }
+  /* .masthead h1, .masthead .h1 {
+    font-size: 4rem;
+  } */
+  hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 800px;
+    margin-right: 0;
+    border-style: inset;
+    border-width:2px;
+  } 
+}
+@media (min-width: 481px) and (max-width: 991px){
+  .masthead h1, .masthead .h1 {
+    font-size: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+  .masthead .projectHead{
+    width: 100%;
+    color: red;
+    text-align: right;
+    margin-top: -45%;
+    
+  }
+  .masthead .projectContact{
+    width: 100%;
+    color: red;
+    text-align: right;
+  }
+  .domain{
+    width: 100%;
+    font-size: medium !important;
+    text-align: right;
+    //margin-top: -25%;
+  }
+  .domain-sub{
+    font-size: small !important;
+    text-align: right;
+    font-style: italic;
+  }
+  /* .masthead h1, .masthead .h1 {
+    font-size: 4rem;
+  } */
+  hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 800px;
+    margin-right: 0;
+    border-style: inset;
+    border-width:2px;
+  } 
 }
 @media (min-width: 992px) {
   .masthead {
@@ -61,4 +146,6 @@
     border-style: inset;
     border-width:2px;
   } 
+
 }
+
