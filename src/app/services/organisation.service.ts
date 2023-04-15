@@ -18,6 +18,16 @@ export class OrganisationService {
   organisationSubject = new Subject<Organisation[]>();
   constructor(private commonService: CommonService, private errorService: ErrorService, private http: HttpClient) { }
 
+  saveDemoOrganisation(orgData:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/organisationDemoSave', orgData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service',response);
+      if (response.status === 1){
+        this.organisationList.unshift(response.data);
+        this.organisationSubject.next([...this.organisationList]);
+      }
+    }))
+  }
   saveOrganisation(orgData:any){
     return this.http.post<any>(this.commonService.getAPI() + '/organisationSave', orgData)
     .pipe(catchError(this.errorService.serverError), tap(response => {

@@ -145,6 +145,10 @@ const routes: Routes = [
 
   { path: 'UserRegistration', loadChildren: () => import('./pages/user-registration/user-registration.module').then(m => m.UserRegistrationModule) },
 
+  { path: 'aboutUs', loadChildren: () => import('./pages/about-us/about-us.module').then(m => m.AboutUsModule) },
+
+  { path: 'demo', loadChildren: () => import('./pages/demo/demo.module').then(m => m.DemoModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },

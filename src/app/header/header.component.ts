@@ -2,6 +2,8 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AuthService} from "../services/auth.service";
 import {CommonService} from "../services/common.service";
 import { faCoffee,faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { OrganisationService } from 'src/app/services/organisation.service';
+import { StudentService } from 'src/app/services/student.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,11 +12,15 @@ import { faCoffee,faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-
 export class HeaderComponent implements OnInit {
   faSignInAlt = faSignInAlt;
   faSignOutAlt=faSignOutAlt;
+  stateList:any[]=[];
+  organisationArray:any[]=[];
   @Output() toggleSidebarForMe: EventEmitter<any> = new EventEmitter<any>();
   defaultPicture: string = "";
   imageSrc: string | ArrayBuffer | null ="";
   file: File | undefined;
-  constructor(public authService: AuthService, public commonService: CommonService) {
+  constructor(public authService: AuthService, public commonService: CommonService,
+    private studentService: StudentService,
+    private organisationService: OrganisationService) {
 
   }
 
@@ -39,7 +45,21 @@ export class HeaderComponent implements OnInit {
         this.imageSrc = this.commonService.getPublic() + '/profile_pic/profile_pic_' + localUserID + '.jpeg';
       }
     });
+    this.getStateList();
+    this.getAllOrganisation();
 
+  }
+  getStateList() {
+    this.studentService.fetchAllStates().subscribe(response => {
+      this.stateList = response.data;
+      console.log("stateList:", this.stateList);
+    })
+  }
+  getAllOrganisation(){
+    this.organisationService.fetchAllOrganisation().subscribe(response => {
+      this.organisationArray = response.data;
+      console.log("organisationArray:", this.organisationArray);
+    })
   }
   toggleSlidebar(choice=true){
     this.toggleSidebarForMe.emit({choice: choice});
