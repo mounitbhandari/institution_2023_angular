@@ -26,7 +26,6 @@ export class TransactionServicesService {
   transactionListSubject = new Subject<any[]>();
   constructor(private commonService: CommonService, private errorService: ErrorService, private http: HttpClient) {
 
-
   }
 
   fetchOrganizationDetails($orgID:any){
