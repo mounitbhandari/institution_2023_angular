@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { OrganisationService } from 'src/app/services/organisation.service';
 import { Table } from 'primeng/table';
 import Swal from 'sweetalert2';
+import { Md5 } from 'ts-md5';
 
 @Component({
   selector: 'app-user-registration',
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class UserRegistrationComponent implements OnInit {
   userFormGroup!: FormGroup;
+  userRegisterData!: object;
   userRegisterArray: any[] = [];
   password:any;
   organisationName: string = '';
@@ -132,7 +134,17 @@ export class UserRegistrationComponent implements OnInit {
     })
   }
   onSave() {
-    Swal.fire({
+    const md5 = new Md5();
+    const passwordMd5 = md5.appendStr(this.userFormGroup.value.password).end();
+    this.userRegisterData={
+      organisation_id: this.userFormGroup.value.organisation_id,
+      user_name: this.userFormGroup.value.user_name,
+      password: passwordMd5,
+      mobile1: this.userFormGroup.value.mobile1,
+      user_type_id: this.userFormGroup.value.user_type_id,
+      email: this.userFormGroup.value.email
+    }
+     Swal.fire({
       title: 'Are you sure?',
       text: 'Save This Record...!',
       icon: 'info',
@@ -141,7 +153,8 @@ export class UserRegistrationComponent implements OnInit {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.authService.saveUser(this.userFormGroup.value).subscribe(response => {
+       
+        this.authService.saveUser(this.userRegisterData).subscribe(response => {
           //this.showError = response.exception;
           if (response.success === 1) {
             Swal.fire({
@@ -175,7 +188,7 @@ export class UserRegistrationComponent implements OnInit {
           'error'
         )
       }
-    })
+    }) 
   }
 
   onBlur(event:any): void {
