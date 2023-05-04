@@ -23,8 +23,25 @@ export class DeveloperService {
   incomeReportSubjectDeveloper = new Subject<any[]>();
   constructor(private commonService: CommonService, private errorService: ErrorService, private http: HttpClient) { }
 
-  fetchAllFeesReceivedDeveloper(){
+  fetchAllFeesChargedDeveloperDelete($id:any){
     this.feesFeesChargedList=[];
+    return this.http.delete<any>(this.commonService.getAPI() + '/deleteTransaction/'+$id)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.feesFeesChargedList=response.data;
+      this.feesFeesChargedSubject.next([...this.feesFeesChargedList]);
+    })));
+  }
+
+  deleteAllTransactionByStudentRegistrationId($id:any){
+    this.feesFeesChargedList=[];
+    return this.http.delete<any>(this.commonService.getAPI() + '/deleteStudentToCourse/'+$id)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.feesFeesChargedList=response.data;
+      this.feesFeesChargedSubject.next([...this.feesFeesChargedList]);
+    })));
+  }
+  fetchAllFeesReceivedDeveloper(){
+    this.feesFeesReceivedList=[];
     return this.http.get<any>(this.commonService.getAPI() + '/allFeesReceivedDeveloper')
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
       this.feesFeesReceivedList=response.data;

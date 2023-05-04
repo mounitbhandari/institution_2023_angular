@@ -36,12 +36,24 @@
                   <ng-select [items]="studentNameList" fxFlex="100" bindLabel="studentName" (change)="changeCourseId()"
                     class="custom" bindValue="studentId" appendTo="body" formControlName="studentId"
                     placeholder="Student Name" [readonly]="isReadonly">
+
+                    <ng-template ng-option-tmp let-item="item">
+
+                      {{item.studentName}} ({{item.qualification}}) 
+                     <!--  <small>Contact: {{item.email}},{{item.phone}}</small> <br />
+                      <small>Address: {{item.address.street}}, {{item.address.suite}}, {{item.address.city}},
+                        {{item.address.zipcode}}</small> <br />
+                      <small>Site: {{item.website}}</small> -->
+
+                    </ng-template> 
+
                   </ng-select>
                 </div>
                 <div class="col-sm-4">
                   <ng-select [items]="courseNameList" fxFlex="100" bindLabel="full_name" class="custom" bindValue="id"
                     *ngIf="courseNameBoolean" appendTo="body" (change)="getTranMasterId()"
                     formControlName="studentToCourseId" placeholder="Course Name" [readonly]="isReadonly">
+                    
                   </ng-select>
                 </div>
                 <div class="col-sm-4">
@@ -49,6 +61,13 @@
                     bindValue="id" *ngIf="transactionNoBoolean" appendTo="body" (change)="getActiveCourse($event)"
                     formControlName="transactionMasterId" placeholder="Transaction No"
                     [(ngModel)]="numTransactionLength" [readonly]="isReadonly">
+
+                    <ng-template ng-option-tmp let-item="item">
+                     
+                     <small> {{item.ledger_name}}| ({{item.total_due  | currency:'INR'}}) | {{item.transaction_number}} </small> 
+                     
+
+                    </ng-template>
                   </ng-select>
                 </div>
 
@@ -57,8 +76,19 @@
                 <div class="col-sm-4">
                   <ng-select [items]="feesPurpose" *ngIf="feeNameBoolean" class="custom" appendTo="body"
                     formControlName="comment" placeholder="Purpose" [(ngModel)]="receivedComments">
+
+                    <!-- <ng-template ng-option-tmp let-item="item">
+
+                      Name: {{item.transaction_number}} ({{item.total_due}}) <br />
+                      <small>Contact: {{item.email}},{{item.phone}}</small> <br />
+                      <small>Address: {{item.address.street}}, {{item.address.suite}}, {{item.address.city}},
+                        {{item.address.zipcode}}</small> <br />
+                      <small>Site: {{item.website}}</small>
+
+                    </ng-template> -->
                   </ng-select>
-                </div> <div class="col-sm-2">
+                </div>
+                <div class="col-sm-2">
                   <mat-form-field style="width:100%" *ngIf="feeNameBoolean">
                     <mat-label>Enter Amount</mat-label>
                     <input matInput formControlName="amount" [(ngModel)]="receivedAmount"
@@ -182,7 +212,8 @@
                           </div> -->
                   <div class="col-10" align="center">
 
-                    <p style="margin-bottom: 0 ;margin-top: 0 ; font-size: large; font-family: 'Cooper Black'; font-weight: bolder;">
+                    <p
+                      style="margin-bottom: 0 ;margin-top: 0 ; font-size: large; font-family: 'Cooper Black'; font-weight: bolder;">
                       <!-- Barrackpore Academy Of Information Technology -->{{organisationName}}
                     </p>
                     <p style="margin-bottom: 0 ;margin-top: 0 ; font-size: medium;">{{organisationAddress}},
@@ -411,7 +442,8 @@
                           </div> -->
                   <div class="col-12" align="center">
 
-                    <p style="margin-bottom: 0 ;margin-top: 0 ; font-size: large; font-family: 'Cooper Black'; font-weight: bolder;">
+                    <p
+                      style="margin-bottom: 0 ;margin-top: 0 ; font-size: large; font-family: 'Cooper Black'; font-weight: bolder;">
                       <!-- Barrackpore Academy Of Information Technology -->{{organisationName}}
                     </p>
                     <p style="margin-bottom: 0 ;margin-top: 0 ; font-size: medium;">{{organisationAddress}},

@@ -179,24 +179,26 @@
                       <th>Course</th>
                       <th pSortableColumn="feesTotal">Total Charged <p-sortIcon field="feesTotal"></p-sortIcon>
                       </th>
-
+                      <th>Delete</th>
                     </tr>
                   </ng-template>
-                  <ng-template pTemplate="body" let-fees let-expanded="expanded" let-rowIndex="rowIndex">
+                  <ng-template pTemplate="body" let-fees let-expanded="expanded" let-IndexRow="rowIndex">
                     <tr>
                       <td>
                         <button type="button" pButton pRipple [pRowToggler]="fees"
                           class="p-button-text p-button-rounded p-button-plain"
                           [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                       </td>
-                      <td>{{rowIndex+1}}</td>
+                      <td>{{IndexRow+1}}</td>
                       <td>{{fees.organisationName}}</td>
                       <td>{{fees.studentName}}</td>
                       <td>{{fees.courseName}}</td>
                       <td>{{fees.feesTotal | currency: 'INR'}}</td>
+                      <td><button type="button" class="btn btn-outline-danger" (click)="deleteAllFeesChargedAndReceived(fees)"
+                        ><i class="bi bi-trash"></i></button></td>
                     </tr>
                   </ng-template>
-                  <ng-template pTemplate="rowexpansion" let-fee class="col-12">
+                  <ng-template pTemplate="rowexpansion" let-fee class="col-12" let-rowIndex="rowIndex">
                     <tr>
                       <td colspan="7">
                         <div class="p-3">
@@ -204,6 +206,7 @@
                           <table class="table table-striped">
                             <thead>
                               <tr>
+                                <th scope="col">sl No</th>
                                 <th scope="col">Date</th>
                                 <!-- <th scope="col">Transaction Number</th> -->
                                 <th scope="col">Particulars</th>
@@ -211,13 +214,14 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let feeDetail of fee.feesDetails">
+                              <tr *ngFor="let feeDetail of fee.feesDetails" >
+                                <td>{{rowIndex+1}}</td>
                                 <td>{{feeDetail.transaction_date | date:'dd/MM/yyyy'}}</td>
                                 <!--  <td>{{feeDetail.transaction_number}}</td> -->
                                 <td>{{feeDetail.ledger_name}}</td>
                                 <td>{{feeDetail.amount | currency: 'INR'}}</td>
-                                <td><button type="button" class="btn btn-success"
-                                    (click)="deleteFeesCharged(feeDetail)"><i class="bi bi-pen"></i></button></td>
+                                <td><button type="button" class="btn btn-outline-danger"
+                                    (click)="deleteFeesCharged(feeDetail)"><i class="bi bi-trash"></i></button></td>
                               </tr>
                             </tbody>
                           </table>
@@ -267,7 +271,7 @@
                       <th pSortableColumn="total_received">Total Received <p-sortIcon field="total_received">
                         </p-sortIcon>
                       </th>
-                      <th>Print</th>
+                      <th>Delete</th>
                     </tr>
                   </ng-template>
                   <ng-template pTemplate="body" let-fees let-expanded="expanded" let-rowIndex="rowIndex">
@@ -282,10 +286,8 @@
                       <td>{{fees.ledger_name}}</td>
                       <td>{{fees.full_name}}</td>
                       <td>{{fees.total_received | currency: 'INR'}}</td>
-                      <td>
-                        <button type="button" class="btn btn-outline-info"><i
-                            class="bi bi-printer"></i></button>
-                      </td>
+                      <td><button type="button" class="btn btn-outline-danger"
+                        ><i class="bi bi-trash"></i></button></td>
                     </tr>
                   </ng-template>
                   <ng-template pTemplate="rowexpansion" let-fee class="col-12">
@@ -311,10 +313,9 @@
                                 <td>{{feeDetail.ledger_name}}</td>
                                 <td>{{feeDetail.comment}}</td>
                                 <td class="text-right">{{feeDetail.temp_total_received | currency: 'INR'}}</td>
-                                <td>
-                                  <button type="button" class="btn btn-outline-danger"
-                                    (click)="deleteFeesReceived(feeDetail)"><i class="bi bi-printer"></i></button>
-                                </td>
+                                <td><button type="button" class="btn btn-outline-danger"
+                                  (click)="deleteFeesCharged(feeDetail)"><i class="bi bi-trash"></i></button></td>
+                              </tr>
                             </tbody>
                           </table>
                           <!--inner table end-->

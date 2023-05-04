@@ -777,7 +777,7 @@ export class FeesReceivedComponent implements OnInit {
     };
     this.transactionServicesService.fetchAllTranMasterId(this.tempGetActiveCourseObj).subscribe(response => {
       this.tranMasterIdArray = response.data;
-      console.log(this.tranMasterIdArray);
+      console.log("tranMasterIdArray:",this.tranMasterIdArray);
     })
 
     this.transactionServicesService.fetchFeeReceivedDetailsList(this.tempGetActiveCourseObj).subscribe(response => {

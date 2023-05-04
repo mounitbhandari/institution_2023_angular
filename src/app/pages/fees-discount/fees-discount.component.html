@@ -30,6 +30,16 @@
                   <ng-select [items]="studentNameList" bindLabel="studentName" (change)="changeCourseId()"
                     class="custom" bindValue="studentId" appendTo="body" formControlName="studentId"
                     placeholder="Student Name">
+                    <ng-template ng-option-tmp let-item="item">
+
+                      {{item.studentName}} ({{item.qualification}}) 
+                     <!--  <small>Contact: {{item.email}},{{item.phone}}</small> <br />
+                      <small>Address: {{item.address.street}}, {{item.address.suite}}, {{item.address.city}},
+                        {{item.address.zipcode}}</small> <br />
+                      <small>Site: {{item.website}}</small> -->
+
+                    </ng-template> 
+
                   </ng-select>
                 </div>
                 <div class="col-sm-5">
@@ -45,6 +55,12 @@
                   <ng-select [items]="tranMasterIdArray" bindLabel="transaction_number" (change)="getActiveCourse()"
                     *ngIf="transactionNoBoolean" class="custom" bindValue="id" appendTo="body"
                     formControlName="transactionMasterId" placeholder="Transaction No">
+                    <ng-template ng-option-tmp let-item="item">
+                     
+                      <small> {{item.ledger_name}}| ({{item.total_due  | currency:'INR'}}) | {{item.transaction_number}} </small> 
+                      
+ 
+                     </ng-template>
                   </ng-select>
                 </div>
                 <div class="col-sm-2">

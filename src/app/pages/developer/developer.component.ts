@@ -10,6 +10,7 @@ import { Table } from 'primeng/table/table';
 import { TransactionServicesService } from 'src/app/services/transaction-services.service';
 import { ToWords } from 'to-words';
 import { DeveloperService } from 'src/app/services/developer.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-developer',
@@ -148,6 +149,7 @@ export class DeveloperComponent implements OnInit {
   getAllFeeChargedDeveloper() {
     this.developerService.fetchAllFeesChargedDeveloper().subscribe(response => {
       this.AllOrgFeesChargedArray = response.data;
+      console.log("AllOrgFeesChargedArray:",this.AllOrgFeesChargedArray);
     })
   }
   getAllFeeReceivedDeveloper() {
@@ -156,9 +158,104 @@ export class DeveloperComponent implements OnInit {
     })
   }
   deleteFeesCharged(feeDetails: any){
+     console.log(feeDetails.id);
+   
 
+   Swal.fire({
+      title: 'Are you sure?',
+      text: 'Delete This Record...?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Save it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.developerService.fetchAllFeesChargedDeveloperDelete(feeDetails.id).subscribe(response => {
+            if (response.success === 1) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Fees has been Delete',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.getAllFeeChargedDeveloper();
+            this.getAllFeeReceivedDeveloper();
+          }
+          
+        }, (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            footer: '<a href>Why do I have this issue?</a>',
+            timer: 0
+          });
+        });
+
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
+    }) 
   }
+  deleteAllFeesChargedAndReceived(feeDetails: any){
+    console.log(feeDetails.studentCourseRegistrationId);
+  
+
+  Swal.fire({
+     title: 'Are you sure?',
+     text: 'Delete All Record...?',
+     icon: 'info',
+     showCancelButton: true,
+     confirmButtonText: 'Yes, Save it!',
+     cancelButtonText: 'No, keep it'
+   }).then((result) => {
+     if (result.isConfirmed) {
+       this.developerService.deleteAllTransactionByStudentRegistrationId(feeDetails.studentCourseRegistrationId).subscribe(response => {
+           if (response.success === 1) {
+           Swal.fire({
+             position: 'top-end',
+             icon: 'success',
+             title: 'Fees has been Delete',
+             showConfirmButton: false,
+             timer: 1500
+           });
+           this.getAllFeeChargedDeveloper();
+           this.getAllFeeReceivedDeveloper();
+         }
+         
+       }, (error) => {
+         Swal.fire({
+           icon: 'error',
+           title: 'Oops...',
+           text: error,
+           footer: '<a href>Why do I have this issue?</a>',
+           timer: 0
+         });
+       });
+
+       // For more information about handling dismissals please visit
+       // https://sweetalert2.github.io/#handling-dismissals
+     } else if (result.dismiss === Swal.DismissReason.cancel) {
+       Swal.fire(
+         'Cancelled',
+         'Your imaginary file is safe :)',
+         'error'
+       )
+     }
+   }) 
+ }
   deleteFeesReceived(received:any){
 
   }
 }
+function rowIndex(rowIndex: any): any {
+  throw new Error('Function not implemented.');
+}
+
