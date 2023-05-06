@@ -127,6 +127,16 @@ export class AuthService {
     }
   }
 
+  changePasswordUser(userData:any){
+    return this.http.patch<any>(this.commonService.getAPI() + '/changePassword', userData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service',response);
+      if (response.status === 1){
+        this.userRegisterArray.unshift(response.data);
+        this.userRegisterSubject.next([...this.userRegisterArray]);
+      }
+    }))
+  }
   updateUser(userData:any){
     return this.http.patch<any>(this.commonService.getAPI() + '/userUpdate', userData)
     .pipe(catchError(this.errorService.serverError), tap(response => {

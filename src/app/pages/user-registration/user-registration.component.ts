@@ -88,6 +88,18 @@ export class UserRegistrationComponent implements OnInit {
     this.organisationPin = data.pin;
   }
   onUpdate(){
+    const md5 = new Md5();
+    const passwordMd5 = md5.appendStr(this.userFormGroup.value.password).end();
+    this.userRegisterData={
+      userId:this.userFormGroup.value.userId,
+      organisation_id: this.userFormGroup.value.organisation_id,
+      user_name: this.userFormGroup.value.user_name,
+      password: passwordMd5,
+      mobile1: this.userFormGroup.value.mobile1,
+      user_type_id: this.userFormGroup.value.user_type_id,
+      email: this.userFormGroup.value.email
+    }
+
     Swal.fire({
       title: 'Are you sure?',
       text: 'Update This Record...!',
@@ -97,8 +109,7 @@ export class UserRegistrationComponent implements OnInit {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.authService.updateUser(this.userFormGroup.value).subscribe(response => {
-          //this.showError = response.exception;
+        this.authService.updateUser(this.userRegisterData).subscribe(response => {
           if (response.success === 1) {
             Swal.fire({
               position: 'top-end',
@@ -109,8 +120,6 @@ export class UserRegistrationComponent implements OnInit {
             });
            
             this.onClear();
-            // this.showSuccess("Record added successfully");
-          
           }
         }, (error) => {
           Swal.fire({
@@ -131,7 +140,7 @@ export class UserRegistrationComponent implements OnInit {
           'error'
         )
       }
-    })
+    }) 
   }
   onSave() {
     const md5 = new Md5();
