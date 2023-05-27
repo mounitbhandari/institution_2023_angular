@@ -151,6 +151,8 @@ const routes: Routes = [
 
   { path: 'changePassword', loadChildren: () => import('./pages/change-password/change-password.module').then(m => m.ChangePasswordModule) },
 
+  { path: 'Advanced', loadChildren: () => import('./pages/advanced/advanced.module').then(m => m.AdvancedModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },

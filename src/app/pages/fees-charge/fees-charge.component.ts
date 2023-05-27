@@ -258,54 +258,103 @@ export class FeesChargeComponent implements OnInit {
         )
       }
     })
-   /*  this.confirmationService.confirm({
-      message: 'Do you want to Save this record?',
-      header: 'Delete Confirmation',
-      icon: 'pi pi-info-circle',
-      accept: () => {
-        this.tempItemObj = {
-          transactionMaster: {
-            userId: 1,
-            studentCourseRegistrationId: data.student_course_registration_id,
-            transactionDate: data.transaction_date,
-            organisationId: this.organisationId,
-            comment: "Auto Monthly Fees"
-
-          },
-          transactionDetails: [
-            {
-              ledgerId: 9,
-              transactionTypeId: 2,
-              amount: data.amount
-            },
-            {
-              ledgerId: data.student_id,
-              transactionTypeId: 1,
-              amount: data.amount
-            }
-          ]
-        }
-        this.transactionServicesService.monthlyFeesCharge(this.tempItemObj).subscribe(response => {
+    /*  this.confirmationService.confirm({
+       message: 'Do you want to Save this record?',
+       header: 'Delete Confirmation',
+       icon: 'pi pi-info-circle',
+       accept: () => {
+         this.tempItemObj = {
+           transactionMaster: {
+             userId: 1,
+             studentCourseRegistrationId: data.student_course_registration_id,
+             transactionDate: data.transaction_date,
+             organisationId: this.organisationId,
+             comment: "Auto Monthly Fees"
+ 
+           },
+           transactionDetails: [
+             {
+               ledgerId: 9,
+               transactionTypeId: 2,
+               amount: data.amount
+             },
+             {
+               ledgerId: data.student_id,
+               transactionTypeId: 1,
+               amount: data.amount
+             }
+           ]
+         }
+         this.transactionServicesService.monthlyFeesCharge(this.tempItemObj).subscribe(response => {
+           if (response.success === 1) {
+             this.getAllMonthlyStudent(this.organisationId);
+ 
+           }
+ 
+         }, error => {
+           this.showErrorMessage = true;
+           this.errorMessage = error.message;
+ 
+           setTimeout(() => {
+             this.showErrorMessage = false;
+           }, 20000);
+ 
+         })
+ 
+       },
+       reject: () => {
+         this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+       }
+     }); */
+  }
+  saveAllStudentMonthly() {
+   Swal.fire({
+      title: 'Are you sure?',
+      text: 'Save This Record...?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Save it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.transactionServicesService.allStudentMonthlyFeesCharge(this.organisationId).subscribe(response => {
           if (response.success === 1) {
             this.getAllMonthlyStudent(this.organisationId);
-
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'All Fees Charged has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.getAllReceivedFees(this.organisationId);
+            this.tempFeesArray = [];
+            this.totalAmount = 0;
+            this.clearFeesReceived();
+            this.FeesChargeFormGroup.reset();
           }
 
-        }, error => {
-          this.showErrorMessage = true;
-          this.errorMessage = error.message;
+        }, (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            footer: '<a href>Why do I have this issue?</a>',
+            timer: 0
+          });
+        });
 
-          setTimeout(() => {
-            this.showErrorMessage = false;
-          }, 20000);
-
-        })
-
-      },
-      reject: () => {
-        this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
       }
-    }); */
+    })
+    
   }
   onAddFees() {
 
@@ -362,7 +411,7 @@ export class FeesChargeComponent implements OnInit {
     this.totalAmount = 0;
   }
   changeCourseId() {
-   
+
     this.studentId = this.FeesChargeFormGroup.get('studentId')?.value;
 
     this.tempGetActiveCourseObj = {};
@@ -371,7 +420,7 @@ export class FeesChargeComponent implements OnInit {
       ledger_id: this.studentId,
       organisationId: this.organisationId
     };
-    this.FeesChargeFormGroup.patchValue({studentToCourseId:''});
+    this.FeesChargeFormGroup.patchValue({ studentToCourseId: '' });
     //this.FeesChargeFormGroup.patchValue('studentToCourseId').value="";
     this.transactionServicesService.fetchAllStudentToCourses(this.tempGetActiveCourseObj).subscribe(response => {
       this.courseNameList = [];
@@ -438,7 +487,7 @@ export class FeesChargeComponent implements OnInit {
 
     })
   }
- 
+
   onUpdate() {
     var DateObj = new Date(this.transactionDate);
     this.transactionMonth = DateObj.getMonth() + 1;
@@ -475,7 +524,7 @@ export class FeesChargeComponent implements OnInit {
           transactionDetails: Object.values(this.tempFeesArray)
         }
         this.transactionServicesService.updateFeesCharge(this.transactionId, this.tempObj).subscribe(response => {
-        this.referenceTransactionMasterId = response.data.transactionMasterId;
+          this.referenceTransactionMasterId = response.data.transactionMasterId;
           if (response.success === 1) {
             Swal.fire({
               position: 'top-end',
@@ -512,7 +561,7 @@ export class FeesChargeComponent implements OnInit {
         )
       }
     })
-  
+
 
   }
 
@@ -564,7 +613,7 @@ export class FeesChargeComponent implements OnInit {
 
 
   }
-  
+
 
   onSave() {
     //this.transactionDate=this.FeesChargeFormGroup.get('transactionDate')?.value;
@@ -646,7 +695,7 @@ export class FeesChargeComponent implements OnInit {
         )
       }
     })
-   
+
 
   }
   showSuccess(arg0: string) {

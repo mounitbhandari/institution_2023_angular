@@ -15,6 +15,7 @@ import {MatCardModule} from "@angular/material/card";
 import { NgChartsModule } from 'ng2-charts';
 import {InputTextModule} from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import {NgxPrintModule} from 'ngx-print';
 @NgModule({
   declarations: [
     OwnerComponent
@@ -33,7 +34,8 @@ import { ButtonModule } from 'primeng/button';
     MatCardModule,
     NgChartsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    NgxPrintModule
   ]
 })
 export class OwnerModule { }

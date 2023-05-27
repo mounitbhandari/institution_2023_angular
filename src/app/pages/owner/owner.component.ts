@@ -11,6 +11,7 @@ import { StudentToCourseService } from 'src/app/services/student-to-course.servi
 import { Table } from 'primeng/table/table';
 import { TransactionServicesService } from 'src/app/services/transaction-services.service';
 import { ToWords } from 'to-words';
+import Swal from 'sweetalert2';
 
 const toWords = new ToWords({
   localeCode: 'en-IN',
@@ -45,6 +46,7 @@ export class OwnerComponent implements OnInit {
   organisationContact:string='';
   organisationEmail:string='';
   organizationArray: any = [];
+  monthlyStudentArray:any=[];
 
   whatsapp_number: string = '';
   billing_name: string = '';
@@ -132,6 +134,7 @@ export class OwnerComponent implements OnInit {
       this.getStudentBirthDay(this.organisationId);
       this.getStudentUpcomingDueList(this.organisationId);
       this.getStudentToCourseRegistrationList(this.organisationId);
+      this.getAllMonthlyStudent(this.organisationId);
    
    
    
@@ -192,6 +195,51 @@ export class OwnerComponent implements OnInit {
   getEventValue($event:any) :string {
     return $event.target.value;
   }
+  saveAllStudentMonthly() {
+    Swal.fire({
+       title: 'Are you sure?',
+       text: 'Save This Record...?',
+       icon: 'warning',
+       showCancelButton: true,
+       confirmButtonText: 'Yes, Save it!',
+       cancelButtonText: 'No, keep it'
+     }).then((result) => {
+       if (result.isConfirmed) {
+         this.transactionServicesService.allStudentMonthlyFeesCharge(this.organisationId).subscribe(response => {
+           if (response.success === 1) {
+             this.getAllMonthlyStudent(this.organisationId);
+             Swal.fire({
+               position: 'top-end',
+               icon: 'success',
+               title: 'All Fees Charged has been saved',
+               showConfirmButton: false,
+               timer: 1500
+             });
+            
+           }
+ 
+         }, (error) => {
+           Swal.fire({
+             icon: 'error',
+             title: 'Oops...',
+             text: error,
+             footer: '<a href>Why do I have this issue?</a>',
+             timer: 0
+           });
+         });
+ 
+         // For more information about handling dismissals please visit
+         // https://sweetalert2.github.io/#handling-dismissals
+       } else if (result.dismiss === Swal.DismissReason.cancel) {
+         Swal.fire(
+           'Cancelled',
+           'Your imaginary file is safe :)',
+           'error'
+         )
+       }
+     })
+     
+   }
    getAllIncome($orgID:any){
     this.reportService.fetchAllReceiptIncomeReport($orgID).subscribe(response=>{
       this.allIncomeArray=response.data;
@@ -204,7 +252,12 @@ export class OwnerComponent implements OnInit {
       console.log("all Income TS:",this.allIncomeArray);
     })
   }
-
+  getAllMonthlyStudent($orgID: any) {
+    this.transactionServicesService.fetchMonthlyStudentList($orgID).subscribe(response => {
+      this.monthlyStudentArray = response.data;
+      console.log("Monthly Student:", this.monthlyStudentArray);
+    })
+  }
   getTotalCourse($orgID:any){
     this.courseService.fetchAllTotalCourse($orgID).subscribe(response => {
       this.totalNoCourse = response.data[0].totalCourse;

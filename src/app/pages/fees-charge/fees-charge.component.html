@@ -259,6 +259,13 @@
           </div>
         </mat-tab>
         <mat-tab>
+          <div class="row p-2">
+            <div class="col-sm-12 text-right">
+              <button type="button" class="btn btn-success" (click)="saveAllStudentMonthly()">
+                Generate All Fees Charged
+              </button>
+            </div>
+          </div>
           <ng-template mat-tab-label>
             <mat-icon class="example-tab-icon">thumb_up</mat-icon>
             Generate Monthly Fees Charge
@@ -275,7 +282,7 @@
                   <th scope="col">Transaction Date</th>
                   <th scope="col">Amount</th>
                   <th scope="col">Month No</th>
-                  <th scope="col">Action</th>
+                  <!-- <th scope="col">Action</th> -->
                 </tr>
               </thead>
               <tbody>
@@ -287,21 +294,12 @@
                   <td>{{item.transaction_date | date: 'dd/MM/yyyy' }}</td>
                   <td>{{item.amount}}</td>
                   <td>{{item.fees_month}}</td>
-                  <td><button type="button" class="btn btn-info" (click)="getEachMonthly(item)">Submit</button></td>
+                  <!-- <td><button type="button" class="btn btn-info" (click)="getEachMonthly(item)">Submit</button></td> -->
                 </tr>
 
               </tbody>
             </table>
-            <p-confirmDialog #ce [style]="{width: '30vw'}" header="Confirmation" icon="pi pi-exclamation-triangle"
-              [transitionOptions]="'0.8ms'">
-              <ng-template pTemplate="header">
-                <h3>Header Content</h3>
-              </ng-template>
-              <ng-template pTemplate="footer">
-                <button type="button" pButton icon="pi pi-times" label="No" (click)="ce.reject()"></button>
-                <button type="button" pButton icon="pi pi-check" label="Yes" (click)="ce.accept()"></button>
-              </ng-template>
-            </p-confirmDialog>
+           
           </div>
         </mat-tab>
       </mat-tab-group>
@@ -318,9 +316,9 @@
           <tr>
             <!--  <th scope="col">#</th> -->
             <th scope="col" style="display: none;">TransactionId</th>
-            <th scope="col">Date</th>
-            <!-- <th scope="col">Transaction No</th> -->
+            <th scope="col">Date</th> 
             <th scope="col">Charge Name</th>
+            <th scope="col">Month No</th>
             <th scope="col">Fees</th>
             <th scope="col">Action</th>
 
@@ -331,8 +329,8 @@
             <!-- <th scope="row">{{indexOfelement+1}}</th> -->
             <th scope="row" style="display: none;">{{item.id}}</th>
             <td>{{item.transaction_date | date: 'dd/MM/yyyy'}}</td>
-            <!-- <td>{{item.transaction_number}}</td> -->
             <td>{{item.ledger_name}}</td>
+            <td>{{item.fees_month}}</td>
             <td class="text-right">{{item.amount | currency:'INR'}}</td>
             <td><button type="button" class="btn btn-success" (click)="editFeesReceived(item)"><i
                   class="bi bi-pen"></i></button> &nbsp;

@@ -130,7 +130,7 @@
                 <!-------------------------------start show Receipt bill voucher------------------------------------- -->
                 <div class="container" *ngIf="showReceipt">
 
-                  <div id="print-AllReceiptBill">
+                  <div id="print-AllReceiptBill-owner">
                     <div style="border: 2px dotted rgb(1, 1, 19);">
                       <div class="row">
                         <!-- <div class="col-2 ">
@@ -261,7 +261,7 @@
                   </div>
                   <div mat-dialog-actions>
                     <button class="btn btn-danger" (click)="onClickedClosed()">Close</button>
-                    <button class="btn btn-success" printSectionId="print-AllReceiptBill" printTitle="Develop By Ronit"
+                    <button class="btn btn-success" printSectionId="print-AllReceiptBill-owner" printTitle="Develop By BAIT"
                       ngxPrint>Print</button>
 
                   </div>
@@ -548,6 +548,75 @@
               <td>{{course.total_course_fees | currency:'INR'}}</td>
               <td>{{course.total_received | currency:'INR'}}</td>
               <td>{{course.total_due | currency:'INR'}}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+          </ng-template>
+        </p-table>
+
+      </div>
+    </div>
+
+    <!-- Auto Generate Fees Charge details -->
+    <div class="row mt-4 upcom">
+      <div class="stuhisdtl">
+        <i class="bi bi-person-video"></i>
+        &nbsp; Monthly Auto Generate Fees Charge
+      </div>
+      <div class="p-2 text-right">
+        <button type="button" class="btn btn-success" (click)="saveAllStudentMonthly()">
+          Generate All Fees Charged
+        </button>
+      </div>
+      <div class="stutable">
+
+
+        <p-table #monthlyStudent [value]="monthlyStudentArray" dataKey="id" [paginator]="true"
+          [rows]="5" [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[5,10,25,50]" [globalFilterFields]="['ledger_name','full_name','transaction_date']">
+
+          <ng-template pTemplate="caption">
+            <div class="flex">
+              <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                (click)="clear(monthlyStudent)"></button>
+              <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text"
+                  (input)="monthlyStudent.filterGlobal(getEventValue($event), 'contains')"
+                  placeholder="Search keyword" />
+              </span>
+
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th>ID</th>
+              
+              <th pSortableColumn="ledger_id">Student Name <p-sortIcon field="ledger_name"></p-sortIcon>
+              </th>
+              <th pSortableColumn="course_id">Course Name <p-sortIcon field="full_name"></p-sortIcon>
+              </th>
+             
+              <th pSortableColumn="transaction_date">Transaction Date <p-sortIcon field="transaction_date"></p-sortIcon>
+              </th>
+              <th pSortableColumn="fees_month">Month No.<p-sortIcon field="fees_month"></p-sortIcon>
+              </th>
+              <th>amount</th>
+              
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-course let-rowIndex="rowIndex">
+
+            <tr>
+              <td>{{rowIndex+1}}</td>
+              <td>{{course.ledger_name}}</td>
+              <td>{{course.full_name}}</td>
+              <td>{{course.transaction_date | date: 'dd/MM/yyyy'}}</td>
+              <td>{{course.fees_month}}</td>
+              <td>{{course.amount | currency:'INR'}}</td>
+              
             </tr>
           </ng-template>
           <ng-template pTemplate="paginatorleft">

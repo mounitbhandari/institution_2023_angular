@@ -143,6 +143,9 @@ export class FeesReceivedComponent implements OnInit {
   tempTotalAmount: number = 0;
   totalAmount: number = 0;
   removeTotalAmount: number = 0;
+
+  referenceReceivedTransactionMasterId:number=0;
+
   showErrorMessage: boolean | undefined;
   errorMessage: any;
   msgs: { severity: string; summary: string; detail: string; }[] | undefined;
@@ -444,6 +447,7 @@ export class FeesReceivedComponent implements OnInit {
     this.courseNameBoolean = true;
     this.transactionNoBoolean = false;
     this.feeNameBoolean = false;
+    this.hiddenTransactionInfo=false;
     this.tempGetActiveCourseObj = {};
     this.tranMasterIdArray = [];
     this.FeesReceivedFormGroup.patchValue({ studentToCourseId: '' });
@@ -463,6 +467,7 @@ export class FeesReceivedComponent implements OnInit {
   }
 
   editFeesReceived(feeDetails: any) {
+    this.referenceReceivedTransactionMasterId=0;
     this.FeesReceivedFormGroup.reset();
     console.log("id:", feeDetails.id);
     this.hiddenInput=false;
@@ -487,6 +492,12 @@ export class FeesReceivedComponent implements OnInit {
       this.transactionList = response.data;
       console.log("array Received Edit:", this.transactionList);
       this.studentToCourseId=response.data[0].student_course_registration_id;
+      if(response.data[0].reference_received_transaction_master_id>0){
+        this.referenceReceivedTransactionMasterId=response.data[0].reference_received_transaction_master_id;
+      }else{
+        this.referenceReceivedTransactionMasterId=0;
+      }
+      
 
       this.FeesReceivedFormGroup.patchValue({ transactionId: response.data[0].transaction_master_id });
       this.FeesReceivedFormGroup.patchValue({ studentId: response.data[0].studentId });
@@ -793,8 +804,6 @@ export class FeesReceivedComponent implements OnInit {
   }
 
   getActiveCourse(id: any) {
-
-
     this.feeNameBoolean = true;
     this.studentToCourseId = id.id;
     console.log("total_received:", id);
