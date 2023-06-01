@@ -215,7 +215,7 @@ export class AdvancedComponent implements OnInit {
      this.totalRecepitAdvAmount = 0;
     this.rupeeInWords = '';
     this.AdvshowReceiptBoolean = true; 
-    this.selectedIndex = 3;
+    this.selectedIndex = 4;
     this.transactionServicesService.fetchOrganizationDetails(this.organisationId).subscribe(response => {
       this.organizationArray = response.data;
       console.log("organizationArray:", this.organizationArray);

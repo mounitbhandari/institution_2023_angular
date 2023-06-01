@@ -319,6 +319,7 @@ export class FeesDiscountComponent implements OnInit {
   }
   changeCourseId() {
     this.courseNameBoolean=true;
+    this.hiddenPopupDiscount=false;
     let studentId = this.FeesDiscountFormGroup.get('studentId')?.value;
     this.courseNameList = [];
     this.tempGetActiveCourseObj={};

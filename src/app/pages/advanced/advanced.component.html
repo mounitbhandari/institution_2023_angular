@@ -418,14 +418,14 @@
             </tr>
           </ng-template>
         </p-table>
-        <!--   <pre style="background-color:yellow ;">
+         <pre style="background-color:yellow ;">
                        save code = {{tranMasterIdArray | json}} 
                         onSave = {{this.tempReceicedObj | json}}
                         tempGetActiveCourseObj = {{this.tempGetActiveCourseObj | json}}
                         tempReceiceAdjustmentdObj = {{this.tempReceiceAdjustmentdObj | json}}
                        this.AdvancedFeesReceivedFormGroup.valid = {{this.AdvancedFeesReceivedFormGroup.valid }} 
                        this.AdvancedAdjustmentFeesReceivedFormGroup.valid = {{this.AdvancedAdjustmentFeesReceivedFormGroup.valid }} 
-                      </pre> -->
+                      </pre> 
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
@@ -478,7 +478,7 @@
                       <tr>
                         <th scope="row">{{billing_name}}</th>
                         <td scope="row">{{full_name}}</td>
-                        <td scope="row">{{advTranDate}}</td>
+                        <td scope="row">{{advTranDate | date:'dd/MM/yyyy'}}</td>
                         <td scope="row">{{advComments}}</td>
                         <td scope="row" class="text-right">{{total_advanced | currency:'INR'}}</td>
                         <td scope="row" class="text-right">{{received_advanced | currency:'INR'}}</td>
