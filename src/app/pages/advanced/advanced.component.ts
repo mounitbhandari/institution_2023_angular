@@ -296,7 +296,7 @@ export class AdvancedComponent implements OnInit {
               amount: this.amount
             },
             {
-              ledgerId: 40,
+              ledgerId: 77,
               transactionTypeId: 2,
               amount: this.amount
             }
@@ -529,7 +529,7 @@ export class AdvancedComponent implements OnInit {
           },
           transactionDetails: [
             {
-              ledgerId: 40,
+              ledgerId: 77,
               transactionTypeId: 1,
               amount: this.amount
             },
@@ -623,7 +623,7 @@ export class AdvancedComponent implements OnInit {
               amount: this.amount
             },
             {
-              ledgerId: 40,
+              ledgerId: 77,
               transactionTypeId: 2,
               amount: this.amount
             }
