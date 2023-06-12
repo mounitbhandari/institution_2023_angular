@@ -1,7 +1,7 @@
 <div class="container-fluid page">
   <div class="header">
     <div class="row d-flex align-items-center justify-content-between">
-      <div class="col-md-8 dash"> <i class="bi bi-speedometer2"></i>&nbsp; Dashboard</div>
+      <div class="col-md-8 dash"> <i class="bi bi-speedometer2"></i>&nbsp; Coder & Accotax</div>
       <div class="col-md-4 comdtl">
         <span class="comname">{{organisationName}} <br></span>
         <hr>
@@ -15,45 +15,121 @@
   <div class="row">
     <div class="col-12 p-1 billscrl">
       <marquee width="90%" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-        *** Your Bill is due from 20th January,2023. Please Complete Your Payment to Continue Your Service. ***
-        &nbsp;&nbsp;&nbsp; Your Bill is due from 20th January,2023. Please Complete Your Payment to Continue Your
-        Service. ***
+        *** Addmission is going on. HURRY UP ***
+        &nbsp;&nbsp;&nbsp; Grab the opportunity for your future betterment. ***
       </marquee>
     </div>
   </div>
+  
   <!-- maincontent -->
-  <div class="main p-5">
+  <div class="main p-2">
+    <h1 style="text-align: center; color: black;">Learning programs & classes for all students</h1>
     <div class="row">
       <div class="col-8 dashbox">
         <div class="row">
-          <div class="col-3 active act me-2">
-            <i class="bi bi-person-fill botic"></i>
-            <h3>Active Student</h3>
-            <hr class="rule">
+          <div  data-aos="fade-up" class="item col-3 active act me-2">
+            <!-- <i class="bi bi-person-fill botic"></i> -->
+            <img src="assets/img/Angular_full_color_logo.png" height="80px" alt="">
+            <h3 style="color: rgb(255, 0, 0); font-weight: bolder;">Angular</h3>
+            <!-- <hr class="rule">
             <a [routerLink]="['/StudentCourseRegistration']">
               <h1><b>{{totalNoActiveStudent}}</b></h1>
-            </a>
+            </a> -->
           </div>
-          <div class="col-3 active act1 me-2">
-            <i class="bi bi-book-fill botic"></i>
-            <h3>Active Course</h3>
-            <hr class="rule">
+          <div data-aos="fade-up" class="item  col-3 active act1 me-2">
+            <!-- <i class="bi bi-book-fill botic"></i> -->
+            <img src="assets/img/html.png" height="70px" alt="">
+            <h3 class="pt-2" style="color: rgb(255, 0, 0); font-weight: bolder;">HTML</h3>
+            <!-- <hr class="rule">
             <a [routerLink]="['/course']">
               <h1><b>{{totalNoCourse}}</b></h1>
-            </a>
+            </a> -->
           </div>
-          <div class="col-3 active act2 me-2">
-            <i class="bi bi-wallet-fill botic"></i>
-            <h3>Cash Received (Year)</h3>
-            <hr class="rule">
+          <div data-aos="fade-up" class="item col-3 active act2 me-2">
+            <!-- <i class="bi bi-wallet-fill botic"></i> -->
+            <img src="assets/img/CSS3_logo.svg.png" height="70px" alt="">
+            <h3 class="pt-2" style="color: rgb(255, 0, 0); font-weight: bolder;">CSS</h3>
+            <!-- <hr class="rule">
             <a [routerLink]="['/AllIncomeReport']">
               <h1><b>{{totalYearlyCash | currency:'INR'}}</b></h1>
+            </a> -->
+          </div>
+          <div data-aos="fade-up" class="item col-3 active act3 me-2">
+            <!-- <i class="bi bi-bank2 botic"></i> -->
+            <img src="assets/img/javascript.png" height="70px" alt="">
+            <h3 class="pt-2" style="color: rgb(255, 0, 0); font-weight: bolder;">JAVASCRIPT</h3>
+            <hr class="rule">
+            <a [routerLink]="['/AllIncomeReport']">
+              <h1><b>{{totalYearlyBank | currency:'INR'}}</b></h1>
             </a>
           </div>
-          <div class="col-3 active act3 me-2">
-
-            <i class="bi bi-bank2 botic"></i>
-            <h3>Bank Received (Year)</h3>
+          <div  data-aos="fade-up" class="item col-3 active act me-2">
+            <!-- <i class="bi bi-person-fill botic"></i> -->
+            <img src="assets/img/Angular_full_color_logo.png" height="80px" alt="">
+            <h3 style="color: rgb(255, 0, 0); font-weight: bolder;">Angular</h3>
+            <!-- <hr class="rule">
+            <a [routerLink]="['/StudentCourseRegistration']">
+              <h1><b>{{totalNoActiveStudent}}</b></h1>
+            </a> -->
+          </div>
+          <div data-aos="fade-up" class="item  col-3 active act1 me-2">
+            <!-- <i class="bi bi-book-fill botic"></i> -->
+            <img src="assets/img/html.png" height="70px" alt="">
+            <h3 class="pt-2" style="color: rgb(255, 0, 0); font-weight: bolder;">HTML</h3>
+            <!-- <hr class="rule">
+            <a [routerLink]="['/course']">
+              <h1><b>{{totalNoCourse}}</b></h1>
+            </a> -->
+          </div>
+          <div data-aos="fade-up" class="item col-3 active act2 me-2">
+            <!-- <i class="bi bi-wallet-fill botic"></i> -->
+            <img src="assets/img/CSS3_logo.svg.png" height="70px" alt="">
+            <h3 class="pt-2" style="color: rgb(255, 0, 0); font-weight: bolder;">CSS</h3>
+            <!-- <hr class="rule">
+            <a [routerLink]="['/AllIncomeReport']">
+              <h1><b>{{totalYearlyCash | currency:'INR'}}</b></h1>
+            </a> -->
+          </div>
+          <div data-aos="fade-up" class="item col-3 active act3 me-2">
+            <!-- <i class="bi bi-bank2 botic"></i> -->
+            <img src="assets/img/javascript.png" height="70px" alt="">
+            <h3 class="pt-2" style="color: rgb(255, 0, 0); font-weight: bolder;">JAVASCRIPT</h3>
+            <hr class="rule">
+            <a [routerLink]="['/AllIncomeReport']">
+              <h1><b>{{totalYearlyBank | currency:'INR'}}</b></h1>
+            </a>
+          </div>
+          <div  data-aos="fade-up" class="item col-3 active act me-2">
+            <!-- <i class="bi bi-person-fill botic"></i> -->
+            <img src="assets/img/Angular_full_color_logo.png" height="80px" alt="">
+            <h3 style="color: rgb(255, 0, 0); font-weight: bolder;">Angular</h3>
+            <!-- <hr class="rule">
+            <a [routerLink]="['/StudentCourseRegistration']">
+              <h1><b>{{totalNoActiveStudent}}</b></h1>
+            </a> -->
+          </div>
+          <div data-aos="fade-up" class="item  col-3 active act1 me-2">
+            <!-- <i class="bi bi-book-fill botic"></i> -->
+            <img src="assets/img/html.png" height="70px" alt="">
+            <h3 class="pt-2" style="color: rgb(255, 0, 0); font-weight: bolder;">HTML</h3>
+            <!-- <hr class="rule">
+            <a [routerLink]="['/course']">
+              <h1><b>{{totalNoCourse}}</b></h1>
+            </a> -->
+          </div>
+          <div data-aos="fade-up" class="item col-3 active act2 me-2">
+            <!-- <i class="bi bi-wallet-fill botic"></i> -->
+            <img src="assets/img/CSS3_logo.svg.png" height="70px" alt="">
+            <h3 class="pt-2" style="color: rgb(255, 0, 0); font-weight: bolder;">CSS</h3>
+            <!-- <hr class="rule">
+            <a [routerLink]="['/AllIncomeReport']">
+              <h1><b>{{totalYearlyCash | currency:'INR'}}</b></h1>
+            </a> -->
+          </div>
+          <div data-aos="fade-up" class="item col-3 active act3 me-2">
+            <!-- <i class="bi bi-bank2 botic"></i> -->
+            <img src="assets/img/javascript.png" height="70px" alt="">
+            <h3 class="pt-2" style="color: rgb(255, 0, 0); font-weight: bolder;">JAVASCRIPT</h3>
             <hr class="rule">
             <a [routerLink]="['/AllIncomeReport']">
               <h1><b>{{totalYearlyBank | currency:'INR'}}</b></h1>
@@ -274,11 +350,12 @@
       </div>
       <!-- bdaytable -->
       <div class="col-4 bday">
-        <div class="upcom-1">
-          <div class="upbday">
+        <div style="text-align: center;" class="">
+          <img src="assets/img/cartoon4.png" height="250px" alt="">
+          <!-- <div class="upbday">
             <i class="bi bi-bell-fill"></i>&nbsp; Upcoming Birthday
-          </div>
-          <div class="upcom-1-scroll">
+          </div> -->
+          <!-- <div class="upcom-1-scroll">
             <table class="table table-hover">
               <thead>
                 <tr>
@@ -297,7 +374,7 @@
                   <td>{{item.dob | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.PandingDays}}</td>
                 </tr>
-                <!-- <tr>
+                <tr>
                   <td scope="col">1</td>
                   <td scope="col">Binod</td>
                   <td scope="col">95465485144</td>
@@ -352,10 +429,10 @@
                   <td scope="col">95465485144</td>
                   <td scope="col">01/07/1986</td>
                   <td scope="col">2</td>
-                </tr> -->
+                </tr>
               </tbody>
             </table>
-          </div>
+          </div> -->
         </div>
         <!-- Duelist -->
         <div class="upcom-2 mt-4">

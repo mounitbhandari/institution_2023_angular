@@ -61,7 +61,7 @@ body
 
 // Styling
 .header{
-  background-color: #383838;
+  background-color: #0099ff;
   padding: 0em 1em;
   font-size: 2em;
   margin: 0;
@@ -92,10 +92,10 @@ body
   background-color: rgb(98, 0, 255);
 }
 .main{
-  background-color: #f3f3f3;
+  background-color: rgb(255, 255, 255);
 }
 .active{
-  background-color: red;
+  // background-color: red;
   text-align: center;
   width: 24%;
   border-radius: 1em;
@@ -113,22 +113,22 @@ body
 .act{
   padding-bottom: 5px;
   padding-top: 2em;
-  background-image: linear-gradient(to left bottom, #00b7d3, #00a9c2, #009bb2, #008da2, #007f92);
+  // background-image: linear-gradient(to left bottom, #00b7d3, #00a9c2, #009bb2, #008da2, #007f92);
 }
 .act1{
   padding-bottom: 5px;
   padding-top: 2em;
-  background-image: linear-gradient(to right top, #c96000, #d36a01, #dd7502, #e67f04, #f08a06);
+  // background-image: linear-gradient(to right top, #c96000, #d36a01, #dd7502, #e67f04, #f08a06);
 }
 .act2{
   padding-bottom: 5px;
   padding-top: 2em;
-  background-image: linear-gradient(to left bottom, #00c972, #01b666, #02a45a, #01924f, #008144);
+  // background-image: linear-gradient(to left bottom, #00c972, #01b666, #02a45a, #01924f, #008144);
 }
 .act3{
   padding-bottom: 5px;
   padding-top: 2em;
-  background-image: linear-gradient(to left bottom, #8c00c9, #7f00b2, #73009b, #650086, #580071);
+  // background-image: linear-gradient(to left bottom, #8c00c9, #7f00b2, #73009b, #650086, #580071);
 }
 .act3 a{
   text-decoration:none ;
@@ -347,6 +347,21 @@ body
   .stutable{
     width: 100%;
     font-size: small;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  .item {
+    width: 200px;
+    height: 200px;
+    margin: 50px auto;
+    padding-top: 75px;
+    background: #ccc;
+    text-align: center;
+    color: #FFF;
+    font-size: 3em;
   }
 }
 
