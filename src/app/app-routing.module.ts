@@ -153,6 +153,10 @@ const routes: Routes = [
 
   { path: 'Advanced', loadChildren: () => import('./pages/advanced/advanced.module').then(m => m.AdvancedModule) },
 
+  { path: 'UpcomingDue', loadChildren: () => import('./pages/upcoming-due/upcoming-due.module').then(m => m.UpcomingDueModule) },
+
+  { path: 'UpcomingBirthday', loadChildren: () => import('./pages/upcoming-birthday/upcoming-birthday.module').then(m => m.UpcomingBirthdayModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },

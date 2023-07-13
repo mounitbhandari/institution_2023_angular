@@ -107,12 +107,12 @@ export class FeesChargeComponent implements OnInit {
     //transactionDate :this.datepipe.transform(this.date, 'yyyy-MM-dd');
     this.FeesChargeFormGroup = new FormGroup({
 
-      studentId: new FormControl(1, [Validators.required]),
+      studentId: new FormControl(null, [Validators.required]),
       transactionId: new FormControl(0, [Validators.required]),
       comment: new FormControl(),
       amount: new FormControl(null, [Validators.required]),
       transactionDate: new FormControl(),
-      studentToCourseId: new FormControl(1, [Validators.required]),
+      studentToCourseId: new FormControl(null, [Validators.required]),
       ledgerId: new FormControl(7, [Validators.required]),
     })
 
@@ -394,11 +394,11 @@ export class FeesChargeComponent implements OnInit {
     let val = formatDate(now, 'yyyy-MM-dd', 'en');
     this.FeesChargeFormGroup = new FormGroup({
       transactionId: new FormControl(0, [Validators.required]),
-      studentId: new FormControl(1, [Validators.required]),
+      studentId: new FormControl(null, [Validators.required]),
       comment: new FormControl(),
       amount: new FormControl(null, [Validators.required]),
       feesChargedTransactionDate: new FormControl(val),
-      studentToCourseId: new FormControl(1, [Validators.required]),
+      studentToCourseId: new FormControl(null, [Validators.required]),
       ledgerId: new FormControl(7, [Validators.required])
     })
     this.BankReceivedFormGroup = new FormGroup({
@@ -669,6 +669,7 @@ export class FeesChargeComponent implements OnInit {
             });
             this.isSave = false;
             this.getAllReceivedFees(this.organisationId);
+            this.getAllMonthlyStudent(this.organisationId);
             this.tempFeesArray = [];
             this.totalAmount = 0;
             this.clearFeesReceived();

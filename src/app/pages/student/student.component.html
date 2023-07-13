@@ -17,6 +17,132 @@
       <mat-tab-group (selectedIndexChange)="onTabChanged($event)" [(selectedIndex)]="selectedIndex"
         animationDuration="200ms">
         <mat-tab>
+          <ng-template mat-tab-label style="color:whitesmoke ;">
+            <mat-icon class="example-tab-icon">trending_up</mat-icon>
+            Admission Form
+          </ng-template>
+           
+          <div class="p-3 flex-fill" style="width:100% ; background-color: white;">
+            <div class="container">
+              <form [formGroup]="studentToCourseFormGroup">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <ng-select [items]="students" fxFlex="100" bindLabel="studentName" class="custom"
+                      bindValue="studentId" appendTo="body" formControlName="ledger_id" placeholder="Student Name"
+                      (change)="changeStudent($event)">
+                    </ng-select>
+                  </div>
+                  <div class="col-sm-1">
+                    <button type="button" class="btn btn-labeled btn-success" (click)="createNewStudent()">
+                      <span class="btn-label">+</span>Add Student</button>
+                  </div>
+                  <div class="col-sm-5">
+                    <ng-select [items]="courses" fxFlex="100" bindLabel="full_name" class="custom" bindValue="id"
+                      (change)="changeFeesModeType($event)" appendTo="body" formControlName="course_id"
+                      placeholder="Course Name">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <mat-form-field style="width:100%">
+                      <mat-label>Fees</mat-label>
+                      <input matInput formControlName="base_fee" [(ngModel)]="feesAmount" placeholder="Fees" readonly="yes">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-4">
+                    <mat-form-field style="width:100%">
+                      <mat-label>Discount Allowed</mat-label>
+                      <input matInput formControlName="discount_allowed" placeholder="Discount" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group" *ngIf="hiddenInput">
+                      <mat-form-field class="col-12">
+                        <input matInput placeholder="Student Course ID" formControlName="studentToCourseID">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <mat-form-field style="width:100%">
+                      <mat-label>Joinig Date</mat-label>
+                      <input class="col-9" matInput #ref [matDatepicker]="joining_date" formControlName="joining_date"
+                        (dateInput)="setJoiningSQL(ref.value)">
+                      <div
+                        *ngIf="studentToCourseFormGroup.controls['joining_date'].errors && studentToCourseFormGroup.controls['joining_date'].touched">
+                        <mat-error class="text-right"
+                          *ngIf="studentToCourseFormGroup.controls['joining_date'].errors['required']">Joinig is
+                          required</mat-error>
+                      </div>
+                      <mat-datepicker-toggle matSuffix [for]="joining_date"></mat-datepicker-toggle>
+                      <mat-datepicker #joining_date></mat-datepicker>
+
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-4">
+                    <mat-form-field style="width:100%">
+                      <mat-label>Effective Date</mat-label>
+                      <input class="col-9" matInput #ref [matDatepicker]="effective_date"
+                        formControlName="effective_date" (dateInput)="setEffectiveSQL(ref.value)">
+                      <div
+                        *ngIf="studentToCourseFormGroup.controls['effective_date'].errors && studentToCourseFormGroup.controls['effective_date'].touched">
+                        <mat-error class="text-right"
+                          *ngIf="studentToCourseFormGroup.controls['effective_date'].errors['required']">Effective is
+                          required</mat-error>
+                      </div>
+                      <mat-datepicker-toggle matSuffix [for]="effective_date"></mat-datepicker-toggle>
+                      <mat-datepicker #effective_date></mat-datepicker>
+
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group" *ngIf="hiddenInput">
+                      <mat-form-field class="col-12">
+                        <input matInput placeholder="Transaction ID" formControlName="transactionMasterID">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <mat-form-field style="width:100%">
+                      <mat-label>Duration:</mat-label>
+                      <input matInput formControlName="actual_course_duration" placeholder="100" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-4">
+                    <ng-select [items]="durationTypes" bindLabel="durationName" class="custom"
+                      bindValue="durationTypeId" formControlName="duration_type_id" autofocus appendTo="body"
+                      placeholder="Duration Type">
+                    </ng-select>
+                  </div>
+
+                </div>
+                <div align="right">
+                  <button pButton (click)="clearStudentToCourse()"
+                    class="p-button-rounded p-button-info p-button-outlined">
+                    <i class="bi bi-clear" style="font-size: 1rem"> Clear </i>
+                  </button>&nbsp;&nbsp;&nbsp;
+
+                  <button pButton [disabled]="!isValidFormStudentToCourse()" (click)="saveStudentToCourse()" *ngIf="!isShown"
+                    class="p-button-rounded p-button-info">
+                    <i class="bi bi-save" style="font-size: 1rem"> Save </i>
+                  </button>
+
+                  <button pButton [disabled]="!isValidFormStudentToCourse()" (click)="updateStudentToCourse()" *ngIf="isShown"
+                    class="p-button-rounded p-button-info">
+                    <i class="bi bi-save" style="font-size: 1rem"> Update </i>
+                  </button>
+                </div>
+              </form>
+             
+            </div>
+          </div>
+          
+        </mat-tab>
+        <mat-tab>
           <div [ngClass]="isDeviceXS? 'col-12': 'col-12'" style="background-color:white;">
             <ng-template mat-tab-label style="color:whitesmoke ;">
               <mat-icon class="example-tab-icon">trending_up</mat-icon>
@@ -163,8 +289,8 @@
                       <div class="col-md-6">
                         <mat-form-field class="col-6" style="width:100%">
                           <mat-label>Date Of Birth</mat-label>
-                          <input class="col-md-6" matInput #ref [matDatepicker]="dob" formControlName="dob"
-                            (dateInput)="setDobSQL(ref.value)">
+                          <input class="col-md-6" matInput #ref1 [matDatepicker]="dob" formControlName="dob"
+                            (dateInput)="setDobSQL(ref1.value)">
                           <div
                             *ngIf="studentBasicFormGroup.controls['dob'].errors && studentBasicFormGroup.controls['dob'].touched">
                             <mat-error class="text-right"

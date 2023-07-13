@@ -20,7 +20,7 @@ export class CourseService {
     return this.http.get<any>(this.commonService.getAPI() + '/courses/'+$orgID)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Course[]}) => {
       this.courseList=response.data;
-      /* console.log("courseList:",this.courseList); */
+       console.log("courseList:",this.courseList); 
       this.courseSubject.next([...this.courseList]);
     })));
   }

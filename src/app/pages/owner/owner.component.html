@@ -276,7 +276,9 @@
       <div class="col-4 bday">
         <div class="upcom-1">
           <div class="upbday">
-            <i class="bi bi-bell-fill"></i>&nbsp; Upcoming Birthday
+            <span class="text-left"><i class="bi bi-bell-fill"></i>&nbsp; Upcoming Birthday</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color: aliceblue;">&nbsp; <a [routerLink]="['/UpcomingBirthday']">View All</a></span>
           </div>
           <div class="upcom-1-scroll">
             <table class="table table-hover">
@@ -383,15 +385,8 @@
                   <td>{{item.total_due | currency:'INR'}}</td>
                   <td>{{item.date_Diff}}</td>
                 </tr>
-                <!-- <tr>
-                  <td scope="col">1</td>
-                  <td scope="col">Binod</td>
-                  <td scope="col">95465485144</td>
-                  <td scope="col">01/07/1986</td>
-                  <td scope="col">$500</td>
-                  <td scope="col">2</td>
-                </tr>
-                <tr>
+                
+               <!--  <tr>
                   <td scope="col">1</td>
                   <td scope="col">Binod</td>
                   <td scope="col">95465485144</td>
@@ -464,6 +459,11 @@
                   <td scope="col">2</td>
                 </tr> -->
               </tbody>
+              <tfoot>
+                <tr>
+                  <th class="text-center" colspan="6"><a [routerLink]="['/UpcomingDue']">Click To View All</a> </th>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>

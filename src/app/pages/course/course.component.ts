@@ -10,6 +10,7 @@ import { CourseService } from 'src/app/services/course.service';
 import { Table } from "primeng/table";
 import Swal from 'sweetalert2'
 import * as FileSaver from "file-saver";
+import { formatDate } from '@angular/common';
 
 
 interface Alert {
@@ -69,14 +70,6 @@ export class CourseComponent implements OnInit {
     , private storage: StorageMap
     , private commonService: CommonService
   ) {
-
-    this.activatedRoute.data.subscribe((response: any) => {
-      this.courses = response.courseResolverData.courses.data;
-      this.durationTypes = response.courseResolverData.durationTypes.data;
-    });
-  }
-
-  ngOnInit(): void {
     const user = localStorage.getItem('user');
     if (user) {
       this.UserID = JSON.parse(<string>user).uniqueId;
@@ -84,6 +77,16 @@ export class CourseComponent implements OnInit {
       console.log("user localUserID:", (this.UserID));
       console.log("user organisationId:", (this.organisationId));
     }
+    this.getCourseList(this.organisationId);
+    this.activatedRoute.data.subscribe((response: any) => {
+      //this.courses = response.courseResolverData.courses.data;
+      this.durationTypes = response.courseResolverData.durationTypes.data;
+    });
+  
+  }
+
+  ngOnInit(): void {
+    
     // this.courses = this.courseService.getCourses();
     this.courseService.getCourseUpdateListener().subscribe((response: Course[]) => {
       this.courses = response;
@@ -106,6 +109,12 @@ export class CourseComponent implements OnInit {
   selectedIndex = 0
   onTabChanged(event: any) {
     console.log(event)
+  }
+  getCourseList($orgID: any) {
+    this.courseService.fetchAllCourses($orgID).subscribe(response => {
+      this.courses = response.data;
+      console.log("courseList:", this.courses);
+    })
   }
   getLastCourse($orgID: any) {
     this.courseService.fetchLastCourse($orgID).subscribe(response => {
@@ -139,7 +148,9 @@ export class CourseComponent implements OnInit {
     shortName: new FormControl(),
     courseDuration: new FormControl(),
     description: new FormControl(),
-    courseId: new FormControl()
+    courseId: new FormControl(),
+    courseFeesId: new FormControl(0, [Validators.required]),
+    courseFees:new FormControl(null, [Validators.required])
   })
   loading: boolean = false;
   deleteCourse(courseData: any) {
@@ -186,7 +197,12 @@ export class CourseComponent implements OnInit {
     });
   }
   updateCourse() {
-
+    const now = new Date();
+    let val = formatDate(now, 'yyyy-MM-dd', 'en');
+    var DateObj = new Date(val);
+    console.log("Month No:", DateObj.getMonth() + 1);
+    console.log("Year No:", DateObj.getFullYear());
+    
     Swal.fire({
       title: 'Are you sure?',
       text: 'Update This Record...?',
@@ -204,7 +220,12 @@ export class CourseComponent implements OnInit {
           courseCode: this.courseNameFormGroup.value.courseCode,
           shortName: this.courseNameFormGroup.value.shortName,
           courseDuration: this.courseNameFormGroup.value.courseDuration,
-          description: this.courseNameFormGroup.value.description
+          description: this.courseNameFormGroup.value.description,
+          courseFeesId:this.courseNameFormGroup.value.courseFeesId,
+          feesYear:DateObj.getFullYear(),
+          feesMonth:DateObj.getMonth() + 1,
+          feesAmount:this.courseNameFormGroup.value.courseFees,
+          organisationId:this.organisationId
         }
         this.courseService.updateCourse(this.courseData).subscribe(response => {
           if (response.status === true) {
@@ -221,7 +242,7 @@ export class CourseComponent implements OnInit {
             this.getMonthlyTotalCourse(this.organisationId);
             this.getFullTotalCourse(this.organisationId);
             this.getLastCourse(this.organisationId);
-            
+            this.getCourseList(this.organisationId);
           }
         }, (error) => {
           Swal.fire({
@@ -256,6 +277,12 @@ export class CourseComponent implements OnInit {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.isConfirmed) {
+        const now = new Date();
+        let val = formatDate(now, 'yyyy-MM-dd', 'en');
+        var DateObj = new Date(val);
+        console.log("Month No:", DateObj.getMonth() + 1);
+        console.log("Year No:", DateObj.getFullYear());
+
         this.courseData = {
           courseId: this.courseNameFormGroup.value.courseId,
           feesModeTypeId: this.courseNameFormGroup.value.feesModeTypeId,
@@ -265,6 +292,9 @@ export class CourseComponent implements OnInit {
           shortName: this.courseNameFormGroup.value.shortName,
           courseDuration: this.courseNameFormGroup.value.courseDuration,
           description: this.courseNameFormGroup.value.description,
+          feesAmount:this.courseNameFormGroup.value.courseFees,
+          feesYear:DateObj.getFullYear(),
+          feesMonth:DateObj.getMonth() + 1,
           organisationId: this.organisationId
         }
 
@@ -284,6 +314,7 @@ export class CourseComponent implements OnInit {
             this.getMonthlyTotalCourse(this.organisationId);
             this.getFullTotalCourse(this.organisationId);
             this.getLastCourse(this.organisationId);
+            this.getCourseList(this.organisationId);
             //console.log("success:",response.success);
           }
         }, (error) => {
@@ -321,7 +352,9 @@ export class CourseComponent implements OnInit {
       shortName: new FormControl(),
       courseDuration: new FormControl(),
       description: new FormControl(),
-      courseId: new FormControl()
+      courseId: new FormControl(),
+      courseFeesId: new FormControl(0, [Validators.required]),
+      courseFees:new FormControl(null, [Validators.required])
     });
   }
   editCourse(courseData: any) {
@@ -331,15 +364,17 @@ export class CourseComponent implements OnInit {
     this.onTabChanged(this.event);
     console.log(courseData);
     this.isShown = true;
-    this.courseNameFormGroup.patchValue({ courseId: courseData.courseId });
-    this.courseNameFormGroup.patchValue({ feesModeTypeId: courseData.feesModeType.feesModeTypeId });
-    this.courseNameFormGroup.patchValue({ durationTypeId: courseData.durationTypeId });
+    this.courseNameFormGroup.patchValue({ courseId: courseData.id });
+    this.courseNameFormGroup.patchValue({ feesModeTypeId: courseData.fees_mode_type_id });
+    this.courseNameFormGroup.patchValue({ durationTypeId: courseData.duration_type_id });
 
-    this.courseNameFormGroup.patchValue({ fullName: courseData.fullName });
-    this.courseNameFormGroup.patchValue({ courseCode: courseData.courseCode });
+    this.courseNameFormGroup.patchValue({ fullName: courseData.full_name });
+    this.courseNameFormGroup.patchValue({ courseCode: courseData.course_code });
 
-    this.courseNameFormGroup.patchValue({ shortName: courseData.shortName });
-    this.courseNameFormGroup.patchValue({ courseDuration: courseData.courseDuration });
+    this.courseNameFormGroup.patchValue({ shortName: courseData.short_name });
+    this.courseNameFormGroup.patchValue({ courseDuration: courseData.course_duration });
+    this.courseNameFormGroup.patchValue({ courseFees: courseData.fees_amount });
+    this.courseNameFormGroup.patchValue({ courseFeesId: courseData.course_fees_id });
     if(courseData.description===''){
       this.courseNameFormGroup.patchValue({ description:'Hi'});
     }else{

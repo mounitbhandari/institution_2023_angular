@@ -37,7 +37,9 @@ export class StudentCourseRegistrationComponent implements OnInit {
   course_duration:any;
   duration_name:any;
   description:any;
+  courseFees:number=0;
 
+  feesAmount:number=0;
   effective_Date: any;
   hiddenInput: boolean = false;
   isShown: boolean = false; // hidden by default
@@ -187,8 +189,9 @@ export class StudentCourseRegistrationComponent implements OnInit {
     this.isCourseDetails=true;
     this.isDashboard=false;
     this.isStudentDetails=false;
+    this.feesAmount=0;
     this.tempGetActiveCourseObj = {
-      id: $event.courseId,
+      id: $event.id,
       organisationId: this.organisationId
     };
     this.studentToCourseService.fetchCourseDetails(this.tempGetActiveCourseObj).subscribe(response => {
@@ -200,7 +203,8 @@ export class StudentCourseRegistrationComponent implements OnInit {
       this.course_duration=this.courseDetailsArray[0].course_duration;
       this.duration_name=this.courseDetailsArray[0].duration_name;
       this.description=this.courseDetailsArray[0].description;
-
+      this.courseFees=this.courseDetailsArray[0].fees_amount;
+      this.feesAmount=this.courseDetailsArray[0].fees_amount;
       this.feeModeTypeId = this.courseDetailsArray[0].fees_mode_type_id;
       if (this.feeModeTypeId === 1) {
         this.globelLedgerId = 9;
@@ -208,7 +212,7 @@ export class StudentCourseRegistrationComponent implements OnInit {
       } else {
         this.globelLedgerId = 8;
         console.log("globelLedgerId:", this.globelLedgerId);
-      }
+      } 
     })
   }
   changeStudent($event: any) {

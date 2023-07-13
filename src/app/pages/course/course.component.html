@@ -88,10 +88,26 @@
                                 placeholder="Duration Type" style="width:100%">
                               </ng-select>
                             </div>
-                            <div class="col-sm-4">
-                              <div class="form-group" *ngIf="hiddenInput">
+                            <div class="col-sm-4" *ngIf="hiddenInput">
+                              <div class="form-group">
                                 <mat-form-field class="col-4">
                                   <input matInput placeholder="Course ID" formControlName="courseId">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <mat-form-field style="width:100%">
+                                <mat-label>Course Fees</mat-label>
+                                <input matInput formControlName="courseFees" placeholder="Course Fees" required>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-sm-4" *ngIf="hiddenInput">
+                              <div class="form-group">
+                                <mat-form-field class="col-4">
+                                  <input matInput placeholder="Course Fees ID" formControlName="courseFeesId">
                                 </mat-form-field>
                               </div>
                             </div>
@@ -162,7 +178,7 @@
                         [showCurrentPageReport]="true" [loading]="loading" responsiveLayout="scroll"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         [rowsPerPageOptions]="[5,10,25,50]" styleClass="p-datatable-striped"
-                        [globalFilterFields]="['courseId','courseCode','shortName','fullName']">
+                        [globalFilterFields]="['id','course_code','short_name','full_name']">
                         <ng-template pTemplate="caption">
                           <div class="flex">
                             <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
@@ -181,8 +197,9 @@
                           <tr>
                             <th>ID</th>
 
-                            <th pSortableColumn="fullName">Full Name <p-sortIcon field="fullName"></p-sortIcon>
+                            <th pSortableColumn="full_name">Full Name <p-sortIcon field="full_name"></p-sortIcon>
                             </th>
+                            <th>Fees Amount</th>
                             <th pSortableColumn="edit">Edit <p-sortIcon field="edit"></p-sortIcon>
                             </th>
                             <th pSortableColumn="delete">Delete <p-sortIcon field="delete"></p-sortIcon>
@@ -191,9 +208,9 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-course>
                           <tr>
-                            <td>{{course.courseId}}</td>
-                            <td>{{course.fullName}}</td>
-
+                            <td>{{course.id}}</td>
+                            <td>{{course.full_name}}</td>
+                            <td>{{course.fees_amount}}</td>
                             <td>
                               <p-button type="button" icon="pi pi-pencil" (click)="editCourse(course)"
                                 styleClass="p-button-text">
@@ -226,7 +243,9 @@
                   Upcoming Birthday
                 </ng-template>
 
-                Content 3
+                <pre style="background-color:yellow ; color: brown;">
+                  onUpdate = {{this.courseData | json}}
+                </pre>
               </mat-tab>
             </mat-tab-group>
           </div>

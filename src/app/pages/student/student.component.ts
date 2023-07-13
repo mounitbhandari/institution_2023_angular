@@ -14,8 +14,12 @@ import { Observable } from "rxjs";
 import { filter, map, startWith } from 'rxjs/operators';
 import { StorageMap } from "@ngx-pwa/local-storage";
 import { Pipe, PipeTransform, Inject, LOCALE_ID } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import Swal from 'sweetalert2'
+import { StudentToCourseService } from 'src/app/services/student-to-course.service';
+import { Course } from 'src/app/models/course.model';
+import { StudentToCourse } from 'src/app/models/studenttocourse.model';
+import { CourseService } from 'src/app/services/course.service';
 
 interface Alert {
   type: string;
@@ -36,8 +40,13 @@ export class StudentComponent implements OnInit, OnChanges {
   qualifications: string[] = ['Graduate', 'Class V', 'Class VI', 'Class VII', 'Class VIII'];
   filteredQualifications: Observable<string[]> | undefined;
   error: any;
+  feesAmount:number=0;
   loginType: any;
   students: Student[] = [];
+  courses: Course[] = [];
+  studentToCourseArray:any[]=[];
+  studentTocourses: StudentToCourse[] = [];
+  courseDetailsArray:any[]=[];
   organisationId: number = 0;
   msgs: { severity: string; summary: string; detail: string }[] = [];
   value3: any;
@@ -56,6 +65,7 @@ export class StudentComponent implements OnInit, OnChanges {
   studentBasicFormGroup: FormGroup;
   studentAddressFormGroup: FormGroup;
   studentContactFormGroup: FormGroup;
+  studentToCourseFormGroup: FormGroup | any;
   isLinear: boolean = false;
   relations: any[];
   sex: any[];
@@ -97,13 +107,57 @@ export class StudentComponent implements OnInit, OnChanges {
     userID?: number;
     organisationId?: number;
   } = {};
+  studentTocourseData: {
+    id?: number;
+    reference_number?: number;
+    studentId?: number;
+    courseId?: number;
+    baseFee?: number;
+    discountAllowed?: number;
+    joiningDate?: string;
+    effectiveDate?: string;
+    actual_course_duration?: number;
+    duration_type_id?: number;
+    isStarted?: number;
+    organisationId?: number;
+
+
+    ledger_id?: number;
+    course_id?: number;
+    base_fee?: number;
+    discount_allowed?: number;
+    joining_date?: string;
+    is_started?: number;
+    effective_date?: string;
+  } = {};
   stateList: any[] = [];
+  durationTypes: any[] = [];
   visibleSidebar2: boolean = false;
   errorMessage: any;
   showErrorMessage: boolean = false;
   isShown: boolean = false; // hidden by default
+
+  fees_mode_type_name:any;
+  course_code:any;
+  short_name:any;
+  course_duration:any;
+  duration_name:any;
+  description:any;
+  tempItemValueObj!: object;
+
+  totalNoActiveStudent: number = 0;
+  totalNoMonthlyActiveStudent: number = 0;
+  totalNoFullCourseActiveStudent: number = 0;
+  feeModeTypeId: number = 0;
+  globelLedgerId: number = 8;
+  effective_Date: any;
+  tempGetActiveCourseObj!: object;
   hiddenInput: boolean = false;
-  constructor(private route: ActivatedRoute
+  isDashboard:boolean=true;
+  isCourseDetails:boolean=false;
+  isStudentDetails:boolean=false;
+  constructor(private studentToCourseService: StudentToCourseService
+    ,private route: ActivatedRoute
     , public authService: AuthService
     , private messageService: MessageService
     , private activatedRoute: ActivatedRoute
@@ -113,7 +167,16 @@ export class StudentComponent implements OnInit, OnChanges {
     , private storage: StorageMap
     , private commonService: CommonService
     , public datepipe: DatePipe
+    , private courseService: CourseService,
   ) {
+    this.activatedRoute.data.subscribe((response: any) => {
+      console.log(response);
+      this.students = response.studentCourseRegistrationResolverData.students.data;
+      this.durationTypes = response.studentCourseRegistrationResolverData.durationTypes.data;
+      this.courses = response.studentCourseRegistrationResolverData.courses.data;
+      this.studentTocourses = response.studentCourseRegistrationResolverData.studentTocourses.data;
+      console.log("studentToCourse:", this.studentTocourses);
+    });
 
     this.storage.get('studentNameFormGroup').subscribe((studentNameFormGroup: any) => {
       if (studentNameFormGroup) {
@@ -165,6 +228,9 @@ export class StudentComponent implements OnInit, OnChanges {
       { name: 'Others' },
 
     ];
+
+    
+
     this.studentNameFormGroup = new FormGroup({
       studentId: new FormControl(null),
       episodeId: new FormControl(null),
@@ -296,6 +362,23 @@ export class StudentComponent implements OnInit, OnChanges {
       console.log("user localUserID:", (this.UserID));
       console.log("user organisationId:", (this.organisationId));
     }
+    this.getAllCourse(this.organisationId);
+    this.getDurationTypes();
+    const now = new Date();
+    let val = formatDate(now, 'yyyy-MM-dd', 'en');
+    this.studentToCourseFormGroup = new FormGroup({
+
+      ledger_id: new FormControl(1, [Validators.required]),
+      course_id: new FormControl(1, [Validators.required]),
+      base_fee: new FormControl(null, [Validators.required]),
+      discount_allowed: new FormControl(0, [Validators.required]),
+      joining_date: new FormControl(val),
+      effective_date: new FormControl(val),
+      actual_course_duration: new FormControl(null, [Validators.required]),
+      duration_type_id: new FormControl(1, [Validators.required]),
+      studentToCourseID: new FormControl(0, [Validators.required]),
+      transactionMasterID: new FormControl(0, [Validators.required])
+    })
     /* this.userData=localStorage.getItem('user');
     console.log("user data:",(this.userData));
     this.userObject=JSON.parse(this.userData);
@@ -352,6 +435,293 @@ export class StudentComponent implements OnInit, OnChanges {
 
     this.ngOnChanges();
   }
+
+  //-----------------start student to course registration ------------------------------
+  changeStudent($event: any) {
+    this.isStudentDetails=true;
+    this.isCourseDetails=false;
+    this.isDashboard=false;
+    //console.log("studentToCourseArray:",$event);
+      this.tempGetActiveCourseObj ={};
+    this.tempGetActiveCourseObj = {
+      id: $event.studentId,
+      organisationId: this.organisationId
+    };
+  this.studentToCourseService.fetchStudentToCourseDetails(this.tempGetActiveCourseObj).subscribe(response => {
+      this.studentToCourseArray = response.data;
+      console.log("studentToCourseArrayDetails:",this.studentToCourseArray);
+      
+    })
+  }
+  changeFeesModeType($event: any) {
+    this.isCourseDetails=true;
+    this.isDashboard=false;
+    this.isStudentDetails=false;
+    this.feesAmount=0;
+    this.tempGetActiveCourseObj = {
+      id: $event.id,
+      organisationId: this.organisationId
+    };
+    this.studentToCourseService.fetchCourseDetails(this.tempGetActiveCourseObj).subscribe(response => {
+      this.courseDetailsArray = response.data;
+      console.log("courseDetailsArray:",this.courseDetailsArray);
+      this.fees_mode_type_name=this.courseDetailsArray[0].fees_mode_type_name;
+      this.course_code=this.courseDetailsArray[0].course_code;
+      this.short_name=this.courseDetailsArray[0].short_name;
+      this.course_duration=this.courseDetailsArray[0].course_duration;
+      this.duration_name=this.courseDetailsArray[0].duration_name;
+      this.description=this.courseDetailsArray[0].description;
+      this.feesAmount=this.courseDetailsArray[0].fees_amount;
+      this.feeModeTypeId = this.courseDetailsArray[0].fees_mode_type_id;
+      if (this.feeModeTypeId === 1) {
+        this.globelLedgerId = 9;
+        console.log("globelLedgerId:", this.globelLedgerId);
+      } else {
+        this.globelLedgerId = 8;
+        console.log("globelLedgerId:", this.globelLedgerId);
+      }
+    })
+  }
+
+  setEffectiveSQL(value: string) {
+    this.studentToCourseFormGroup.patchValue({ effective_date: this.commonService.getSQLDate(value) });
+  }
+  setJoiningSQL(value: string) {
+    this.studentToCourseFormGroup.patchValue({ joining_date: this.commonService.getSQLDate(value) });
+  }
+  saveStudentToCourse() {
+    //alert("Testing");
+    this.isCourseDetails=false;
+    this.isDashboard=true;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Save This Record...?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Save it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.effective_Date = this.studentToCourseFormGroup.value.effective_date;
+        var DateObj = new Date(this.effective_Date);
+        console.log("Month No:", DateObj.getMonth() + 1);
+        console.log("Year No:", DateObj.getFullYear());
+        this.tempItemValueObj = {
+          studentId: this.studentToCourseFormGroup.value.ledger_id,
+          courseId: this.studentToCourseFormGroup.value.course_id,
+          baseFee: this.studentToCourseFormGroup.value.base_fee,
+          discountAllowed: this.studentToCourseFormGroup.value.discount_allowed,
+          joiningDate: this.studentToCourseFormGroup.value.joining_date,
+          effectiveDate: this.studentToCourseFormGroup.value.effective_date,
+          actual_course_duration: this.studentToCourseFormGroup.value.actual_course_duration,
+          duration_type_id: this.studentToCourseFormGroup.value.duration_type_id,
+          organisationId: this.organisationId,
+          isStarted: 1,
+          userId: this.UserID,
+          feesYear: DateObj.getFullYear(),
+          feesMonth: DateObj.getMonth() + 1,
+          transactionDetails: [
+            {
+              transactionTypeId: 2,
+              ledgerId: this.globelLedgerId,
+              amount: this.studentToCourseFormGroup.value.base_fee
+            },
+            {
+              transactionTypeId: 1,
+              ledgerId: this.studentToCourseFormGroup.value.ledger_id,
+              amount: this.studentToCourseFormGroup.value.base_fee
+            }
+          ]
+        }
+
+        this.studentToCourseService.saveStudentToCourse(this.tempItemValueObj).subscribe(response => {
+          console.log("Save data:", this.studentTocourseData);
+          if (response.success === 1){
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Course Registration has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.clearStudentToCourse();
+            this.getTotalActiveStudent(this.organisationId);
+            this.getMonthlyActiveStudent(this.organisationId);
+            this.getFullCourseActiveStudent(this.organisationId);
+            this.getStudentToCourseRegistrationList(this.organisationId);
+          }
+          
+        }, (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            footer: '<a href>Why do I have this issue?</a>',
+            timer: 0
+          });
+        });
+
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
+    })
+    
+  }
+  createNewStudent(){
+    this.selectedIndex = 1;
+  }
+  getAllCourse($orgID:any){
+    this.courseService.fetchAllCourses(this.organisationId).subscribe(response => {
+      this.courses = response.data;
+      console.log("courses list:", this.courses);
+    })
+  }
+  getDurationTypes(){
+    this.courseService.fetchAllDurationType().subscribe(response => {
+      this.durationTypes = response.data;
+      console.log("durationTypes list:", this.durationTypes);
+    })
+  }
+  getTotalActiveStudent($orgID: any) {
+    this.studentToCourseService.fetchAllTotalActiveStudent($orgID).subscribe(response => {
+      this.totalNoActiveStudent = response.data[0].totalActiveStudent;
+      console.log("Monthly totalNoCourse:", this.totalNoActiveStudent);
+    })
+  }
+  getStudentToCourseRegistrationList($orgID: any) {
+    this.studentToCourseService.fetchAllStudentToCourses($orgID).subscribe(response => {
+      this.studentTocourses = response.data;
+      console.log("StudentToCourseRegistrationList:", this.studentTocourses);
+    })
+  }
+  getMonthlyActiveStudent($orgID: any) {
+    this.studentToCourseService.fetchMonthlyActiveStudent($orgID).subscribe(response => {
+      this.totalNoMonthlyActiveStudent = response.data[0].totalMonthlyStudent;
+      console.log("Monthly totalMonthlyCourse:", this.totalNoMonthlyActiveStudent);
+    })
+  }
+  getFullCourseActiveStudent($orgID: any) {
+    this.studentToCourseService.fetchFullCourseActiveStudent($orgID).subscribe(response => {
+      this.totalNoFullCourseActiveStudent = response.data[0].totalFullCourseStudent;
+      console.log("Monthly totalFullCourse:", this.totalNoFullCourseActiveStudent);
+    })
+  }
+
+  updateStudentToCourse() {
+    this.isCourseDetails=false;
+    this.isDashboard=true;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Update This Record...?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Save it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.effective_Date = this.studentToCourseFormGroup.value.effective_date;
+        var DateObj = new Date(this.effective_Date);
+        console.log("Month No:", DateObj.getMonth() + 1);
+        console.log("Year No:", DateObj.getFullYear());
+        console.log("this.globelLedgerId:", this.globelLedgerId);
+
+        this.tempItemValueObj = {
+          studentToCourseID: this.studentToCourseFormGroup.value.studentToCourseID,
+          studentId: this.studentToCourseFormGroup.value.ledger_id,
+          transactionMasterId: this.studentToCourseFormGroup.value.transactionMasterID,
+          courseId: this.studentToCourseFormGroup.value.course_id,
+          baseFee: this.studentToCourseFormGroup.value.base_fee,
+          discountAllowed: this.studentToCourseFormGroup.value.discount_allowed,
+          joiningDate: this.studentToCourseFormGroup.value.joining_date,
+          effectiveDate: this.studentToCourseFormGroup.value.effective_date,
+          actual_course_duration: this.studentToCourseFormGroup.value.actual_course_duration,
+          duration_type_id: this.studentToCourseFormGroup.value.duration_type_id,
+          isStarted: 1,
+          userId: 1,
+          feesYear: DateObj.getFullYear(),
+          feesMonth: DateObj.getMonth() + 1,
+          transactionDetails: [
+            {
+              transactionTypeId: 2,
+              ledgerId: this.globelLedgerId,
+              amount: this.studentToCourseFormGroup.value.base_fee
+            },
+            {
+              transactionTypeId: 1,
+              ledgerId: this.studentToCourseFormGroup.value.ledger_id,
+              amount: this.studentToCourseFormGroup.value.base_fee
+            }
+          ]
+        }
+        this.studentToCourseService.updateStudentToCourse(this.tempItemValueObj).subscribe(response => {
+          if (response.success === 1) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Course Registration has been Updated',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.clearStudentToCourse();
+            this.getTotalActiveStudent(this.organisationId);
+            this.getMonthlyActiveStudent(this.organisationId);
+            this.getFullCourseActiveStudent(this.organisationId);
+            this.getStudentToCourseRegistrationList(this.organisationId);
+          }
+          
+        }, (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            footer: '<a href>Why do I have this issue?</a>',
+            timer: 0
+          });
+        });
+
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
+    })
+   
+
+  }
+
+  clearStudentToCourse() {
+    this.isCourseDetails=false;
+    this.isStudentDetails=false;
+    this.isDashboard=true;
+    this.isShown = false;
+    const now = new Date();
+    let val = formatDate(now, 'yyyy-MM-dd', 'en');
+    this.studentToCourseFormGroup = new FormGroup({
+
+      ledger_id: new FormControl(1, [Validators.required]),
+      course_id: new FormControl(1, [Validators.required]),
+      base_fee: new FormControl(null, [Validators.required]),
+      discount_allowed: new FormControl(0, [Validators.required]),
+      joining_date: new FormControl(val),
+      effective_date: new FormControl(val),
+      actual_course_duration: new FormControl(null, [Validators.required]),
+      duration_type_id: new FormControl(1, [Validators.required]),
+      studentToCourseID: new FormControl(0, [Validators.required]),
+      //transactionMasterID: new FormControl(0, [Validators.required])
+    })
+  }
+  //----------------- student to course registration ------------------------------
+
   deleteStudent(studentData: any) {
     this.confirmationService.confirm({
       message: 'Do you want to Update this record?',
@@ -386,6 +756,15 @@ export class StudentComponent implements OnInit, OnChanges {
         this.msgs = [{ severity: 'info', summary: 'Rejected', detail: 'You have rejected' }];
       }
     });
+  }
+  isValidFormStudentToCourse() {
+    if (this.studentToCourseFormGroup.valid) {
+      return true;
+
+    } else {
+      return false;
+
+    }
   }
   updateStudent() {
 
@@ -498,7 +877,6 @@ export class StudentComponent implements OnInit, OnChanges {
         this.studentData.organisationId = this.organisationId;
 
         this.studentService.saveStudent(this.studentData).subscribe(response => {
-
           if (response.status === true) {
             Swal.fire({
               position: 'top-end',
@@ -507,9 +885,11 @@ export class StudentComponent implements OnInit, OnChanges {
               showConfirmButton: false,
               timer: 1500
             });
+            console.log("Return student data:", response.data);
             // this.showSuccess("Record added successfully");
             this.clearStudent();
-
+            this.selectedIndex=0;
+            this.studentToCourseFormGroup.patchValue({ ledger_id: response.data.studentId });
           }
 
         }, (error) => {

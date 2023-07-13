@@ -25,7 +25,7 @@
                         </ng-select>
                       </div>
                       <div class="col-sm-6">
-                        <ng-select [items]="courses" fxFlex="100" bindLabel="fullName" class="custom" bindValue="courseId"
+                        <ng-select [items]="courses" fxFlex="100" bindLabel="full_name" class="custom" bindValue="id"
                           (change)="changeFeesModeType($event)" appendTo="body" formControlName="course_id"
                           placeholder="Course Name">
                         </ng-select>
@@ -35,7 +35,7 @@
                       <div class="col-sm-4">
                         <mat-form-field style="width:100%">
                           <mat-label>Fees</mat-label>
-                          <input matInput formControlName="base_fee" placeholder="Fees" required>
+                          <input matInput formControlName="base_fee" [(ngModel)]="feesAmount" placeholder="Fees" readonly="yes">
                         </mat-form-field>
                       </div>
                       <div class="col-sm-4">
@@ -296,7 +296,11 @@
                         <th scope="col">:</th>
                         <th scope="col">{{description}}</th>
                       </tr>
-    
+                      <tr>
+                        <th scope="col">Course Fees</th>
+                        <th scope="col">:</th>
+                        <th scope="col">{{courseFees | currency:'INR'}}</th>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
