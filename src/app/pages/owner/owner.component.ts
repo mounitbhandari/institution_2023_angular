@@ -301,4 +301,7 @@ export class OwnerComponent implements OnInit {
       console.log("StudentToCourseRegistration:",this.studentRegistrationHistoryArray);
     })
   }
+
+
+  
 }

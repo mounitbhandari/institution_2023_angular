@@ -62,7 +62,7 @@ body
 // Styling
 .header{
   background-color: #383838;
-  padding: 0em 1em;
+  padding: 0em 2.5em;
   font-size: 2em;
   margin: 0;
 }
@@ -92,10 +92,10 @@ body
   background-color: rgb(98, 0, 255);
 }
 .main{
-  background-color: #f3f3f3;
+  background-color: rgb(255, 255, 255);
 }
 .active{
-  background-color: red;
+  // background-color: red;
   text-align: center;
   width: 24%;
   border-radius: 1em;
@@ -123,12 +123,12 @@ body
 .act2{
   padding-bottom: 5px;
   padding-top: 2em;
-  background-image: linear-gradient(to left bottom, #00c972, #01b666, #02a45a, #01924f, #008144);
+   background-image: linear-gradient(to left bottom, #00c972, #01b666, #02a45a, #01924f, #008144);
 }
 .act3{
   padding-bottom: 5px;
   padding-top: 2em;
-  background-image: linear-gradient(to left bottom, #8c00c9, #7f00b2, #73009b, #650086, #580071);
+   background-image: linear-gradient(to left bottom, #8c00c9, #7f00b2, #73009b, #650086, #580071);
 }
 .act3 a{
   text-decoration:none ;
@@ -143,6 +143,10 @@ body
    color: aliceblue;
 }
 .act a{
+  text-decoration:none ;
+   color: aliceblue;
+}
+span a{
   text-decoration:none ;
    color: aliceblue;
 }
@@ -347,6 +351,21 @@ body
   .stutable{
     width: 100%;
     font-size: small;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  .item {
+    width: 200px;
+    height: 200px;
+    margin: 50px auto;
+    padding-top: 75px;
+    background: #ccc;
+    text-align: center;
+    color: #FFF;
+    font-size: 3em;
   }
 }
 
