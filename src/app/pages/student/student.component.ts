@@ -313,7 +313,7 @@ export class StudentComponent implements OnInit, OnChanges {
     this.studentGuardianFormGroup.patchValue({ relationToGuardian: this.optionSelected });
   }
   editStudent(studentData: any) {
-    this.selectedIndex = 0;
+    this.selectedIndex = 1;
     this.event = 0;
     this.onTabChanged(this.event);
     this.date = new Date();
