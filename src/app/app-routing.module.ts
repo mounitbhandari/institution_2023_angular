@@ -157,6 +157,8 @@ const routes: Routes = [
 
   { path: 'UpcomingBirthday', loadChildren: () => import('./pages/upcoming-birthday/upcoming-birthday.module').then(m => m.UpcomingBirthdayModule) },
 
+  { path: 'Studentdashboard', loadChildren: () => import('./pages/studentdashboard/studentdashboard.module').then(m => m.StudentdashboardModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },

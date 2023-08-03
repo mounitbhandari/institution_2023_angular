@@ -1,10 +1,15 @@
 <mat-nav-list>
   <div class="logo py-4">
-    <img src="assets/eduvenv_round.svg" alt="Company Logo" class="eduvenv"/>
+    <img src="assets/Anushka_Logo.png" alt="Company Logo" class="eduvenv"/>
   </div>
   <mat-divider></mat-divider>
-  <h2 matSubheader class="mt-2">T U T O R I A L</h2>
+  <h2 matSubheader class="mt-2">S T U D E N T</h2>
 
+  <div>
+    <a mat-list-item [routerLink]="['/StudentUser']"  routerLinkActive="list-item-active">
+      <i class="bi bi-house"></i> &nbsp; Home
+    </a>
+  </div>
   <a mat-list-item (click)="toggleDigitalElectronics()">
     <i class="bi bi-mortarboard-fill"></i> &nbsp; Digital Electronic
     <mat-icon class="user-image-icon ml-1">keyboard_arrow_down</mat-icon>
