@@ -33,6 +33,7 @@ export class UserRegistrationComponent implements OnInit {
   comfirmPasswordBoolean: boolean=false;
   studentComfirmPasswordBoolean: boolean=false;
   hiddenInput:boolean=false;
+  hiddenId:boolean=false;
   isBtnVisible:boolean=false;
   constructor(private organisationService: OrganisationService,
     private authService: AuthService) { }
@@ -179,6 +180,19 @@ export class UserRegistrationComponent implements OnInit {
         )
       }
     }) 
+  }
+  onStudentClear(){
+    this.studentUserFormGroup = new FormGroup({
+      org_id: new FormControl(0,[Validators.required]),
+      //id: new FormControl(),
+      student_id: new FormControl(null, [Validators.required]),
+      student_name: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
+      student_password: new FormControl(null, [Validators.required, Validators.maxLength(255), Validators.minLength(4)]),
+      student_confirm_password: new FormControl(null, [Validators.required, Validators.maxLength(255), Validators.minLength(4)]),
+      student_mobile1: new FormControl(null, [Validators.required, Validators.maxLength(255), Validators.minLength(4)]),
+      student_user_type_id: new FormControl(8, [Validators.required]),
+      student_email: new FormControl(null, [Validators.required, Validators.email])
+    });
   }
   onStudentSave(){
     const md5 = new Md5();

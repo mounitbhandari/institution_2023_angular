@@ -251,8 +251,8 @@
                                 </div>
                             </div>
 
-                            <div class="row p-2">
-                                 <div class="col-sm-2" >
+                            <div class="row p-2" >
+                                 <div class="col-sm-2" *ngIf="hiddenInput">
                                     <div class="form-group">
                                         <mat-form-field>
                                             <input matInput placeholder="organisation ID" formControlName="org_id">
@@ -260,7 +260,7 @@
                                     </div>
                                 </div> 
                                 <div class="col-sm-12 text-right">
-                                    <button type="button" class="btn btn-success" (click)="onClear();"><i
+                                    <button type="button" class="btn btn-success" (click)="onStudentClear();"><i
                                             class="bi bi-save"></i>&nbsp;Clear </button>
                                     &nbsp; &nbsp;
                                     <button
