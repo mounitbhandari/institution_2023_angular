@@ -72,11 +72,13 @@ export class FeesReceivedComponent implements OnInit {
   totalCurrentDue: number = 0;
   transactionId: number = 0;
 
+  voucherTypeId:number=0;
   isUpdateBtnShown:boolean=false;
   courseNameBoolean: boolean = false;
   transactionNoBoolean: boolean = false;
   hiddenTransactionInfo: boolean = false;
   feeNameBoolean: boolean = false;
+  advancedBoolean: boolean = true;
 
   labelPosition: 'before' | 'after' = 'after';
   disabled = false;
@@ -121,12 +123,14 @@ export class FeesReceivedComponent implements OnInit {
   discountTranIDArray: any[] = [];
   singleBillReceiptArray: any[] = [];
   organizationArray: any[] = [];
+  allAdvancedReceivedHistoryArray: any[]=[];
   allBillReceiptArray: any[] = [];
   rupeeInWords: string = '';
   tempFeesArray: any[] = [];
 
   studentId: any;
   transactionDate: any;
+  advTransactionDate:string='';
   tempGetActiveCourseObj!: object;
   tempItemObj!: object;
   tempSaveItemObj!: object;
@@ -143,6 +147,10 @@ export class FeesReceivedComponent implements OnInit {
   tempTotalAmount: number = 0;
   totalAmount: number = 0;
   removeTotalAmount: number = 0;
+  description:string='';
+  totalAdvanced:number=0;
+  totalAdvReceived:number=0;
+  advancedDue:number=0;
 
   referenceReceivedTransactionMasterId:number=0;
 
@@ -468,8 +476,31 @@ export class FeesReceivedComponent implements OnInit {
     this.transactionServicesService.fetchAllStudentToCourses(this.tempGetActiveCourseObj).subscribe(response => {
       this.courseNameList = response.data;
     })
+   this.getAllAdvancedReceivedLedgerId(studentId);
+  
   }
-
+  getAllAdvancedReceivedLedgerId($id: any) {
+    this.voucherTypeId=0;
+    this.advancedBoolean = true;
+    this.transactionDate='';
+    this.transactionServicesService.fetchAllAdvancedReceivedLedgerId($id).subscribe(response => {
+      this.allAdvancedReceivedHistoryArray = response.data;
+      this.voucherTypeId=this.allAdvancedReceivedHistoryArray[0].voucher_type_id;
+      this.advTransactionDate=this.allAdvancedReceivedHistoryArray[0].transaction_date;
+      this.description=this.allAdvancedReceivedHistoryArray[0].comment;
+      this.totalAdvanced=this.allAdvancedReceivedHistoryArray[0].amount;
+      this.totalAdvReceived=this.allAdvancedReceivedHistoryArray[0].advanced_received;
+      this.advancedDue=this.allAdvancedReceivedHistoryArray[0].adv_due;
+      if(this.voucherTypeId===10){
+        this.advancedBoolean = false;
+        this.hiddenPopup=false;
+       }else{
+        this.advancedBoolean = true;
+        this.hiddenPopup=true;
+       }
+      console.log("allAdvancedReceivedHistoryArrayByLedgerId:", this.allAdvancedReceivedHistoryArray);
+    })
+  }
   editFeesReceived(feeDetails: any) {
     this.referenceReceivedTransactionMasterId=0;
     this.FeesReceivedFormGroup.reset();

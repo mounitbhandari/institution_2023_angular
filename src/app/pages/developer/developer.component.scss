@@ -26,10 +26,10 @@ body
     background-color: red;
   }
   .right{
-    background-color: rgb(98, 0, 255);
+    background-color: #fff;
   }
   .main{
-    background-color: #7b00ff;
+    background-color: #fff;
   }
   .active{
     background-color: red;
@@ -167,3 +167,68 @@ body
   color: black;
   padding: 10px;
 }
+
+@media(max-width:350px){
+  .dash{
+    width: 100%;
+  }
+  .comdtl{
+    width: 100%;
+    padding: 5px;
+  }
+  .dashbox{
+    width: 100%;
+  }
+  .active{
+    width: 47%;
+  }
+  .thtab .lefttabs mat-tab-group{
+    width: 100%;
+    font-size: small !important;
+    background-color: white;
+    color: black;
+  }
+  .thtab .lefttabs mat-tab-group mat-tab{
+    width: 100%;
+    font-size: small !important;
+    background-color: white;
+    color: black;
+  }
+  .container #print-AllReceiptBill{
+    width: 100%;
+    font-size: smaller !important;
+    background-color: white;
+    color: black;
+  }
+  .act, .act1{
+    margin-bottom: .75em;
+  }
+  .bday{
+    width: 100%;
+    margin: 0px;
+  }
+  .mon{
+    width: 100%;
+    margin-bottom: .75em;
+  }
+  .stutable{
+    width: 100%;
+    font-size: small;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  .item {
+    width: 200px;
+    height: 200px;
+    margin: 50px auto;
+    padding-top: 75px;
+    background: #ccc;
+    text-align: center;
+    color: #FFF;
+    font-size: 3em;
+  }
+}
+

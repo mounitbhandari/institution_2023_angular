@@ -434,6 +434,7 @@ export class AdvancedComponent implements OnInit {
       console.log("allAdvancedReceivedHistoryArray:", this.allAdvancedReceivedHistoryArray);
     })
   }
+  
   getAllAdvancedReceivedHistoryById($id: any) {
     this.transactionServicesService.fetchAllAdvancedReceivedHistory($id).subscribe(response => {
       this.allAdvancedReceivedHistoryByIdArray = response.data;

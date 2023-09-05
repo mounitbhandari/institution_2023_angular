@@ -14,6 +14,7 @@ import { Organisation } from '../models/organisation.model';
 export class OrganisationService {
   organisationList: Organisation[] =[];
   organisationListArray: Organisation[] =[];
+  studentListArray: any[] =[];
   stateList: any[] =[];
   organisationSubject = new Subject<Organisation[]>();
   constructor(private commonService: CommonService, private errorService: ErrorService, private http: HttpClient) { }
@@ -54,6 +55,14 @@ export class OrganisationService {
       this.organisationListArray=response.data;
       console.log("Student to courseList:",this.organisationListArray); 
       this.organisationSubject.next([...this.organisationListArray]);
+    })));
+  }
+  fetchAllStudentName(){
+    return this.http.get<any>(this.commonService.getAPI() + '/getAllstudent')
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Organisation[]}) => {
+      this.studentListArray=response.data;
+      console.log("Student to courseList:",this.studentListArray); 
+      this.organisationSubject.next([...this.studentListArray]);
     })));
   }
   fetchOrganisationById($id:any){

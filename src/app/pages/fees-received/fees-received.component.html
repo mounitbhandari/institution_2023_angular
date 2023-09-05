@@ -107,7 +107,7 @@
 
                   </div>
                 </div>
-                <div class="col-sm-2" *ngIf="!isUpdateBtnShown">
+                <div class="col-sm-2" *ngIf="!isUpdateBtnShown && advancedBoolean">
                   <button pButton (click)="onSave();"
                     *ngIf="(netDueAmount > receivedAmount && receivedAmount>0 )||(receivedAmount>0 && netDueAmount===receivedAmount)"
                     class="p-button-rounded p-button-info p-button-outlined">
@@ -591,7 +591,42 @@
 
 
     </div>
-    <div class="col-5 mt-3 feeright" *ngIf="hiddenPopup">
+
+    <div class="col-5 mt-3 feeright" *ngIf="(!advancedBoolean)">
+
+
+      <p-table #feesReceivedDetails [value]="allAdvancedReceivedHistoryArray">
+        <ng-template pTemplate="caption">
+          <h2>Fees Received Details</h2>
+        </ng-template>
+        <ng-template pTemplate="header">
+                  
+          <tr>
+            <th>Transaction Date </th>
+            <th>Description</th>
+            <th>Total Advanced</th>
+            <th>Total Adv. Received</th>
+            <th>Advanced Due</th>
+          </tr>
+
+
+        </ng-template>
+        <ng-template pTemplate="body" >
+          <tr>
+            <td scope="row">{{ advTransactionDate | date:'dd/MM/yyyy'}}</td>
+           <td scope="row">{{description}}</td> 
+            <td>{{totalAdvanced | currency:'INR'}}</td>
+            <td>{{totalAdvReceived | currency:'INR'}}</td>
+            <td align="right">{{advancedDue | currency:'INR'}}</td>
+          </tr>
+
+        </ng-template>
+        
+      </p-table>
+      <h3>Advanced Payment Cannot Adjust Here. To Make Fees Adjustment <a [routerLink]="['/Advanced']"> Click here</a></h3>
+    </div>
+
+    <div class="col-5 mt-3 feeright" *ngIf="(hiddenPopup)">
 
 
       <p-table #feesReceivedDetails [value]="feesReceivedDetailsArray">

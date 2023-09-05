@@ -9,6 +9,7 @@ export class User{
               public userTypeId: number,
               public userTypeName: string,
               public organisationId:number,
+              public ledgerId:number,
   ){}
 
 

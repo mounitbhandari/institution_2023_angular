@@ -95,6 +95,14 @@ export class TransactionServicesService {
       //this.feesNameSubject.next([...this.feesNameList]);
     })));
   }
+  fetchAllAdvancedReceivedLedgerId($id:any){
+    this.advReceivedList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/transactions/getAllAdvancedReceivedByLedgerId/'+$id)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.advReceivedList=response.data;
+      //this.feesNameSubject.next([...this.feesNameList]);
+    })));
+  }
   fetchAllAdvancedReceivedHistoryById($id:any){
     this.advReceivedList=[];
     return this.http.get<any>(this.commonService.getAPI() + '/transactions/getAllAdvancedReceivedHistoryById/'+$id)

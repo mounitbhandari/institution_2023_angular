@@ -19,6 +19,7 @@ export interface AuthResponseData {
     userTypeId: number;
     userTypeName: string;
     organisationId:number;
+    ledgerId:number;
     token: string;
   };
 }
@@ -121,7 +122,7 @@ export class AuthService {
     if (!userData){
       return;
     }
-    const loadedUser = new User(userData.uniqueId, userData.userName, userData._authKey, userData.userTypeId,userData.userTypeName,userData.organisationId);
+    const loadedUser = new User(userData.uniqueId, userData.userName, userData._authKey, userData.userTypeId,userData.userTypeName,userData.organisationId,userData.ledgerId);
     if (loadedUser.authKey){
       this.userBehaviorSubject.next(loadedUser);
     }
@@ -163,7 +164,8 @@ export class AuthService {
       'not required',
       100,
       'tutorial',
-      1);
+      1,
+      0);
     this.userBehaviorSubject.next(user);
     localStorage.setItem('user', JSON.stringify(user));
   }
@@ -178,7 +180,8 @@ export class AuthService {
                 resData.data.token,
                 resData.data.userTypeId,
                 resData.data.userTypeName,
-                resData.data.organisationId
+                resData.data.organisationId,
+                resData.data.ledgerId
                           );
             this.userBehaviorSubject.next(user);
             localStorage.setItem('user', JSON.stringify(user));

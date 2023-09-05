@@ -60,7 +60,14 @@ export class StudentService {
         this.studentSubject.next([...this.studentList]);
       })));
   }
-
+  fetchStudentProfile($ledgerID:any){
+    this.studentList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/students/studentProfileId/'+ $ledgerID)
+   .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
+     this.studentList=response.data;
+     this.studentSubject.next([...this.studentList]);
+   })));
+}
   fetchAllStates(){
     return this.http.get<any>(this.commonService.getAPI() + '/states')
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {

@@ -13,7 +13,9 @@ import { Md5 } from 'ts-md5';
 })
 export class UserRegistrationComponent implements OnInit {
   userFormGroup!: FormGroup;
+  studentUserFormGroup!: FormGroup;
   userRegisterData!: object;
+  studentRegisterData!: object;
   userRegisterArray: any[] = [];
   password:any;
   organisationName: string = '';
@@ -23,10 +25,13 @@ export class UserRegistrationComponent implements OnInit {
   emailId: string = '';
   organisationPin: string = '';
   organisationArray: any[] = [];
+  studentNameArray: any[] = [];
   allUserArray: any[] = [];
   organisationListById: any[] = [];
   companyInfoBoolean: boolean = false;
+  studentInfoBoolean:boolean=false;
   comfirmPasswordBoolean: boolean=false;
+  studentComfirmPasswordBoolean: boolean=false;
   hiddenInput:boolean=false;
   isBtnVisible:boolean=false;
   constructor(private organisationService: OrganisationService,
@@ -44,7 +49,19 @@ export class UserRegistrationComponent implements OnInit {
       user_type_id: new FormControl(1, [Validators.required]),
       email: new FormControl(null, [Validators.required, Validators.email])
     });
+    this.studentUserFormGroup = new FormGroup({
+      org_id: new FormControl(0,[Validators.required]),
+      //id: new FormControl(),
+      student_id: new FormControl(null, [Validators.required]),
+      student_name: new FormControl(null, [Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
+      student_password: new FormControl(null, [Validators.required, Validators.maxLength(255), Validators.minLength(4)]),
+      student_confirm_password: new FormControl(null, [Validators.required, Validators.maxLength(255), Validators.minLength(4)]),
+      student_mobile1: new FormControl(null, [Validators.required, Validators.maxLength(255), Validators.minLength(4)]),
+      student_user_type_id: new FormControl(8, [Validators.required]),
+      student_email: new FormControl(null, [Validators.required, Validators.email])
+    });
     this.getAllOrganisation();
+    this.getAllStudentName();
     this.getAllUserType();
     this.getAllUserList();
   }
@@ -57,6 +74,12 @@ export class UserRegistrationComponent implements OnInit {
     this.organisationService.fetchAllOrganisation().subscribe(response => {
       this.organisationArray = response.data;
       console.log("organisationArray:", this.organisationArray);
+    })
+  }
+  getAllStudentName() {
+    this.organisationService.fetchAllStudentName().subscribe(response => {
+      this.studentNameArray = response.data;
+      console.log("studentNameArray:", this.studentNameArray);
     })
   }
   getAllUserList(){
@@ -86,6 +109,21 @@ export class UserRegistrationComponent implements OnInit {
     this.contactNumber = data.contact_number;;
     this.emailId = data.email_id;
     this.organisationPin = data.pin;
+  }
+  changeStudentInfo(data: any) {
+    this.studentInfoBoolean = true;
+    console.log("Student data:", data);
+     this.organisationName = data.organisation_name;
+    this.address = data.address;
+    this.city = data.city;
+    this.contactNumber = data.whatsapp_number;;
+    this.emailId = data.email_id;
+    this.organisationPin = data.pin; 
+    this.studentUserFormGroup.patchValue({ student_name: data.ledger_name });
+    this.studentUserFormGroup.patchValue({ student_email: data.email_id });
+    this.studentUserFormGroup.patchValue({ student_mobile1: data.whatsapp_number });
+    this.studentUserFormGroup.patchValue({ student_user_type_id: 8 });
+    this.studentUserFormGroup.patchValue({ org_id: data.organisation_id });
   }
   onUpdate(){
     const md5 = new Md5();
@@ -127,6 +165,64 @@ export class UserRegistrationComponent implements OnInit {
             title: 'Duplicate Entry ..!!',
             text: error,
             footer: '<a href>Why do I have this issue?</a>' ,
+            timer: 0
+          });
+        });
+
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
+    }) 
+  }
+  onStudentSave(){
+    const md5 = new Md5();
+    const passwordMd5 = md5.appendStr(this.studentUserFormGroup.value.student_password).end();
+    this.studentRegisterData={
+      ledger_id:this.studentUserFormGroup.value.student_id,
+      organisation_id: this.studentUserFormGroup.value.org_id,
+      user_name: this.studentUserFormGroup.value.student_name,
+      password: passwordMd5,
+      mobile1: this.studentUserFormGroup.value.student_mobile1,
+      user_type_id: this.studentUserFormGroup.value.student_user_type_id,
+      email: this.studentUserFormGroup.value.student_email
+    }
+     Swal.fire({
+      title: 'Are you sure?',
+      text: 'Save This Record...!',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Save it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+       
+        this.authService.saveUser(this.studentRegisterData).subscribe(response => {
+          //this.showError = response.exception;
+          if (response.success === 1) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'User has been Registered',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            
+            this.onClear();
+            // this.showSuccess("Record added successfully");
+
+          }
+        }, (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Duplicate Entry ..!!',
+            text: error,
+            footer: '<a href>Why do I have this issue?</a>',
             timer: 0
           });
         });
@@ -199,7 +295,18 @@ export class UserRegistrationComponent implements OnInit {
       }
     }) 
   }
-
+  onStudentBlur(event:any): void {
+    this.password = this.studentUserFormGroup.get('student_password')?.value;
+    console.log('student confirm password:',event.target.value);
+    console.log('password:',this.password);
+    if(this.password===event.target.value){
+      this.studentComfirmPasswordBoolean=true;
+    }
+    else{
+      this.studentComfirmPasswordBoolean=false;
+    }
+    
+  }
   onBlur(event:any): void {
     this.password = this.userFormGroup.get('password')?.value;
     console.log('confirm password:',event.target.value);
@@ -228,6 +335,7 @@ export class UserRegistrationComponent implements OnInit {
     });
     this.companyInfoBoolean = false;
     this.comfirmPasswordBoolean=false;
+    this.studentComfirmPasswordBoolean=false;
     this.getAllOrganisation();
     this.getAllUserType();
     this.getAllUserList();

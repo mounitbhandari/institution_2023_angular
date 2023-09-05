@@ -36,11 +36,15 @@
                     <button type="button" class="btn btn-labeled btn-success" (click)="createNewStudent()">
                       <span class="btn-label">+</span>Add Student</button>
                   </div>
-                  <div class="col-sm-5">
+                  <div class="col-sm-4">
                     <ng-select [items]="courses" fxFlex="100" bindLabel="full_name" class="custom" bindValue="id"
                       (change)="changeFeesModeType($event)" appendTo="body" formControlName="course_id"
                       placeholder="Course Name">
                     </ng-select>
+                  </div>
+                  <div class="col-sm-1"><a [routerLink]="['/course']">
+                    <button type="button" class="btn btn-labeled btn-success">
+                      <span class="btn-label">+</span>Add Course</button></a>
                   </div>
                 </div>
                 <div class="row">
