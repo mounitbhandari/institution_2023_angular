@@ -15,6 +15,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import {NgxPrintModule} from 'ngx-print';
+import { GooglePayButtonModule } from "@google-pay/button-angular";
 @NgModule({
   declarations: [
     StudentUserComponent
@@ -33,7 +34,8 @@ import {NgxPrintModule} from 'ngx-print';
     InputTextModule,
     TableModule,
     ButtonModule,
-    NgxPrintModule
+    NgxPrintModule,
+    GooglePayButtonModule
   ]
 })
 export class StudentUserModule { }

@@ -33,6 +33,15 @@ const toWords = new ToWords({
   styleUrls: ['./student-user.component.scss']
 })
 export class StudentUserComponent implements OnInit {
+
+  buttonColor = "black";
+  buttonType = "buy";
+  isCustomSize = false;
+  buttonWidth = 240;
+  buttonHeight = 40;
+  isTop = window === window.top;
+
+  
   organisationId:number=0;
   AllOrgDetailsArray:any[]=[];
   AllOrgFeesChargedArray:any[]=[];
@@ -49,7 +58,7 @@ export class StudentUserComponent implements OnInit {
   ledgerId:number=0;
   organizationArray: any = [];
   allBillReceiptArray: any = [];
-
+  tranMasterIdArray:any=[]
   organisationAddress:string='';
   organisationPin:string='';
   organisationContact:string='';
@@ -91,11 +100,45 @@ export class StudentUserComponent implements OnInit {
     this.getStudentProfile(this.ledgerId);
     this.getStudentToCourseRegistrationListLedgerId(this.ledgerId);
    }
+   paymentRequest = {
+    apiVersion: 2,
+    apiVersionMinor: 0,
+    allowedPaymentMethods: [
+      {
+        type: "CARD",
+        parameters: {
+          allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+          allowedCardNetworks: ["AMEX", "VISA", "MASTERCARD"]
+        },
+        tokenizationSpecification: {
+          type: "PAYMENT_GATEWAY",
+          parameters: {
+            gateway: "example",
+            gatewayMerchantId: "exampleGatewayMerchantId"
+          }
+        }
+      }
+    ],
+    merchantInfo: {
+      merchantId: "12345678901234567890",
+      merchantName: "Demo Merchant"
+    },
+    transactionInfo: {
+      totalPriceStatus: "FINAL",
+      totalPriceLabel: "Total",
+      totalPrice: "100.00",
+      currencyCode: "USD",
+      countryCode: "US"
+    }
+  };
   ngOnInit(): void {
   }
   onTabChanged(event:any){
     console.log(event)
   }
+  onLoadPaymentData(event:any) {
+    console.log("load payment data", event.detail);
+  }//hjrghfsghsdg
   getStudentProfile($ledgerID: any) {
      this.studentService.fetchStudentProfile($ledgerID).subscribe(response => {
       this.studentProfileDetalilsArray = response.data;
@@ -124,8 +167,17 @@ export class StudentUserComponent implements OnInit {
       console.log("studentCourseHistoryArray:",this.studentCourseHistoryArray);
     })
   }
-  btnPayNow(){
-    alert("Working On Progress...")
+  btnPayNow(data:any){
+    this.selectedIndex = 4;
+    console.log("data:",data)
+    this.tempGetActiveCourseObj = {
+      id: data.id,
+      organisationId: this.organisationId
+    };
+    this.transactionServicesService.fetchAllTranMasterId(this.tempGetActiveCourseObj).subscribe(response => {
+      this.tranMasterIdArray = response.data;
+      console.log("tranMasterIdArray:",this.tranMasterIdArray);
+    })
   }
   onClickedPaymentVoucher(stuToCourseId: any){
 
