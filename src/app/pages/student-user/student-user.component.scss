@@ -5,6 +5,18 @@ body
   padding: 0 0rem;
   background: #f1f5f9;
 }
+.news .news-1{
+  border: 2px solid red;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: #f55c15ad;
+ }
+ .news{
+  
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+ }
 // Styling
 .header{
     background-color: #383838;
@@ -151,16 +163,5 @@ body {
 .carousel-inner {
     height: 100%;
 }
- /*  #item-title{
-    font-size: .5em; 
-    color: rgb(190, 9, 9); 
-    font-family: Courier, monospace;
-    font-weight: bold;
-  }
-  #item-value{
-    font-size: 1em; 
-    color: rgb(190, 9, 9); 
-    font-family: Bahnschrift Condensed;
-    font-weight: bold;
-  } */
+
 }

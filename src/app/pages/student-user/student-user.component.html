@@ -333,7 +333,7 @@
           Payment Gatway
         </ng-template>
         <div class="container-fluid" style="background-color:white ;color:black">
-          <h1>Hello World!</h1>
+          <h1 class="text-center">{{fullCourseName}}</h1>
           <div class="row">
             <div class="col-sm-12">
              
@@ -357,7 +357,9 @@
                       <td>{{receipt.ledger_name}}</td>
                      
                       <td class="text-right">{{receipt.total_due | currency: 'INR'}}</td>
-                      <td><button type="button" class="btn btn-outline-success"  ><i class="bi bi-credit-card-2-back" ></i> &nbsp; Pay</button></td>
+                      <td><button type="button" class="btn btn-outline-success" (click)="onPayment(receipt)"  ><i class="bi bi-credit-card-2-back" ></i> &nbsp;Pay </button>
+                       
+                      </td>
                     </tr>
 
                   </tbody>
@@ -373,10 +375,77 @@
         </div>
 
       </mat-tab>
+      <!-- Final Payment Made -->
+      <mat-tab id="final-payment">
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">thumb_up</mat-icon>
+          Final Payment
+        </ng-template>
+        <div class="container-fluid" style="background-color:white ;color:black">
+          <h1>{{fullCourseName}}</h1>
+           <div class="row">
+            <div class="col-sm-6">
+            <form [formGroup]="FinalPayFormGroup">
+              <table class="text-center table table-bordered table-hover">
+                <thead>
+                    <tr style="background-color:rgba(235, 235, 235, 0.945) ;color:rgb(8, 8, 8)">
+                                         
+                      <th>Fees Name</th>
+                      <th class="text-left">{{feesName}}</th>
+                     
+                    </tr>
+                    <tr style="background-color:rgba(235, 235, 235, 0.945) ;color:rgb(8, 8, 8)">
+                                         
+                      <th>Amount</th>
+                      <th class="text-right"><div class="input-group mb-3">
+                        <span class="input-group-text">₹</span>
+                        <input type="text" class="form-control" [(ngModel)]="payAmountNgModel" formControlName="payAmount" aria-label="Amount (to the nearest dollar)">
+                        <span class="input-group-text">.00</span>
+                      </div>
+                      
+                      </th>
+                     
+                    </tr>
+                    <tr style="background-color:rgba(235, 235, 235, 0.945) ;color:rgb(8, 8, 8)">
+                                         
+                      <th>Net Due</th>
+                      <th class="text-left">
+                       {{paymentAmount | currency:'INR'}}
+                      </th>
+                     
+                    </tr>
+                  </thead>
+                 
+                
+                </table>
+              </form>
+                <div style="display: flex;">
+                  <div mat-dialog-actions>
+                    <button class="btn btn-danger" (click)="onClickedClosed()">Close</button>
+                  </div> &nbsp; &nbsp; &nbsp;
+                  <div>
+                    <button type="button" class="btn btn-outline-success" (click)="onFinalPayNow()" ><i class="bi bi-credit-card-2-back" ></i> &nbsp;Pay Now</button>
+                  </div>
+                 
+              </div>
+            </div>
+           
+          </div>
+          
+        </div>
+
+      </mat-tab>
     </mat-tab-group>
     </div>
     <div class="col-4 news">
       <h1 align="center">News & Announcements</h1>
+      <div *ngFor="let item of studentNewsArray" class="news-1" >
+        <p><b><i>
+          {{item.news_description }}
+        </i>
+        </b>
+        </p>
+      </div>
     </div>
 
 

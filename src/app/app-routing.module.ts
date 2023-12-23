@@ -159,6 +159,14 @@ const routes: Routes = [
 
   { path: 'Studentdashboard', loadChildren: () => import('./pages/studentdashboard/studentdashboard.module').then(m => m.StudentdashboardModule) },
 
+  { path: 'News', loadChildren: () => import('./pages/news/news.module').then(m => m.NewsModule) },
+
+  { path: 'SubjectToCourse', loadChildren: () => import('./pages/subject-to-course/subject-to-course.module').then(m => m.SubjectToCourseModule) },
+
+  { path: 'Subjects', loadChildren: () => import('./pages/subjects/subjects.module').then(m => m.SubjectsModule) },
+
+  { path: 'Marksheet', loadChildren: () => import('./pages/marksheet/marksheet.module').then(m => m.MarksheetModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },

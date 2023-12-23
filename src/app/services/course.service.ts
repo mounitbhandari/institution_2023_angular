@@ -11,11 +11,42 @@ import { ErrorService } from './error.service';
 })
 export class CourseService {
   courseList: Course[] =[];
+  subjectList: any[] =[];
   durationTypeList: any[] =[];
   courseSubject = new Subject<Course[]>();
   durationTypeSubject = new Subject<Course[]>();
   constructor(private commonService: CommonService, private errorService: ErrorService, private http: HttpClient) { }
   //$orgID=1;
+
+  fetchAllSubject($orgID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/subjects/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Course[]}) => {
+      this.subjectList=response.data;
+       console.log("courseList:",this.subjectList); 
+      })));
+  }
+  saveSubject(data:any){
+    this.subjectList=[];
+    return this.http.post<any>(this.commonService.getAPI() + '/subject', data)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at subject',response);
+      if (response.status === true){
+        this.subjectList.unshift(response.data);
+        this.durationTypeSubject.next([...this.subjectList]);
+      }
+    }))
+  }
+  saveSubjectToCourse(data:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/saveSubjectToCourse', data)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service',response);
+      if (response.status === true){
+        this.courseList.unshift(response.data);
+        this.durationTypeSubject.next([...this.courseList]);
+      }
+    }))
+  }
+
   fetchAllCourses($orgID:any){
     return this.http.get<any>(this.commonService.getAPI() + '/courses/'+$orgID)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Course[]}) => {
@@ -24,7 +55,13 @@ export class CourseService {
       this.courseSubject.next([...this.courseList]);
     })));
   }
-
+  fetchAllSubjects($orgID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/subjects/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Course[]}) => {
+      this.subjectList=response.data;
+       console.log("subjectList:",this.subjectList); 
+      })));
+  }
   getCourses(){
     return [...this.courseList];
   }

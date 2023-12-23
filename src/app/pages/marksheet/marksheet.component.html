@@ -1,0 +1,63 @@
+<u>
+  <h1 align="center"> Marksheet Entry Form </h1>
+</u>
+<div class="container">
+  <div class="main-dev" style="background-color: rgb(214, 212, 212);">
+
+  </div>
+  <div class="detail-div" style="background-color: rgb(241, 188, 188);">
+    <div id="student-div">
+      <h1>Class:</h1>
+    </div>
+    <div id="marks-div">
+      <div class="row">
+        <div class="col-sm-6">
+          <table class="table table-hover table-striped">
+           
+              <tbody>
+                <ng-container *ngFor="let student of studentsArray; let indexOfelement = index;">
+                  <div  style="background-color: aquamarine;">
+                  <tr>
+                    <td>
+                      <h1>{{indexOfelement+1}}&nbsp;{{student.ledger_name}}</h1>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let subject of subjectsArray">
+                    <td>{{subject.subject_id}}</td>
+                    <td>{{subject.subject_full_name}}</td>
+                    <td>
+                      <input type="text" class="form-control" placeholder="Enter Marks"
+                        aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    </td>
+                  </tr>
+                </div>
+                </ng-container>
+              </tbody>
+            
+          </table>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-sm-6">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <th>Name of Subject</th>
+                <th>Enter Marks</th>
+              </thead>
+              <tr>
+                <td>
+                  Math
+                </td>
+                <td>
+                  <input type="text" class="form-control" placeholder="Enter Marks" aria-label="Recipient's username"
+                    aria-describedby="basic-addon2">
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

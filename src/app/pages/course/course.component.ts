@@ -47,7 +47,6 @@ export class CourseComponent implements OnInit {
   durationTypes: any[] = [];
   feeModeType: any[] = [];
   courseData!: object;
-  descriptionLen:string ='Hi';
   maxLength:number=255;
   msgs: { severity: string; summary: string; detail: string }[] = [];
   /* courseData: {
@@ -101,10 +100,7 @@ export class CourseComponent implements OnInit {
     this.getFullTotalCourse(this.organisationId);
     //this.descriptionLen=this.descriptionLen.length;
   }
-  descriptionInput()
-  {
-    return this.descriptionLen.length;
-  }
+  
   active = 0;
   selectedIndex = 0
   onTabChanged(event: any) {
@@ -342,7 +338,6 @@ export class CourseComponent implements OnInit {
   }
   clearCourse() {
     this.isShown = false;
-    this.descriptionLen='';
     //this.courseNameFormGroup.reset();
     this.courseNameFormGroup = new FormGroup({
       feesModeTypeId: new FormControl(1, [Validators.required]),

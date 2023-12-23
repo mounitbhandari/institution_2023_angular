@@ -114,11 +114,13 @@
                           </div>
                           <div class="row">
                             <div class="col-sm-6" style="width:100%">
-                              <h3 style="color:black ; font-weight:bolder ;">Description: &nbsp; Count:&nbsp;{{descriptionInput()}}/{{maxLength}}</h3> 
+                              <h3 style="color:black ; font-weight:bolder ;">Description: </h3> 
                              <!-- <h3>Description: &nbsp; Count:&nbsp;{{descriptionLen.length}}/{{this.maxLength}}</h3> -->
-                              <textarea class="col-12" formControlName="description" [(ngModel)]="descriptionLen"
+                              <textarea class="col-12" formControlName="description" #message 
                                 [maxlength]="maxLength" [style]="{'height':'120px'}">
                             </textarea>
+                            <mat-hint align="end" style="color: brown;">{{message.value.length}} /
+                              1000</mat-hint>
                             </div>
 
                           </div>

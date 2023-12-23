@@ -11,13 +11,60 @@ import { ErrorService } from './error.service';
 })
 export class ReportService {
   incomeReportList:any[]=[];
-
+  newsDataList:any[]=[];
   incomeReportSubject = new Subject<any[]>();
   constructor(private commonService: CommonService, private errorService: ErrorService, private http: HttpClient) {
 
 
   }
 
+  fetchStudentMarksList($orgID:any){
+    this.newsDataList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/getMarkStudents/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
+  fetchSubjectListByCourseId($courseID:any){
+    this.newsDataList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/getSubjectsByCourseId/'+$courseID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
+  fetchStudentNewsListReport($orgID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/getStudentNewsList/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
+
+  updateNewsStatus(newsData:any){
+    return this.http.patch<any>(this.commonService.getAPI() + '/updateNewsStatus', newsData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at news status update',response);
+      if (response.success === 1){
+        this.newsDataList.unshift(response.data);
+        
+      }
+    }))
+  }
+  fetchNewsListReport($orgID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/getNewsList/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
+
+  saveNews(newsData:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/saveNews', newsData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service newsDataList:',response);
+      if (response.success === 1){
+        this.newsDataList.unshift(response.data);
+      }
+    }))
+  }
   fetchAllReceiptIncomeReport($orgID:any){
     return this.http.get<any>(this.commonService.getAPI() + '/getAllIncomeReport/'+$orgID)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {

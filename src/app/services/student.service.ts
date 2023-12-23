@@ -33,15 +33,21 @@ export interface StudentResponseData {
   };
   error?: any;
 }
-
+function _window() : any {
+  return window;
+}
 @Injectable({
   providedIn: 'root'
 })
+
 export class StudentService {
   studentList: Student[] =[];
   stateList: any[] =[];
   studentSubject = new Subject<Student[]>();
   stateSubject = new Subject<Student[]>();
+  get nativeWindow() : any {
+    return _window();
+ }
   constructor(private commonService: CommonService, private errorService: ErrorService, private http: HttpClient) { }
 
   /* fetchEducations() {
@@ -52,7 +58,7 @@ export class StudentService {
   } */
   
   //$orgID=1;
-
+  
   fetchAllStudents($orgID:any){
        return this.http.get<any>(this.commonService.getAPI() + '/students/'+ $orgID)
       .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {

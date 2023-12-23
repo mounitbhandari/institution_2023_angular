@@ -19,6 +19,7 @@ export class TransactionServicesService {
   advReceivedList:any[]=[];
   feesReceivedDetailsList:any[]=[];
   transactionList:any[]=[];
+  paymentHistoryDetails:any[]=[];
   //feesReceivedList:any[]=[];
   studentToCourseSubject = new Subject<StudentToCourse[]>();
   feesNameSubject = new Subject<any[]>();
@@ -29,6 +30,15 @@ export class TransactionServicesService {
 
   }
 
+
+ fetchPhonepeApi($amount:any){
+  this.paymentHistoryDetails=[];
+  return this.http.get<any>(this.commonService.getAPI() + '/phonepe/'+$amount)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.paymentHistoryDetails=response.data;
+      this.transactionListSubject.next([...this.paymentHistoryDetails]);
+    })));
+}
   deleteAdvAdjustmentFeesReceived($id:any){
     this.advReceivedList=[];
     return this.http.delete<any>(this.commonService.getAPI() + '/transactions/deleteAdvAdjustmentReceived/'+$id)
@@ -341,6 +351,8 @@ export class TransactionServicesService {
     })));
   }
 
+  
+  
   fetchMonthlyStudentList($orgID:any){
     this.studentToCourseList=[];
     return this.http.get<any>(this.commonService.getAPI() + '/transactions/getMonthlyStudent/'+$orgID)
