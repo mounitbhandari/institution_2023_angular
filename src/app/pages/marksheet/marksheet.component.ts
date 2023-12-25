@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
+import { CourseService } from 'src/app/services/course.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -12,8 +14,12 @@ export class MarksheetComponent implements OnInit {
   organisationId: number = 0;
   studentsArray:any[]=[];
   subjectsArray:any[]=[];
+  courseArray:any[]=[];
+  tempObject:object={};
+  marksheetFormGroup: FormGroup | any;
   constructor(public commonService: CommonService,
-    private reportService: ReportService) { 
+    private reportService: ReportService,
+    private courseService: CourseService) { 
       const user = localStorage.getItem('user');
       if (user) {
         this.UserID = JSON.parse(<string>user).uniqueId;
@@ -21,15 +27,23 @@ export class MarksheetComponent implements OnInit {
         console.log("user localUserID:", (this.UserID));
         console.log("user organisationId:", (this.organisationId));
       }
-      this.getStudentList(this.organisationId);
-      this.getSubjectList(33);
+      this.getCourseList(this.organisationId);
+      
     }
 
   ngOnInit(): void {
+    this.marksheetFormGroup = new FormGroup({
+      course_id: new FormControl(null, [Validators.required]),
+    });
   }
-
-  getStudentList($orgID: any) {
-    this.reportService.fetchStudentMarksList($orgID).subscribe(response => {
+  getCourseList($orgID: any) {
+    this.courseService.fetchAllCourses($orgID).subscribe(response => {
+      this.courseArray = response.data;
+      console.log("courseList:", this.courseArray);
+    })
+  }
+  getStudentList(markData: any) {
+    this.reportService.fetchStudentMarksList(markData).subscribe(response => {
       this.studentsArray = response.data;
       console.log("studentsArray:", this.studentsArray);
     })
@@ -39,5 +53,14 @@ export class MarksheetComponent implements OnInit {
       this.subjectsArray = response.data;
       console.log("subjectsArray:", this.subjectsArray);
     })
+  }
+  chooseSubject(data:any){
+    console.log(data);
+    this.getSubjectList(data.id);
+    this.tempObject={
+        couseId:data.id,
+        organisationId:this.organisationId
+      }
+    this.getStudentList(this.tempObject);
   }
 }

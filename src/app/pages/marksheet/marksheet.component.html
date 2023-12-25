@@ -3,11 +3,22 @@
 </u>
 <div class="container">
   <div class="main-dev" style="background-color: rgb(214, 212, 212);">
+    <form [formGroup]="marksheetFormGroup">
 
+      <div class="row p-3">
+        <div class="col-sm-5">
+          <ng-select [items]="courseArray" fxFlex="100" bindLabel="full_name" class="custom" bindValue="id"
+            (change)="chooseSubject($event)" appendTo="body" formControlName="course_id"
+            placeholder="select Course / Class Name">
+          </ng-select>
+        </div>
+      </div>
+
+    </form>
   </div>
   <div class="detail-div" style="background-color: rgb(241, 188, 188);">
     <div id="student-div">
-      <h1>Class:</h1>
+      
     </div>
     <div id="marks-div">
       <div class="row">

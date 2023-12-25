@@ -18,9 +18,9 @@ export class ReportService {
 
   }
 
-  fetchStudentMarksList($orgID:any){
+  fetchStudentMarksList(markdata:any){
     this.newsDataList=[];
-    return this.http.get<any>(this.commonService.getAPI() + '/getMarkStudents/'+$orgID)
+    return this.http.post<any>(this.commonService.getAPI() + '/getMarkStudents',markdata)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
       this.newsDataList=response.data;
       })));
