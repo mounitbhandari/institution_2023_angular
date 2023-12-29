@@ -17,6 +17,7 @@ export class MarksheetComponent implements OnInit {
   courseArray:any[]=[];
   tempObject:object={};
   marksheetFormGroup: FormGroup | any;
+  marksheetToStudentFormGroup: FormGroup | any;
   constructor(public commonService: CommonService,
     private reportService: ReportService,
     private courseService: CourseService) { 
@@ -34,7 +35,15 @@ export class MarksheetComponent implements OnInit {
   ngOnInit(): void {
     this.marksheetFormGroup = new FormGroup({
       course_id: new FormControl(null, [Validators.required]),
+      marks: new FormControl(null, [Validators.required]),
     });
+   
+  }
+  onSaveMarks(data:any){
+
+    const marks= this.marksheetFormGroup.value.marks;
+    console.log("save data:",data);
+    console.log("save marks:",marks);
   }
   getCourseList($orgID: any) {
     this.courseService.fetchAllCourses($orgID).subscribe(response => {
@@ -52,6 +61,14 @@ export class MarksheetComponent implements OnInit {
     this.reportService.fetchSubjectListByCourseId($couseID).subscribe(response => {
       this.subjectsArray = response.data;
       console.log("subjectsArray:", this.subjectsArray);
+      /*for (let val of this.subjectsArray) {
+         this.tempItemObj = {
+          ledgerId: val.ledger_id,
+          transactionTypeId: 2,
+          feesName: val.ledger_name,
+          amount: val.amount
+
+        } */
     })
   }
   chooseSubject(data:any){
