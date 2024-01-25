@@ -32,11 +32,14 @@ export class ReportService {
       this.newsDataList=response.data;
       })));
   }
-  fetchStudentNewsListReport($orgID:any){
-    return this.http.get<any>(this.commonService.getAPI() + '/getStudentNewsList/'+$orgID)
-    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
-      this.newsDataList=response.data;
-      })));
+  fetchStudentNewsListReport(newsData:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/getStudentNewsList', newsData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service newsDataList:',response);
+      if (response.success === 1){
+        this.newsDataList.unshift(response.data);
+      }
+    }))
   }
 
   updateNewsStatus(newsData:any){

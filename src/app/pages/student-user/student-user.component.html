@@ -445,6 +445,13 @@
         </i>
         </b>
         </p>
+        <div class="news-2" *ngIf="item.file_url; then thenBlock; else elseBlock"></div>
+                          <p><ng-template #thenBlock>
+                            <span><a href={{defaultPicture}}{{item.file_url}} download="filename"><i class="bi bi-download"></i></a></span>
+                            </ng-template></p>
+                          <p><ng-template #elseBlock>
+                            </ng-template></p>
+        
       </div>
     </div>
 

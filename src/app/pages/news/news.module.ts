@@ -37,7 +37,6 @@ import {InputTextModule} from 'primeng/inputtext';
 import { NewsRoutingModule } from './news-routing.module';
 import { NewsComponent } from './news.component';
 
-
 @NgModule({
   declarations: [
     NewsComponent
@@ -75,7 +74,7 @@ import { NewsComponent } from './news.component';
     MatTabsModule,
     MatCardModule,
     InputTextModule,
-    MatFormFieldModule
-  ]
+    MatFormFieldModule,
+   ]
 })
 export class NewsModule { }

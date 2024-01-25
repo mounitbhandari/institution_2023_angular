@@ -102,7 +102,9 @@ export class StudentUserComponent implements OnInit {
   total_discount: any;
   temp_total_received: any;
   comment: any;
+  defaultPicture: string = "";
   payAmountNgModel: number = 0;
+  tempNewsObj:object={};
   constructor(private studentToCourseService: StudentToCourseService,
     private commonService: CommonService
     ,private reportService: ReportService
@@ -122,11 +124,11 @@ export class StudentUserComponent implements OnInit {
     }
     this.getStudentProfile(this.ledgerId);
     this.getStudentToCourseRegistrationListLedgerId(this.ledgerId);
-    this.getStudentNewsList(this.organisationId);
+    //this.getStudentNewsList(this.organisationId);
    }
   
   ngOnInit(): void {
-
+    this.defaultPicture = this.commonService.getPublic() + '/file_upload/';
     this.FinalPayFormGroup = new FormGroup({
       payAmount: new FormControl(null, [Validators.required]),
     })
@@ -163,6 +165,12 @@ export class StudentUserComponent implements OnInit {
     this.reportService.fetchStudentToCourseRegistrationReportLedgerId($ledgerID).subscribe(response => {
       this.studentCourseHistoryArray=response.data;
       console.log("studentCourseHistoryArray:",this.studentCourseHistoryArray);
+      this.tempNewsObj = {
+        courseId: this.studentCourseHistoryArray[0].course_id,
+        organisationId: this.organisationId
+      }; 
+      console.log("course ID:",this.tempNewsObj);
+      this.getStudentNewsList();
     })
   }
   btnPayNow(data:any){
@@ -179,8 +187,8 @@ export class StudentUserComponent implements OnInit {
 
     })
   }
-  getStudentNewsList($orgID:any){
-    this.reportService.fetchStudentNewsListReport($orgID).subscribe(response => {
+  getStudentNewsList(){
+    this.reportService.fetchStudentNewsListReport(this.tempNewsObj).subscribe(response => {
       this.studentNewsArray=response.data;
       console.log("studentNewsArray:",this.studentNewsArray);
     })

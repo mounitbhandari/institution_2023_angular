@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
@@ -25,6 +25,19 @@ export class CourseService {
        console.log("courseList:",this.subjectList); 
       })));
   }
+  uploadData(data:any){
+    const headers=new HttpHeaders();
+    return this.http.post<any>(this.commonService.getAPI() + '/fileUpload', data,{
+      headers:headers
+    }).pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service image:',response);
+      if (response.success === 1){
+        this.courseList.unshift(response.data);
+        this.durationTypeSubject.next([...this.courseList]);
+      }
+    }))
+  }
+
   saveSubject(data:any){
     this.subjectList=[];
     return this.http.post<any>(this.commonService.getAPI() + '/subject', data)

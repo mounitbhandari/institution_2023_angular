@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
+import { CommonService } from 'src/app/services/common.service';
+import { CourseService } from 'src/app/services/course.service';
 import { ReportService } from 'src/app/services/report.service';
 import Swal from 'sweetalert2';
 @Component({
@@ -16,8 +18,13 @@ export class NewsComponent implements OnInit {
   newsDataArray:any[]=[];
   activeStatus:number=1;
   inActiveStatus:number=0;
+  courseArray:any[]=[];
   itemValue!: object;
-  constructor(private reportService: ReportService) { 
+  defaultPicture: string = "";
+  files:any;
+  data:any;
+  constructor(private reportService: ReportService,
+    private courseService: CourseService, public commonService: CommonService) { 
 
     const user = localStorage.getItem('user');
     if (user) {
@@ -27,15 +34,78 @@ export class NewsComponent implements OnInit {
       console.log("user organisationId:", (this.organisationId));
     }
     this.getNewsList(this.organisationId);
+    this.getCourseList(this.organisationId);
   }
   selectedIndex=0;
   onTabChanged(event:any){
     console.log(event)
   }
   ngOnInit(): void {
+    this.defaultPicture = this.commonService.getPublic() + '/file_upload/';
     this.newsFormGroup = new FormGroup({
-      newsDescription: new FormControl(null, [Validators.required])
+      newsDescription: new FormControl(null, [Validators.required]),
+      course_id: new FormControl(null),
+      image: new FormControl(null),
+      organisationId:new FormControl(this.organisationId)
     })
+  }
+  uploadImage(event:any){
+    this.files=event.target.files[0];
+    console.log("Image:",this.files);
+  }
+  onSubmit(){
+    
+ 
+    if((this.files) && (this.newsFormGroup.value.newsDescription) && (this.newsFormGroup.value.course_id)){
+      const formData= new FormData();
+      formData.append("image",this.files, this.files.name);
+      formData.append("courseId",this.newsFormGroup.value.course_id);
+      formData.append("organisationId",this.newsFormGroup.value.organisationId);
+      formData.append("newsDescription",this.newsFormGroup.value.newsDescription);
+      this.courseService.uploadData(formData).subscribe(response=>{
+        this.data=response;
+        console.log(this.data);
+      })
+    }else if((this.files) && (this.newsFormGroup.value.newsDescription)){
+      const formData= new FormData();
+      formData.append("image",this.files, this.files.name);
+      formData.append("organisationId",this.newsFormGroup.value.organisationId);
+      formData.append("newsDescription",this.newsFormGroup.value.newsDescription);
+      this.courseService.uploadData(formData).subscribe(response=>{
+        this.data=response;
+        console.log(this.data);
+      })
+    }else if(this.newsFormGroup.value.course_id){
+      const formData= new FormData();
+      formData.append("courseId",this.newsFormGroup.value.course_id);
+      formData.append("organisationId",this.newsFormGroup.value.organisationId);
+      formData.append("newsDescription",this.newsFormGroup.value.newsDescription);
+      this.courseService.uploadData(formData).subscribe(response=>{
+        this.data=response;
+        console.log(this.data);
+      })
+    }
+    else{
+      const formData= new FormData();
+      formData.append("organisationId",this.newsFormGroup.value.organisationId);
+      formData.append("newsDescription",this.newsFormGroup.value.newsDescription);
+      this.courseService.uploadData(formData).subscribe(response=>{
+        this.data=response;
+        console.log(this.data);
+      })
+    }
+
+   /*  this.newsSaveData = {
+      newsDescription: this.newsFormGroup.value.newsDescription,
+      courseId:this.newsFormGroup.value.course_id,
+      organisationId: this.organisationId,
+      image:formData
+    } */
+   
+   /*  this.courseService.uploadData(formData).subscribe(response=>{
+      this.data=response;
+      console.log(this.data);
+    }) */
   }
   saveNews() {
     //alert("Testing");
@@ -49,11 +119,113 @@ export class NewsComponent implements OnInit {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.isConfirmed) {
-      this.newsSaveData = {
-          newsDescription: this.newsFormGroup.value.newsDescription,
-          organisationId: this.organisationId
+        if((this.files) && (this.newsFormGroup.value.newsDescription) && (this.newsFormGroup.value.course_id)){
+          const formData= new FormData();
+          formData.append("image",this.files, this.files.name);
+          formData.append("courseId",this.newsFormGroup.value.course_id);
+          formData.append("organisationId",this.newsFormGroup.value.organisationId);
+          formData.append("newsDescription",this.newsFormGroup.value.newsDescription);
+          this.courseService.uploadData(formData).subscribe(response=>{
+            this.data=response;
+            console.log(this.data);
+            if (this.data.success === 1) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'News has been saved',
+                showConfirmButton: false,
+                timer: 1500
+              });
+             
+              this.getNewsList(this.organisationId);
+              this.newsFormGroup = new FormGroup({
+                newsDescription: new FormControl(null, [Validators.required]),
+                course_id: new FormControl(null),
+                image: new FormControl(null),
+                organisationId:new FormControl(this.organisationId)
+              })
+            }
+          })
+        }else if((this.files) && (this.newsFormGroup.value.newsDescription)){
+          const formData= new FormData();
+          formData.append("image",this.files, this.files.name);
+          formData.append("organisationId",this.newsFormGroup.value.organisationId);
+          formData.append("newsDescription",this.newsFormGroup.value.newsDescription);
+          this.courseService.uploadData(formData).subscribe(response=>{
+            this.data=response;
+            console.log(this.data);
+            if (this.data.success === 1) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'News has been saved',
+                showConfirmButton: false,
+                timer: 1500
+              });
+             
+              this.getNewsList(this.organisationId);
+              this.newsFormGroup = new FormGroup({
+                newsDescription: new FormControl(null, [Validators.required]),
+                course_id: new FormControl(null),
+                image: new FormControl(null),
+                organisationId:new FormControl(this.organisationId)
+              })
+            }
+          })
+        }else if(this.newsFormGroup.value.course_id){
+          const formData= new FormData();
+          formData.append("courseId",this.newsFormGroup.value.course_id);
+          formData.append("organisationId",this.newsFormGroup.value.organisationId);
+          formData.append("newsDescription",this.newsFormGroup.value.newsDescription);
+          this.courseService.uploadData(formData).subscribe(response=>{
+            this.data=response;
+            console.log(this.data);
+            if (this.data.success === 1) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'News has been saved',
+                showConfirmButton: false,
+                timer: 1500
+              });
+             
+              this.getNewsList(this.organisationId);
+              this.newsFormGroup = new FormGroup({
+                newsDescription: new FormControl(null, [Validators.required]),
+                course_id: new FormControl(null),
+                image: new FormControl(null),
+                organisationId:new FormControl(this.organisationId)
+              })
+            }
+          })
         }
-        this.reportService.saveNews(this.newsSaveData).subscribe(response => {
+        else{
+          const formData= new FormData();
+          formData.append("organisationId",this.newsFormGroup.value.organisationId);
+          formData.append("newsDescription",this.newsFormGroup.value.newsDescription);
+          this.courseService.uploadData(formData).subscribe(response=>{
+            this.data=response;
+            console.log(this.data);
+            if (this.data.success === 1) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'News has been saved',
+                showConfirmButton: false,
+                timer: 1500
+              });
+             
+              this.getNewsList(this.organisationId);
+              this.newsFormGroup = new FormGroup({
+                newsDescription: new FormControl(null, [Validators.required]),
+                course_id: new FormControl(null),
+                image: new FormControl(null),
+                organisationId:new FormControl(this.organisationId)
+              })
+            }
+          })
+        }
+       /*  this.reportService.saveNews(this.newsSaveData).subscribe(response => {
           //this.showError = response.exception;
           if (response.success === 1) {
             Swal.fire({
@@ -66,7 +238,10 @@ export class NewsComponent implements OnInit {
            
             this.getNewsList(this.organisationId);
             this.newsFormGroup = new FormGroup({
-              newsDescription: new FormControl(null, [Validators.required])
+              newsDescription: new FormControl(null, [Validators.required]),
+              course_id: new FormControl(null),
+              image: new FormControl(null),
+              organisationId:new FormControl(this.organisationId)
             })
             // this.showSuccess("Record added successfully");
             
@@ -80,7 +255,7 @@ export class NewsComponent implements OnInit {
             footer: '<a href>Why do I have this issue?</a>' ,
             timer: 0
           });
-        });
+        }); */
 
         // For more information about handling dismissals please visit
         // https://sweetalert2.github.io/#handling-dismissals
@@ -91,6 +266,12 @@ export class NewsComponent implements OnInit {
           'error'
         )
       }
+    })
+  }
+  getCourseList($orgID: any) {
+    this.courseService.fetchAllCourses($orgID).subscribe(response => {
+      this.courseArray = response.data;
+      console.log("courseList:", this.courseArray);
     })
   }
   onChange(status:number,id:any) {
