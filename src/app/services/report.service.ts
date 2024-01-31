@@ -17,7 +17,20 @@ export class ReportService {
 
 
   }
-
+  fetchPivotTableIncomeList($orgID:any){
+    this.newsDataList=[];
+     return this.http.get<any>(this.commonService.getAPI() + '/getPivotTableIncomeListReport/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
+  fetchPivotTableAdmissionList($orgID:any){
+    this.newsDataList=[];
+     return this.http.get<any>(this.commonService.getAPI() + '/getPivotTableAdmissionList/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
   fetchStudentMarksList(markdata:any){
     this.newsDataList=[];
     return this.http.post<any>(this.commonService.getAPI() + '/getMarkStudents',markdata)

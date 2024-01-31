@@ -134,14 +134,14 @@
                         <td>{{news.status}}</td>
                         <td>{{news.created_at}}</td>
                         <td>
-                          <div *ngIf="news.inforce>0; then thenBlock; else elseBlock"></div>
-                          <p><ng-template #thenBlock>
-                              <!-- <button mat-raised-button color="primary" (click)="onChange(inActiveStatus,news.id)">Active</button> -->
+                          <div *ngIf="news.inforce>0; then thenBlockInforce; else elseBlockInforce"></div>
+                          <p><ng-template #thenBlockInforce>
+                             <!--  <button mat-raised-button color="primary" (click)="onChange(inActiveStatus,news.id)">Active</button>  -->
                               <button type="button" class="btn btn-success"
                                 (click)="onChange(inActiveStatus,news.id)">Active</button>
                             </ng-template></p>
-                          <p><ng-template #elseBlock>
-                              <!--  <button mat-raised-button color="warn" (click)="onChange(activeStatus,news.id)">Inactive</button> -->
+                          <p><ng-template #elseBlockInforce>
+                              <!--  <button mat-raised-button color="warn" (click)="onChange(activeStatus,news.id)">Inactive</button>  -->
                               <button type="button" class="btn btn-danger"
                                 (click)="onChange(activeStatus,news.id)">Inactive</button>
                             </ng-template></p>

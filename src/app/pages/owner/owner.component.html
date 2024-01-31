@@ -72,16 +72,51 @@
                   Monthly Income
                 </ng-template>
                 <div class="card mb-3">
-                  <!-- <div class="card-header" style="color:black ;">
-                          <i class="bi bi-bar-chart-fill"></i> Bar Chart Example
-                        </div> -->
-                  <div class="card-body">
+                  <p class="text-center p-3" style="color: rgb(8, 158, 45); font-weight: bolder; font-family: Arial, Helvetica, sans-serif; font-size: x-large;">
+                    Report of Year Wise Income List</p>
+                  <div class="card-body" style="padding: 0; margin: 0;">
 
-                    <div style="display: block;">
-                      <canvas baseChart width="700" height="250" [type]="'line'" [data]="lineChartData"
-                        [options]="lineChartOptions" [legend]="lineChartLegend">
-                      </canvas>
-                    </div>
+                    
+                      <div class="table-responsive"> 
+                       
+                         <table class="table table-bordered table-hover">
+                          <thead class="thead-dark" style="background-color: coral;">
+                            <tr style="color: rgb(163, 4, 26);">
+                              <th scope="col">Year</th>
+                              <th scope="col">Jan</th>
+                              <th scope="col">Feb</th>
+                              <th scope="col">Mar</th>
+                              <th scope="col">Apr</th>
+                              <th scope="col">May</th>
+                              <th scope="col">June</th>
+                              <th scope="col">July</th>
+                              <th scope="col">Aug</th>
+                              <th scope="col">Sep</th>
+                              <th scope="col">Oct</th>
+                              <th scope="col">Nov</th>
+                              <th scope="col">Dec</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of pivotTableIncomeArray">
+                              <td>{{item.YEAR}}</td>
+                              <td>{{item.JAN | currency: 'INR'}}</td>
+                              <td>{{item.FEB | currency: 'INR'}}</td>
+                              <td>{{item.MAR | currency: 'INR'}}</td>
+                              <td>{{item.APR | currency: 'INR'}}</td>
+                              <td>{{item.MAY | currency: 'INR'}}</td>
+                              <td>{{item.JUN | currency: 'INR'}}</td>
+                              <td>{{item.JLY | currency: 'INR'}}</td>
+                              <td>{{item.AUG | currency: 'INR'}}</td>
+                              <td>{{item.SEP | currency: 'INR'}}</td>
+                              <td>{{item.OCT | currency: 'INR'}}</td>
+                              <td>{{item.NOV | currency: 'INR'}}</td>
+                              <td>{{item.DEC | currency: 'INR'}}</td>
+                            </tr>
+                          </tbody>
+                        </table> 
+                        </div>
+                    
 
                   </div>
 
@@ -94,27 +129,54 @@
                   Admission No
                 </ng-template>
                 <div class="card mb-3">
-                  <div class="card-header">
-                    <i class="fa fa-bar-chart"></i> Bar Chart Example
+                  <h1 class="text-center pt-4" style="color: rgb(8, 158, 45); font-weight: bolder; font-family: Arial, Helvetica, sans-serif;">
+                    Report of Admission List</h1>
+                  <div class="card-body" style="padding: 0; margin: 0;">
+
+                    
+                      <div class="container table-responsive"> 
+                       
+                         <table class="table table-bordered table-hover">
+                          <thead class="thead-dark" style="background-color: coral;">
+                            <tr>
+                              <th scope="col">Year</th>
+                              <th scope="col">Jan</th>
+                              <th scope="col">Feb</th>
+                              <th scope="col">March</th>
+                              <th scope="col">April</th>
+                              <th scope="col">May</th>
+                              <th scope="col">June</th>
+                              <th scope="col">July</th>
+                              <th scope="col">August</th>
+                              <th scope="col">Sept</th>
+                              <th scope="col">Oct</th>
+                              <th scope="col">Nov</th>
+                              <th scope="col">Dec</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of pivotTableAdmissionArray">
+                              <td>{{item.YEAR}}</td>
+                              <td>{{item.JAN}}</td>
+                              <td>{{item.FEB}}</td>
+                              <td>{{item.MAR}}</td>
+                              <td>{{item.APR}}</td>
+                              <td>{{item.MAY}}</td>
+                              <td>{{item.JUN}}</td>
+                              <td>{{item.JLY}}</td>
+                              <td>{{item.AUG}}</td>
+                              <td>{{item.SEP}}</td>
+                              <td>{{item.OCT}}</td>
+                              <td>{{item.NOV}}</td>
+                              <td>{{item.DEC}}</td>
+                            </tr>
+                          </tbody>
+                        </table> 
+                        </div>
+                    
+
                   </div>
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-sm-8 my-auto">
-                        <canvas id="myBarChart" width="100" height="50"></canvas>
-                      </div>
-                      <div class="col-sm-4 text-center my-auto">
-                        <div class="h4 mb-0 text-primary">$34,693</div>
-                        <div class="small text-muted">YTD Revenue</div>
-                        <hr>
-                        <div class="h4 mb-0 text-warning">$18,474</div>
-                        <div class="small text-muted">YTD Expenses</div>
-                        <hr>
-                        <div class="h4 mb-0 text-success">$16,219</div>
-                        <div class="small text-muted">YTD Margin</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+
                 </div>
               </mat-tab>
 

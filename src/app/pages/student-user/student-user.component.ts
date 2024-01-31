@@ -196,6 +196,10 @@ export class StudentUserComponent implements OnInit {
   /* onPayment(data:any){
     console.log(data);
   } */
+  onlineExam(){
+    /* window.location.href='https://easytestmaker.com/'; */
+    window.open('https://easytestmaker.com/', '_blank', 'noopener, noreferrer');
+  }
   onFinalPayNow(){
     this.paymentAmount = this.payAmountNgModel;
     console.log("amount:",this.paymentAmount);
