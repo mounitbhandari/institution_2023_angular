@@ -317,6 +317,11 @@ export class OwnerComponent implements OnInit {
     })
   }
 
+  onlineExam(){
+    /* window.location.href='https://easytestmaker.com/'; */
+    window.open('https://easytestmaker.com/', '_blank', 'noopener, noreferrer');
+  }
+
 
   
 }

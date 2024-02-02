@@ -19,9 +19,10 @@
       <i class="bi bi-wallet-fill botic"></i>
       <p id="item-title">Fees Update</p>
       <hr class="rule">
-      <button pButton pRipple type="button" label="Active" class="p-button-rounded p-button-success" (click)="onActivePayment()">
-        <i class="bi bi-activity"> </i>
-      </button>
+      <button type="button" class="btn btn-success" (click)="onActivePayment()"><b>{{totalDueAmount | currency:'INR'}}</b></button>
+      <!-- <button pButton pRipple type="button" label={{totalDueAmount}} class="p-button-rounded p-button-success" (click)="onActivePayment()">
+       <i class="fas fa-rupee-sign"></i>
+      </button> -->
       
     </div>
     
@@ -449,7 +450,7 @@
         </p>
         <div class="news-2" *ngIf="item.file_url; then thenBlock; else elseBlock"></div>
                           <p><ng-template #thenBlock>
-                            <span><a href={{defaultPicture}}{{item.file_url}} download="filename"><i class="bi bi-download"></i></a></span>
+                            <span><a href={{defaultPicture}}{{item.file_url}} download={{item.file_url} target="_blank"><i class="bi bi-download"></i></a>&nbsp; {{item.file_url}}</span>
                             </ng-template></p>
                           <p><ng-template #elseBlock>
                             </ng-template></p>
