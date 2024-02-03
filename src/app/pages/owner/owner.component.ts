@@ -69,6 +69,8 @@ export class OwnerComponent implements OnInit {
   birthdayArray:any=[];
   upcomingDueListArray:any=[];
   studentRegistrationHistoryArray:any=[];
+  pivotTableAdmissionArray:any[]=[];
+  pivotTableIncomeArray:any[]=[];
   workingEndDate:any;
   workingDescription:string='';
   dateDifference:number=0;
@@ -135,7 +137,8 @@ export class OwnerComponent implements OnInit {
       this.getStudentUpcomingDueList(this.organisationId);
       this.getStudentToCourseRegistrationList(this.organisationId);
       this.getAllMonthlyStudent(this.organisationId);
-   
+      this.getPivotTableAdmissioin(this.organisationId);
+      this.getPivotTableIncomeReport(this.organisationId);
    
    
    }
@@ -240,6 +243,18 @@ export class OwnerComponent implements OnInit {
      })
      
    }
+   getPivotTableIncomeReport($orgID: any) {
+    this.reportService.fetchPivotTableIncomeList($orgID).subscribe(response => {
+      this.pivotTableIncomeArray = response.data;
+      console.log("pivotTableIncomeArray:", this.pivotTableIncomeArray);
+    })
+  }
+  getPivotTableAdmissioin($orgID: any) {
+    this.reportService.fetchPivotTableAdmissionList($orgID).subscribe(response => {
+      this.pivotTableAdmissionArray = response.data;
+      console.log("pivotTableAdmissionArray:", this.pivotTableAdmissionArray);
+    })
+  }
    getAllIncome($orgID:any){
     this.reportService.fetchAllReceiptIncomeReport($orgID).subscribe(response=>{
       this.allIncomeArray=response.data;
@@ -300,6 +315,11 @@ export class OwnerComponent implements OnInit {
       this.studentRegistrationHistoryArray=response.data;
       console.log("StudentToCourseRegistration:",this.studentRegistrationHistoryArray);
     })
+  }
+
+  onlineExam(){
+    /* window.location.href='https://easytestmaker.com/'; */
+    window.open('https://easytestmaker.com/', '_blank', 'noopener, noreferrer');
   }
 
 

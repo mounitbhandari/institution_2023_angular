@@ -10,6 +10,7 @@ export class SidenavStudentComponent implements OnInit {
   faAddressBook = faAddressBook;
   displayDigitalElectronic=false;
   displayJava=false;
+  selectedIndex: number = 0;
   constructor() { }
 
   ngOnInit(): void {
@@ -20,5 +21,7 @@ export class SidenavStudentComponent implements OnInit {
   toggleJava(){
     this.displayJava=!this.displayJava;
   }
-
+  onActivePayment(){
+    this.selectedIndex = 1;
+  }
 }

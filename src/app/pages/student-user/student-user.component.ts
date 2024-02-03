@@ -91,6 +91,7 @@ export class StudentUserComponent implements OnInit {
   selectedIndex: number = 0;
   rupeeInWords:string='';
   totalRecepitAmount:number=0;
+  totalDueAmount:number=0;
 
   whatsapp_number: string = '';
   billing_name: string = '';
@@ -171,7 +172,14 @@ export class StudentUserComponent implements OnInit {
       }; 
       console.log("course ID:",this.tempNewsObj);
       this.getStudentNewsList();
+      for (let val of this.studentCourseHistoryArray) {
+        this.totalDueAmount = Number(this.totalDueAmount) + Number(val.total_due);
+        //console.log("total Due:",val.total_due);
+      }
+      console.log("total Due:",this.totalDueAmount);
     })
+    
+    
   }
   btnPayNow(data:any){
     this.selectedIndex = 4;
@@ -196,6 +204,10 @@ export class StudentUserComponent implements OnInit {
   /* onPayment(data:any){
     console.log(data);
   } */
+  onlineExam(){
+    /* window.location.href='https://easytestmaker.com/'; */
+    window.open('https://easytestmaker.com/', '_blank', 'noopener, noreferrer');
+  }
   onFinalPayNow(){
     this.paymentAmount = this.payAmountNgModel;
     console.log("amount:",this.paymentAmount);
