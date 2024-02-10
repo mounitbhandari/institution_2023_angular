@@ -164,7 +164,7 @@
                                     <hr>
                                     <i class="bi bi-envelope-fill"></i>&nbsp; Email :&nbsp; <b>{{emailId}}</b><br>
                                     <i class="bi bi-telephone-fill"></i>&nbsp; Contact Number : &nbsp; <b>
-                                        {{contactNumber}}</b><br>
+                                        {{contactNumber}}</b> <span style="color: green; font-weight: bolder;"> Status: &nbsp; {{resultString}} </span><br>
                                     <i class="bi bi-geo-alt-fill"></i>&nbsp; Address : &nbsp; <b> {{address}}, Pin -
                                         &nbsp; {{organisationPin}}</b>
                                 </div> 
@@ -320,7 +320,6 @@
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-user>
-
                                 <tr>
                                     <td>{{user.id}}</td>
                                     <td>{{user.user_name}}</td>

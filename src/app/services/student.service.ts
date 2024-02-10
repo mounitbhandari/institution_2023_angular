@@ -42,6 +42,7 @@ function _window() : any {
 
 export class StudentService {
   studentList: Student[] =[];
+  teacherList: Student[] =[];
   stateList: any[] =[];
   studentSubject = new Subject<Student[]>();
   stateSubject = new Subject<Student[]>();
@@ -66,6 +67,14 @@ export class StudentService {
         this.studentSubject.next([...this.studentList]);
       })));
   }
+  fetchAllTeachers($orgID:any){
+    this.teacherList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/getTeacher/'+ $orgID)
+   .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
+     this.teacherList=response.data;
+     this.studentSubject.next([...this.teacherList]);
+   })));
+}
   fetchStudentProfile($ledgerID:any){
     this.studentList=[];
     return this.http.get<any>(this.commonService.getAPI() + '/students/studentProfileId/'+ $ledgerID)
@@ -73,6 +82,14 @@ export class StudentService {
      this.studentList=response.data;
      this.studentSubject.next([...this.studentList]);
    })));
+}
+fetchTeacherProfile($ledgerID:any){
+  this.studentList=[];
+  return this.http.get<any>(this.commonService.getAPI() + '/students/teacherProfileId/'+ $ledgerID)
+ .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
+   this.studentList=response.data;
+   this.studentSubject.next([...this.studentList]);
+ })));
 }
   fetchAllStates(){
     return this.http.get<any>(this.commonService.getAPI() + '/states')
@@ -100,7 +117,17 @@ export class StudentService {
     }))
 
   }
+  saveTeacher(teacherData:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/saveTeacher', teacherData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service',response);
+      if (response.status === true){
+        this.studentList.unshift(response.data);
+        this.studentSubject.next([...this.studentList]);
+      }
+    }))
 
+  }
   updateStudent(studentData:any){
     return this.http.patch<any>(this.commonService.getAPI() + '/students', studentData)
     .pipe(catchError(this.errorService.serverError), tap(response => {

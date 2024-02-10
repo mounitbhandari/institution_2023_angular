@@ -35,6 +35,9 @@ export class UserRegistrationComponent implements OnInit {
   hiddenInput:boolean=false;
   hiddenId:boolean=false;
   isBtnVisible:boolean=false;
+  isTeacher:number=0;
+  isStudent:number=0;
+  resultString:string='';
   constructor(private organisationService: OrganisationService,
     private authService: AuthService) { }
 
@@ -117,13 +120,21 @@ export class UserRegistrationComponent implements OnInit {
      this.organisationName = data.organisation_name;
     this.address = data.address;
     this.city = data.city;
+    this.isStudent=data.is_student;
     this.contactNumber = data.whatsapp_number;;
     this.emailId = data.email_id;
     this.organisationPin = data.pin; 
+    if(this.isStudent>0){
+      this.studentUserFormGroup.patchValue({ student_user_type_id: 8 });
+      this.resultString='Student';
+    }else{
+      this.studentUserFormGroup.patchValue({ student_user_type_id: 7 });
+      this.resultString='Teacher';
+    }
     this.studentUserFormGroup.patchValue({ student_name: data.ledger_name });
     this.studentUserFormGroup.patchValue({ student_email: data.email_id });
     this.studentUserFormGroup.patchValue({ student_mobile1: data.whatsapp_number });
-    this.studentUserFormGroup.patchValue({ student_user_type_id: 8 });
+    
     this.studentUserFormGroup.patchValue({ org_id: data.organisation_id });
   }
   onUpdate(){

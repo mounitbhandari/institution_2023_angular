@@ -30,6 +30,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { MAT_DATE_LOCALE} from "@angular/material/core";
 import {SidenavTutorialModule} from "./sidenavs/sidenav-tutorial/sidenav-tutorial.module";
 import {SidenavStudentModule} from "./sidenavs/sidenav-student/sidenav-student.module";
+import {SidenavTeacherModule} from "./sidenavs/sidenav-teacher/sidenav-teacher.module";
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 
@@ -56,6 +57,7 @@ import {HashLocationStrategy, LocationStrategy} from "@angular/common";
         MatProgressSpinnerModule,
         SidenavTutorialModule,
         SidenavStudentModule,
+        SidenavTeacherModule,
         
    
     ],

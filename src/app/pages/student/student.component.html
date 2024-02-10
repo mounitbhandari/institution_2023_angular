@@ -1,5 +1,5 @@
 <div class="container-fluid page">
-  <div class="page__box p-3 mt-1 ml-1">Student Ṇ Entry</div>
+  <div class="page__box p-3 mt-1 ml-1">Student / Subscriber Entry</div>
   <div class="page__content shadow p-3 position-relative">
     <div class="page__content-data position-relative">
       <p-dialog header="Title" position="top" [transitionOptions]="'600ms'" [(visible)]="displayDialog"
@@ -421,7 +421,7 @@
                       <div class="col-md-4">
                         <mat-form-field style="width:100%">
                           <mat-label><i class="bi bi-telephone-fill mr-1"></i>Guardian Contact</mat-label>
-                          <input matInput formControlName="guardianContactNumber" placeholder="Guardian Contact"
+                          <input matInput formControlName="guardianContactNumber"  (blur)="sameAsWhatsAppNo()" placeholder="Guardian Contact"
                             required>
                         </mat-form-field>
                       </div>

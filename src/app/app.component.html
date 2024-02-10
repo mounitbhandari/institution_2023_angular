@@ -4,6 +4,7 @@
       <app-sidenav-owner *ngIf="authService.isOwner()"></app-sidenav-owner>
       <app-sidenav-developer *ngIf="authService.isDeveloper()"></app-sidenav-developer>
       <app-sidenav-student *ngIf="authService.isStudent()"></app-sidenav-student>
+      <app-sidenav-teacher *ngIf="authService.isOfficeStaff()"></app-sidenav-teacher>
     </mat-drawer>
 
     <mat-drawer-content style="background-color:white ;color:black;">

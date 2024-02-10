@@ -60,6 +60,9 @@ export class LoginComponent implements OnInit {
           if (this.authService.isStudent()) {
             this.router.navigate(['/StudentUser']).then(r => { });
           }
+          if (this.authService.isOfficeStaff()) {
+            this.router.navigate(['/TeacherDashboard']).then(r => { });
+          }
         }else{
           console.log(response.message);
           alert(response.message);

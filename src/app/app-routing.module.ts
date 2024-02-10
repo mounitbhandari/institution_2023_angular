@@ -167,6 +167,12 @@ const routes: Routes = [
 
   { path: 'Marksheet', loadChildren: () => import('./pages/marksheet/marksheet.module').then(m => m.MarksheetModule) },
 
+  { path: 'Teacher', loadChildren: () => import('./pages/teacher/teacher.module').then(m => m.TeacherModule) },
+
+  { path: 'SidenavTeacher', loadChildren: () => import('./sidenavs/sidenav-teacher/sidenav-teacher.module').then(m => m.SidenavTeacherModule) },
+
+  { path: 'TeacherDashboard', loadChildren: () => import('./pages/teacher-dashboard/teacher-dashboard.module').then(m => m.TeacherDashboardModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },
