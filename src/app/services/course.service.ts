@@ -38,6 +38,18 @@ export class CourseService {
     }))
   }
 
+  syllabusUploadSave(data:any){
+    const headers=new HttpHeaders();
+    return this.http.post<any>(this.commonService.getAPI() + '/syllabusUpload', data,{
+      headers:headers
+    }).pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service image:',response);
+      if (response.success === 1){
+        this.courseList.unshift(response.data);
+        this.durationTypeSubject.next([...this.courseList]);
+      }
+    }))
+  }
   saveSubject(data:any){
     this.subjectList=[];
     return this.http.post<any>(this.commonService.getAPI() + '/subject', data)

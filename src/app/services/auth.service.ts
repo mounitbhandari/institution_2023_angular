@@ -111,7 +111,7 @@ export class AuthService {
 
   getUserName(): string{
     if (this.userBehaviorSubject.value){
-      console.log("user name:",this.userBehaviorSubject.value.userName);
+      //console.log("user name:",this.userBehaviorSubject.value.userName);
       return this.userBehaviorSubject.value.userName;
       
     }

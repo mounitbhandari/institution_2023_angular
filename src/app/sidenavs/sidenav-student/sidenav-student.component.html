@@ -1,4 +1,4 @@
-<mat-nav-list>
+<mat-nav-list class="sroll-div">
   <div class="logo py-4">
     <img src="assets/Anushka_Logo.png" alt="Company Logo" class="eduvenv"/>
   </div>
@@ -16,7 +16,7 @@
     </a>
   </div> -->
   <div>
-    <a mat-list-item routerLinkActive="list-item-active">
+    <a mat-list-item [routerLink]="['/StudentSyllabus']" routerLinkActive="list-item-active">
       <i class="bi bi-book"></i> &nbsp; Syllabus
     </a>
   </div>
@@ -31,7 +31,7 @@
     </a>
   </div>
   <div>
-    <a mat-list-item routerLinkActive="list-item-active">
+    <a mat-list-item [routerLink]="['/StudentAssignment']" routerLinkActive="list-item-active">
       <i class="bi bi-person-workspace"></i> &nbsp; Assignment
     </a>
   </div>

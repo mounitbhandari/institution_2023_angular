@@ -54,6 +54,15 @@ export class ReportService {
       }
     }))
   }
+  fetchStudentSyllabusListReport(syllabusData:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/getStudentSyllabusList', syllabusData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service newsDataList:',response);
+      if (response.success === 1){
+        this.newsDataList.unshift(response.data);
+      }
+    }))
+  }
 
   updateNewsStatus(newsData:any){
     return this.http.patch<any>(this.commonService.getAPI() + '/updateNewsStatus', newsData)
@@ -72,6 +81,12 @@ export class ReportService {
       })));
   }
 
+  fetchSyllabusListReport($orgID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/getSyllabusList/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
   saveNews(newsData:any){
     return this.http.post<any>(this.commonService.getAPI() + '/saveNews', newsData)
     .pipe(catchError(this.errorService.serverError), tap(response => {

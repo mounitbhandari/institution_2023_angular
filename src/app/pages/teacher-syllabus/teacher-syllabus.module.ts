@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { TeacherSyllabusRoutingModule } from './teacher-syllabus-routing.module';
+import { TeacherSyllabusComponent } from './teacher-syllabus.component';
+
 import {TableModule} from "primeng/table";
-import {ToastModule} from "primeng/toast";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatStepperModule} from "@angular/material/stepper";
@@ -32,17 +34,13 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatCardModule} from "@angular/material/card";
 import {InputTextModule} from 'primeng/inputtext';
 
-import { NewsRoutingModule } from './news-routing.module';
-import { NewsComponent } from './news.component';
-
 @NgModule({
   declarations: [
-    NewsComponent
+    TeacherSyllabusComponent
   ],
   imports: [
     CommonModule,
-    NewsRoutingModule,
-    ToastModule,
+    TeacherSyllabusRoutingModule,
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
@@ -73,6 +71,6 @@ import { NewsComponent } from './news.component';
     MatCardModule,
     InputTextModule,
     MatFormFieldModule,
-   ]
+  ]
 })
-export class NewsModule { }
+export class TeacherSyllabusModule { }

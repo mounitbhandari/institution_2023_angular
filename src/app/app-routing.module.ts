@@ -173,6 +173,14 @@ const routes: Routes = [
 
   { path: 'TeacherDashboard', loadChildren: () => import('./pages/teacher-dashboard/teacher-dashboard.module').then(m => m.TeacherDashboardModule) },
 
+  { path: 'TeacherSyllabus', loadChildren: () => import('./pages/teacher-syllabus/teacher-syllabus.module').then(m => m.TeacherSyllabusModule) },
+
+  { path: 'StudentSyllabus', loadChildren: () => import('./pages/student-syllabus/student-syllabus.module').then(m => m.StudentSyllabusModule) },
+
+  { path: 'TeacherAssignment', loadChildren: () => import('./pages/teacher-assignment/teacher-assignment.module').then(m => m.TeacherAssignmentModule) },
+
+  { path: 'StudentAssignment', loadChildren: () => import('./pages/student-assignment/student-assignment.module').then(m => m.StudentAssignmentModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },

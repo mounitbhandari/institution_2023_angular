@@ -106,7 +106,12 @@
                           placeholder="Duration Type">
                         </ng-select>
                       </div>
-  
+                      <div class="col-sm-4">
+                        <ng-select [items]="section" fxFlex="100" bindLabel="sec" class="custom" bindValue="id"
+                          appendTo="body" formControlName="section"
+                          placeholder="Select Section">
+                        </ng-select>
+                      </div>
                     </div>
                     <div align="right">
                       <button pButton (click)="clearStudentToCourse()"

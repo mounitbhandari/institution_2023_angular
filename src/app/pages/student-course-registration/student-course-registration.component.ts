@@ -19,6 +19,10 @@ interface Alert {
   type: string;
   message: string;
 }
+export interface section{
+  id:string;
+  sec:string;
+}
 @Component({
   selector: 'app-student-course-registration',
   templateUrl: './student-course-registration.component.html',
@@ -89,6 +93,14 @@ export class StudentCourseRegistrationComponent implements OnInit {
   } = {};
   showErrorMessage: boolean | undefined;
   errorMessage: any;
+  public section :section[] = [
+    {id: 'A', sec: 'A'},
+    {id: 'B', sec: 'B'},
+    {id: 'C', sec: 'C'},
+    {id: 'D', sec: 'D'},
+    {id: 'E', sec: 'E'},
+    {id: 'F', sec: 'F'},
+];
   msgs: { severity: string; summary: string; detail: string; }[] | undefined;
 
   constructor(private studentToCourseService: StudentToCourseService,
@@ -129,7 +141,8 @@ export class StudentCourseRegistrationComponent implements OnInit {
       actual_course_duration: new FormControl(null, [Validators.required]),
       duration_type_id: new FormControl(1, [Validators.required]),
       studentToCourseID: new FormControl(0, [Validators.required]),
-      transactionMasterID: new FormControl(0, [Validators.required])
+      transactionMasterID: new FormControl(0, [Validators.required]),
+      section: new FormControl(null),
     })
 
 
@@ -283,6 +296,7 @@ export class StudentCourseRegistrationComponent implements OnInit {
           effectiveDate: this.studentToCourseFormGroup.value.effective_date,
           actual_course_duration: this.studentToCourseFormGroup.value.actual_course_duration,
           duration_type_id: this.studentToCourseFormGroup.value.duration_type_id,
+          section: this.studentToCourseFormGroup.value.section,
           organisationId: this.organisationId,
           isStarted: 1,
           userId: this.UserID,
@@ -439,8 +453,9 @@ export class StudentCourseRegistrationComponent implements OnInit {
           effectiveDate: this.studentToCourseFormGroup.value.effective_date,
           actual_course_duration: this.studentToCourseFormGroup.value.actual_course_duration,
           duration_type_id: this.studentToCourseFormGroup.value.duration_type_id,
+          section: this.studentToCourseFormGroup.value.section,
           isStarted: 1,
-          userId: 1,
+          userId: this.UserID,
           feesYear: DateObj.getFullYear(),
           feesMonth: DateObj.getMonth() + 1,
           transactionDetails: [
@@ -513,6 +528,7 @@ export class StudentCourseRegistrationComponent implements OnInit {
       actual_course_duration: new FormControl(null, [Validators.required]),
       duration_type_id: new FormControl(1, [Validators.required]),
       studentToCourseID: new FormControl(0, [Validators.required]),
+      section: new FormControl(null),
       //transactionMasterID: new FormControl(0, [Validators.required])
     })
   }

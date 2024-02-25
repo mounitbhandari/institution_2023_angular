@@ -225,38 +225,6 @@ export class NewsComponent implements OnInit {
             }
           })
         }
-       /*  this.reportService.saveNews(this.newsSaveData).subscribe(response => {
-          //this.showError = response.exception;
-          if (response.success === 1) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'News has been saved',
-              showConfirmButton: false,
-              timer: 1500
-            });
-           
-            this.getNewsList(this.organisationId);
-            this.newsFormGroup = new FormGroup({
-              newsDescription: new FormControl(null, [Validators.required]),
-              course_id: new FormControl(null),
-              image: new FormControl(null),
-              organisationId:new FormControl(this.organisationId)
-            })
-            // this.showSuccess("Record added successfully");
-            
-            //console.log("success:",response.success);
-          }
-        }, (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Duplicate Course Code..!!',
-            text: error,
-            footer: '<a href>Why do I have this issue?</a>' ,
-            timer: 0
-          });
-        }); */
-
         // For more information about handling dismissals please visit
         // https://sweetalert2.github.io/#handling-dismissals
       } else if (result.dismiss === Swal.DismissReason.cancel) {

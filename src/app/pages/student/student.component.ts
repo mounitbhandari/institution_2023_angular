@@ -25,6 +25,10 @@ interface Alert {
   type: string;
   message: string;
 }
+export interface section{
+  id:string;
+  sec:string;
+}
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -156,6 +160,15 @@ export class StudentComponent implements OnInit, OnChanges {
   isDashboard:boolean=true;
   isCourseDetails:boolean=false;
   isStudentDetails:boolean=false;
+  
+  public section :section[] = [
+    {id: 'A', sec: 'A'},
+    {id: 'B', sec: 'B'},
+    {id: 'C', sec: 'C'},
+    {id: 'D', sec: 'D'},
+    {id: 'E', sec: 'E'},
+    {id: 'F', sec: 'F'},
+];
   constructor(private studentToCourseService: StudentToCourseService
     ,private route: ActivatedRoute
     , public authService: AuthService
@@ -229,7 +242,6 @@ export class StudentComponent implements OnInit, OnChanges {
 
     ];
 
-    
 
     this.studentNameFormGroup = new FormGroup({
       studentId: new FormControl(null),
@@ -381,7 +393,8 @@ export class StudentComponent implements OnInit, OnChanges {
       actual_course_duration: new FormControl(null, [Validators.required]),
       duration_type_id: new FormControl(1, [Validators.required]),
       studentToCourseID: new FormControl(0, [Validators.required]),
-      transactionMasterID: new FormControl(0, [Validators.required])
+      transactionMasterID: new FormControl(0, [Validators.required]),
+      section: new FormControl(null),
     })
     /* this.userData=localStorage.getItem('user');
     console.log("user data:",(this.userData));
