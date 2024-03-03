@@ -147,7 +147,7 @@ export class TeacherSyllabusComponent implements OnInit {
               Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'News has been saved',
+                title: 'Syllabus has been saved',
                 showConfirmButton: false,
                 timer: 1500
               });
@@ -174,7 +174,7 @@ export class TeacherSyllabusComponent implements OnInit {
               Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'News has been saved',
+                title: 'Syllabus has been saved',
                 showConfirmButton: false,
                 timer: 1500
               });
@@ -201,7 +201,7 @@ export class TeacherSyllabusComponent implements OnInit {
               Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'News has been saved',
+                title: 'Syllabus has been saved',
                 showConfirmButton: false,
                 timer: 1500
               });
@@ -228,7 +228,7 @@ export class TeacherSyllabusComponent implements OnInit {
               Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'News has been saved',
+                title: 'Syllabus has been saved',
                 showConfirmButton: false,
                 timer: 1500
               });

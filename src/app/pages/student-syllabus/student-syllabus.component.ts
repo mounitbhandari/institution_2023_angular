@@ -22,7 +22,7 @@ studentCourseHistoryArray:any=[];
     ,private route: ActivatedRoute
     , public authService: AuthService) { 
 
-      const user = localStorage.getItem('user');
+    const user = localStorage.getItem('user');
     if (user){
       this.UserID = JSON.parse(<string>user).uniqueId;
       this.organisationId = JSON.parse(<string>user).organisationId;
@@ -49,8 +49,6 @@ studentCourseHistoryArray:any=[];
       this.getStudentSyllabusList();
       
     })
-    
-    
   }
   getStudentSyllabusList(){
     this.reportService.fetchStudentSyllabusListReport(this.tempNewsObj).subscribe(response => {
