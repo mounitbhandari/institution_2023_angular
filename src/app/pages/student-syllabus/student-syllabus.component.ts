@@ -45,7 +45,7 @@ studentCourseHistoryArray:any=[];
         courseId: this.studentCourseHistoryArray[0].course_id,
         organisationId: this.organisationId
       }; 
-      console.log("course ID:",this.tempNewsObj);
+      console.log("course ID:",this.studentCourseHistoryArray[0].course_id);
       this.getStudentSyllabusList();
       
     })
