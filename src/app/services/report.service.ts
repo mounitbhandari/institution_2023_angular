@@ -73,6 +73,15 @@ export class ReportService {
       }
     }))
   }
+  onlinePaymentService(PayData:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/phonepe', PayData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service phonepe:',response);
+     /*  if (response.success === 1){
+        this.newsDataList.unshift(response.data);
+      } */
+    }))
+  }
   updateNewsStatus(newsData:any){
     return this.http.patch<any>(this.commonService.getAPI() + '/updateNewsStatus', newsData)
     .pipe(catchError(this.errorService.serverError), tap(response => {

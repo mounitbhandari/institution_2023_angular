@@ -31,9 +31,9 @@ export class TransactionServicesService {
   }
 
 
- fetchPhonepeApi($amount:any){
+ fetchPhonepeApi(amount:any,merchantId:any,apiKey:any,merchantUserId:any){
   this.paymentHistoryDetails=[];
-  return this.http.get<any>(this.commonService.getAPI() + '/phonepe/'+$amount)
+  return this.http.get<any>(this.commonService.getAPI() + '/phonepe/'+amount + '/'+ merchantId + '/'+ apiKey + '/'+ merchantUserId)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
       this.paymentHistoryDetails=response.data;
       this.transactionListSubject.next([...this.paymentHistoryDetails]);

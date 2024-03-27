@@ -2,7 +2,7 @@
     <div class="headerobjectswrapper">
 
         <header>Your Assignment</header>
-
+        <h3>Your Payment ID: {{autoGenerateId}}</h3>
     </div>
     <div class="container-fluid" style="background-color: rgb(248, 241, 215);">
         <div class="container table-responsive py-5">
@@ -73,5 +73,17 @@
                 </div>
               
         </div>
+        <form [formGroup]="FinalPayFormGroup">
+        <div class="input-group mb-3">
+          <span class="input-group-text">Amount</span>
+          <input type="text" [(ngModel)]="payAmountNgModel" formControlName="payAmount" class="form-control" placeholder="0.00">
+          <button type="button" class="btn btn-dark" (click)="onlinePayment()">Pay Now</button>
+        </div>
+      </form>
+      <pre style="background-color:yellow ; text-align: left;">
+        save code tempObj = {{tempNewsObj | json}}
+            
+           
+          </pre>
     </div>
 </div>
