@@ -77,13 +77,14 @@
         <div class="input-group mb-3">
           <span class="input-group-text">Amount</span>
           <input type="text" [(ngModel)]="payAmountNgModel" formControlName="payAmount" class="form-control" placeholder="0.00">
-          <button type="button" class="btn btn-dark" (click)="onlinePayment()">Pay Now</button>
+          <button type="button" class="btn btn-dark" (click)="onlinePayment()">Pay Now</button> &nbsp; &nbsp;
+          <button type="button" class="btn btn-dark" (click)="saveOnlinePayment()" *ngIf="isShowBtn">Update Payment</button>
         </div>
       </form>
-      <pre style="background-color:yellow ; text-align: left;">
+     <!--  <pre style="background-color:yellow ; text-align: left;">
         save code tempObj = {{tempNewsObj | json}}
             
            
-          </pre>
+      </pre> -->
     </div>
 </div>

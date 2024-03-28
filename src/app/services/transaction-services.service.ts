@@ -26,6 +26,7 @@ export class TransactionServicesService {
   studentNameSubject = new Subject<any[]>();
   feesReceivedSubject = new Subject<any[]>();
   transactionListSubject = new Subject<any[]>();
+  status: string | undefined;
   constructor(private commonService: CommonService, private errorService: ErrorService, private http: HttpClient) {
 
   }
@@ -253,6 +254,18 @@ export class TransactionServicesService {
 
   feesDiscountCharge(feeChargeData:any){
     return this.http.post<any>(this.commonService.getAPI() + '/transactions/feesDiscountCharged', feeChargeData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      if (response.status === true){
+        this.studentToCourseList.unshift(response.data);
+        this.studentToCourseSubject.next([...this.studentToCourseList]);
+      }
+    }))
+  }
+  saveFeesReceiveOnline(merchantTransactionId:any,feeReceivedData:any){
+     this.http.delete(this.commonService.getAPI() + '/feesReceivedOnline/'+ merchantTransactionId)
+            .subscribe(() => this.status = 'Delete successful');
+
+    return this.http.post<any>(this.commonService.getAPI() + '/feesReceivedOnline/' + merchantTransactionId, feeReceivedData)
     .pipe(catchError(this.errorService.serverError), tap(response => {
       if (response.status === true){
         this.studentToCourseList.unshift(response.data);

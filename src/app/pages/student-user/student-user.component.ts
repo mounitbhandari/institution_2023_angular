@@ -1,13 +1,16 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Table } from 'primeng/table';
 import { AuthService } from 'src/app/services/auth.service';
 import { CommonService } from 'src/app/services/common.service';
+import { OrganisationService } from 'src/app/services/organisation.service';
 import { ReportService } from 'src/app/services/report.service';
 import { StudentToCourseService } from 'src/app/services/student-to-course.service';
 import { StudentService } from 'src/app/services/student.service';
 import { TransactionServicesService } from 'src/app/services/transaction-services.service';
+import Swal from 'sweetalert2';
 import { ToWords } from 'to-words';
 
 const toWords = new ToWords({
@@ -80,10 +83,12 @@ export class StudentUserComponent implements OnInit {
   studentNewsArray:any[]=[];
   allBillReceiptArray: any = [];
   tranMasterIdArray:any=[]
+  marchantIdArray: any = [];
   organisationAddress:string='';
   organisationPin:string='';
   organisationContact:string='';
   organisationEmail:string='';
+
 
   FinalPayFormGroup: FormGroup | any;
   tempFeesReceivedArray:any[]=[];
@@ -92,6 +97,13 @@ export class StudentUserComponent implements OnInit {
   rupeeInWords:string='';
   totalRecepitAmount:number=0;
   totalDueAmount:number=0;
+
+  merchantId:any;
+  apiKey:any;
+  merchantUserId:any;
+  transactionMonth:any;
+  transactionYear:any;
+  autoGenerateId:number=0;
 
   whatsapp_number: string = '';
   billing_name: string = '';
@@ -105,10 +117,13 @@ export class StudentUserComponent implements OnInit {
   comment: any;
   defaultPicture: string = "";
   payAmountNgModel: number = 0;
+  isShowBtn:boolean=false;
   tempNewsObj:object={};
+  counter:number=60;
   constructor(private studentToCourseService: StudentToCourseService,
     private commonService: CommonService
     ,private reportService: ReportService
+    ,private organisationService: OrganisationService
     ,private route: ActivatedRoute
     , public authService: AuthService
     , private activatedRoute: ActivatedRoute
@@ -125,10 +140,12 @@ export class StudentUserComponent implements OnInit {
     }
     this.getStudentProfile(this.ledgerId);
     this.getStudentToCourseRegistrationListLedgerId(this.ledgerId);
+    this.randomNum(4999,999999999999);
     //this.getStudentNewsList(this.organisationId);
    }
   
   ngOnInit(): void {
+    //var x=setInterval(this.test, 5000);
     this.defaultPicture = this.commonService.getPublic() + '/file_upload/';
     this.FinalPayFormGroup = new FormGroup({
       payAmount: new FormControl(null, [Validators.required]),
@@ -153,12 +170,18 @@ export class StudentUserComponent implements OnInit {
       this.organisationPin=this.studentProfileDetalilsArray[0].organisationPin;
       this.organisationContact=this.studentProfileDetalilsArray[0].organisationContact;
       this.organisationEmail=this.studentProfileDetalilsArray[0].organisationEmail;
+      this.apiKey=this.studentProfileDetalilsArray[0].apiKey;
+      this.merchantId=this.studentProfileDetalilsArray[0].merchantId;
+      this.merchantUserId=this.studentProfileDetalilsArray[0].merchantUserId;
       console.log("studentProfileDetalilsArray :", this.studentProfileDetalilsArray);
     }) 
   }
   clear(table: Table) {
     table.clear();
   } 
+  test(){
+    console.log("Interval Testing");
+  }
   getEventValue($event:any) :string {
     return $event.target.value;
   }
@@ -201,6 +224,7 @@ export class StudentUserComponent implements OnInit {
       console.log("studentNewsArray:",this.studentNewsArray);
     })
   }
+  
   /* onPayment(data:any){
     console.log(data);
   } */
@@ -208,21 +232,146 @@ export class StudentUserComponent implements OnInit {
     /* window.location.href='https://easytestmaker.com/'; */
     window.open('https://easytestmaker.com/', '_blank', 'noopener, noreferrer');
   }
+  saveOnlinePayment(){
+   /*  this.http.delete('https://jsonplaceholder.typicode.com/posts/1')
+            .subscribe(() => this.status = 'Delete successful');` */
+            
+    this.tempNewsObj={};
+    this.tempChargeObj={};
+    this.tempReceicedObj={};
+
+    this.paymentAmount = this.payAmountNgModel;
+    var date = new Date();
+    const cValue = formatDate(date, 'yyyy-MM-dd', 'en-US');
+    const DateObj = new Date();
+    
+    this.transactionMonth = DateObj.getMonth() + 1;
+    this.transactionYear = DateObj.getFullYear();
+    console.log("Month No:", DateObj.getMonth() + 1);
+    console.log("Year No:", DateObj.getFullYear());
+
+
+
+     this.tempChargeObj = {
+      ledgerId: this.ledgerId,
+      transactionTypeId: 2,
+      amount: this.paymentAmount
+    }
+    this.tempReceicedObj = {
+      ledgerId: 2,
+      transactionTypeId: 1,
+      amount: this.paymentAmount
+    }
+    this.tempFeesReceivedArray.push(this.tempReceicedObj);
+
+
+    this.tempFeesReceivedArray.push(this.tempChargeObj);
+     this.tempNewsObj = {
+      transactionMaster: {
+        userId: this.UserID,
+        referenceTransactionMasterId: this.transactionId,
+        transactionDate: cValue,
+        comment:this.feesName,
+        feesYear: this.transactionYear,
+        feesMonth: this.transactionMonth,
+        organisationId: this.organisationId
+      },
+      transactionDetails: Object.values(this.tempFeesReceivedArray)
+    };  
+    this.transactionServicesService.saveFeesReceiveOnline(this.autoGenerateId,this.tempNewsObj).subscribe(response => {
+      if (response.success === 1) {
+         Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Fees has been Received..',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        window.location.reload();
+       }
+      })
+  /*  Swal.fire({
+      text: '',
+      title: 'Are you sure ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Save it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        this.transactionServicesService.saveFeesReceiveOnline(this.autoGenerateId,this.tempNewsObj).subscribe(response => {
+          if (response.success === 1) {
+             Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Fees has been Received..',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            window.location.reload();
+           }
+           else if(response.success === 0) {
+            Swal.fire({
+              position: 'top-end',
+              icon: "error",
+              title: 'Sorry Your Payment Not Updated.',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.tempNewsObj={};
+            this.tempChargeObj={};
+            this.tempReceicedObj={};
+           }
+          }, (error: any) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error,
+              footer: '<a href>Why do I have this issue?</a>',
+              timer: 0
+            });
+          });
+        
+      // For more information about handling dismissals please visit
+      // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
+    })    */   
+  }
+  getCheckMarchantId(autoGenerateId:any){
+    this.counter--;
+    //console.log("success marchantId:",autoGenerateId);
+     this.reportService.fetchCheckMerchantTransactionId(autoGenerateId).subscribe(response => {
+      console.log("success marchantId:",response.success);
+      if (response.success === 1) {
+          this.saveOnlinePayment();
+      }
+    }) 
+     
+  }
   onFinalPayNow(){
+    setInterval(()=> this.getCheckMarchantId(this.autoGenerateId), 5000);
     this.paymentAmount = this.payAmountNgModel;
     console.log("amount:",this.paymentAmount);
-    let testUrl=this.commonService.getAPI() + '/phonepe/'+this.paymentAmount;
-    //window.location.href='http://localhost/institution_2023/institution_2023_api/public/api/phonepe/'+this.paymentAmount;
-    window.location.href=testUrl;
-   /*  this.tempPhonepeObj = {
-      amount: this.paymentAmount
-    }; */
-    /* console.log("amount:",this.paymentAmount);
-    this.transactionServicesService.fetchPhonepeApi(this.paymentAmount).subscribe(response => {
-      this.PhonepePaymentHistoryarray = response.data;
-      console.log("PhonepePaymentHistoryarray:",this.PhonepePaymentHistoryarray);
-
-    })  */
+    
+    this.isShowBtn=true;
+    this.paymentAmount = this.payAmountNgModel;
+    this.apiKey="099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
+    this.merchantId="PGTESTPAYUAT";
+    this.merchantUserId="MUID123";
+    console.log("amount:",this.paymentAmount);
+    
+    let testUrl=this.commonService.getAPI() + '/phonepe/'+this.paymentAmount + '/'+ this.merchantId + '/'+ this.apiKey + '/'+ this.merchantUserId + '/'+ this.autoGenerateId;
+    
+   window.open(testUrl, '_blank'); 
+   
+     
   }
   onPayment(data:any) {
     this.selectedIndex = 5;
@@ -386,34 +535,7 @@ export class StudentUserComponent implements OnInit {
   onActiveAcademic(){
     this.selectedIndex = 0;
   }
-  //rzp1: any
-  /* pay(){
-    this.rzp1 = new this.studentService.nativeWindow.Razorpay(this.options);
-    this.rzp1.open();
-  } */
-  /*   options = {
-      "key": "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard
-      "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-      "currency": "INR",
-      "name": "Acme Corp", //your business name
-      "description": "Test Transaction",
-      "image": "https://example.com/your_logo",
-      "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      "handler": function (response: { razorpay_payment_id: any; razorpay_order_id: any; razorpay_signature: any; }){
-          alert(response.razorpay_payment_id);
-          alert(response.razorpay_order_id);
-          alert(response.razorpay_signature)
-      },
-      "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
-          "name": "Gaurav Kumar", //your customer's name
-          "email": "gaurav.kumar@example.com", 
-          "contact": "9000090000"  //Provide the customer's phone number for better conversion rates 
-      },
-      "notes": {
-          "address": "Razorpay Corporate Office"
-      },
-      "theme": {
-          "color": "#3399cc"
-      }
-  }; */
+  randomNum(min:number, max:number) {
+    this.autoGenerateId=Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 }

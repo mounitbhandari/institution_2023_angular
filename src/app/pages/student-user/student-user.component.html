@@ -385,7 +385,9 @@
           Final Payment
         </ng-template>
         <div class="container-fluid" style="background-color:white ;color:black">
-          <h1>{{fullCourseName}}</h1>
+          <h1 style="text-align: center;">{{fullCourseName}}</h1>
+          <h2 style="color:red ; text-decoration:underline ;text-align: center;">Please Do Not Refresh This Page While You Make Payment</h2>
+          <h3 style="text-align: center;">Your Payment ID: {{autoGenerateId}}</h3>
            <div class="row">
             <div class="col-sm-6">
             <form [formGroup]="FinalPayFormGroup">
@@ -428,6 +430,8 @@
                   </div> &nbsp; &nbsp; &nbsp;
                   <div>
                     <button type="button" class="btn btn-outline-success" (click)="onFinalPayNow()" ><i class="bi bi-credit-card-2-back" ></i> &nbsp;Pay Now</button>
+                    &nbsp; &nbsp;
+                    <button type="button" class="btn btn-dark"  >{{counter}}</button>
                   </div>
                  
               </div>

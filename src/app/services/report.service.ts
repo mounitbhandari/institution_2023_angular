@@ -17,6 +17,12 @@ export class ReportService {
 
 
   }
+  fetchCheckMerchantTransactionId($MerchantTransactionId:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/checkMerchantTransaction/'+$MerchantTransactionId)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
   fetchPivotTableIncomeList($orgID:any){
     this.newsDataList=[];
      return this.http.get<any>(this.commonService.getAPI() + '/getPivotTableIncomeListReport/'+$orgID)

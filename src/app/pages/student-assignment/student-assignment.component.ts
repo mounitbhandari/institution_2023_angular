@@ -35,6 +35,7 @@ export class StudentAssignmentComponent implements OnInit {
   FinalPayFormGroup: any;
   datePipe: any;
   autoGenerateId:number=0;
+  isShowBtn:boolean=false;
   constructor(private commonService: CommonService
     ,private reportService: ReportService
     ,private route: ActivatedRoute
@@ -79,18 +80,7 @@ export class StudentAssignmentComponent implements OnInit {
       console.log("studentAssignmentArray:",this.studentAssignmentArray);
     })
   }
-  onlinePayment(){
-    this.studentAssignmentArray=[];
-    this.paymentAmount = this.payAmountNgModel;
-    this.apiKey="099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
-    this.merchantId="PGTESTPAYUAT";
-    this.merchantUserId="MUID123";
-    console.log("amount:",this.paymentAmount);
-
-    /* this.transactionServicesService.fetchPhonepeApi(this.paymentAmount,this.merchantId,this.apiKey,this.merchantUserId).subscribe(response => {
-      this.studentAssignmentArray=response.data;
-      console.log("Payment Success data:",this.studentAssignmentArray);
-    }) */
+  saveOnlinePayment(){
     var date = new Date();
     const cValue = formatDate(date, 'yyyy-MM-dd', 'en-US');
     const DateObj = new Date();
@@ -102,7 +92,7 @@ export class StudentAssignmentComponent implements OnInit {
 
 
 
-    this.tempChargeObj = {
+     this.tempChargeObj = {
       ledgerId: this.ledgerId,
       transactionTypeId: 2,
       amount: this.paymentAmount
@@ -116,10 +106,10 @@ export class StudentAssignmentComponent implements OnInit {
 
 
     this.tempFeesReceivedArray.push(this.tempChargeObj);
-    this.tempNewsObj = {
+     this.tempNewsObj = {
       transactionMaster: {
         userId: this.UserID,
-        referenceTransactionMasterId: 295,
+        referenceTransactionMasterId: 262,
         transactionDate: cValue,
         comment:"Online Payment",
         feesYear: this.transactionYear,
@@ -127,8 +117,8 @@ export class StudentAssignmentComponent implements OnInit {
         organisationId: this.organisationId
       },
       transactionDetails: Object.values(this.tempFeesReceivedArray)
-    }; 
-    Swal.fire({
+    };  
+   Swal.fire({
       text: '',
       title: 'Are you sure ?',
       icon: 'warning',
@@ -138,10 +128,8 @@ export class StudentAssignmentComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         
-        this.transactionServicesService.saveFeesReceive(this.tempNewsObj).subscribe(response => {
+        this.transactionServicesService.saveFeesReceiveOnline(this.autoGenerateId,this.tempNewsObj).subscribe(response => {
           if (response.success === 1) {
-            let testUrl=this.commonService.getAPI() + '/phonepe/'+this.paymentAmount + '/'+ this.merchantId + '/'+ this.apiKey + '/'+ this.merchantUserId + '/'+ this.autoGenerateId;
-            window.location.href=testUrl;
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -149,11 +137,16 @@ export class StudentAssignmentComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500
             });
-            //this.getsyllabusList(this.organisationId);
-            // this.showSuccess("Record added successfully");
-            
-            //console.log("success:",response.success);
-          }
+           }
+           else if(response.success === 0) {
+            Swal.fire({
+              position: 'top-end',
+              icon: "error",
+              title: 'Sorry Your Payment Not Updated.',
+              showConfirmButton: false,
+              timer: 1500
+            });
+           }
           }, (error: any) => {
             Swal.fire({
               icon: 'error',
@@ -173,7 +166,27 @@ export class StudentAssignmentComponent implements OnInit {
           'error'
         )
       }
-    })    
+    })      
+  }
+  onlinePayment(){
+    this.isShowBtn=true;
+    this.studentAssignmentArray=[];
+    this.paymentAmount = this.payAmountNgModel;
+    this.apiKey="099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
+    this.merchantId="PGTESTPAYUAT";
+    this.merchantUserId="MUID123";
+    console.log("amount:",this.paymentAmount);
+    
+    /* this.transactionServicesService.fetchPhonepeApi(this.paymentAmount,this.merchantId,this.apiKey,this.merchantUserId).subscribe(response => {
+      this.studentAssignmentArray=response.data;
+      console.log("Payment Success data:",this.studentAssignmentArray);
+    }) */
+    let testUrl=this.commonService.getAPI() + '/phonepe/'+this.paymentAmount + '/'+ this.merchantId + '/'+ this.apiKey + '/'+ this.merchantUserId + '/'+ this.autoGenerateId;
+    //window.location.href=testUrl;
+
+    //var url = '@Url.Action("PrintIndex", "Callers", new {dateRequested = "findme"})';
+   window.open(testUrl, '_blank');
+   
    /*  let testUrl=this.commonService.getAPI() + '/phonepe/'+this.paymentAmount + '/'+ this.merchantId + '/'+ this.apiKey + '/'+ this.merchantUserId;
     window.location.href=testUrl; */
     
