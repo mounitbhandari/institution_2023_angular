@@ -119,7 +119,8 @@ export class StudentUserComponent implements OnInit {
   payAmountNgModel: number = 0;
   isShowBtn:boolean=false;
   tempNewsObj:object={};
-  counter:number=60;
+  counter:number=30;
+  interval:any;
   constructor(private studentToCourseService: StudentToCourseService,
     private commonService: CommonService
     ,private reportService: ReportService
@@ -345,7 +346,21 @@ export class StudentUserComponent implements OnInit {
     })    */   
   }
   getCheckMarchantId(autoGenerateId:any){
+   
     this.counter--;
+    if(this.counter==0){
+      if (this.interval) {
+        clearInterval(this.interval);
+        Swal.fire({
+          position: 'top-end',
+          icon: "error",
+          title: 'Sorry Your Time Is Over! Try Again',
+          showConfirmButton: false,
+          timer: 3000
+        });
+        window.location.reload();
+     }
+    }
     //console.log("success marchantId:",autoGenerateId);
      this.reportService.fetchCheckMerchantTransactionId(autoGenerateId).subscribe(response => {
       console.log("success marchantId:",response.success);
@@ -356,7 +371,7 @@ export class StudentUserComponent implements OnInit {
      
   }
   onFinalPayNow(){
-    setInterval(()=> this.getCheckMarchantId(this.autoGenerateId), 5000);
+    this.interval=setInterval(()=> this.getCheckMarchantId(this.autoGenerateId), 5000);
     this.paymentAmount = this.payAmountNgModel;
     console.log("amount:",this.paymentAmount);
     
@@ -369,7 +384,7 @@ export class StudentUserComponent implements OnInit {
     
     let testUrl=this.commonService.getAPI() + '/phonepe/'+this.paymentAmount + '/'+ this.merchantId + '/'+ this.apiKey + '/'+ this.merchantUserId + '/'+ this.autoGenerateId;
     
-   window.open(testUrl, '_blank'); 
+    window.open(testUrl, '_blank'); 
    
      
   }
