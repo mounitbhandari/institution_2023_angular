@@ -119,7 +119,7 @@ export class StudentUserComponent implements OnInit {
   payAmountNgModel: number = 0;
   isShowBtn:boolean=false;
   tempNewsObj:object={};
-  counter:number=30;
+  counter:number=36;
   interval:any;
   constructor(private studentToCourseService: StudentToCourseService,
     private commonService: CommonService
@@ -291,59 +291,7 @@ export class StudentUserComponent implements OnInit {
         window.location.reload();
        }
       })
-  /*  Swal.fire({
-      text: '',
-      title: 'Are you sure ?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, Save it!',
-      cancelButtonText: 'No, keep it'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        
-        this.transactionServicesService.saveFeesReceiveOnline(this.autoGenerateId,this.tempNewsObj).subscribe(response => {
-          if (response.success === 1) {
-             Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'Fees has been Received..',
-              showConfirmButton: false,
-              timer: 1500
-            });
-            window.location.reload();
-           }
-           else if(response.success === 0) {
-            Swal.fire({
-              position: 'top-end',
-              icon: "error",
-              title: 'Sorry Your Payment Not Updated.',
-              showConfirmButton: false,
-              timer: 1500
-            });
-            this.tempNewsObj={};
-            this.tempChargeObj={};
-            this.tempReceicedObj={};
-           }
-          }, (error: any) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: error,
-              footer: '<a href>Why do I have this issue?</a>',
-              timer: 0
-            });
-          });
-        
-      // For more information about handling dismissals please visit
-      // https://sweetalert2.github.io/#handling-dismissals
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled',
-          'Your imaginary file is safe :)',
-          'error'
-        )
-      }
-    })    */   
+  
   }
   getCheckMarchantId(autoGenerateId:any){
    

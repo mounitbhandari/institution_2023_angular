@@ -151,7 +151,43 @@ export class TeacherAssignmentComponent implements OnInit {
               
             }
           })
-        }else if((this.files) && (this.teacherAssignmentFormGroup.value.assignmentDescription)){
+        }
+        if((this.files) && (this.teacherAssignmentFormGroup.value.assignmentDescription) && (this.teacherAssignmentFormGroup.value.course_id)){
+          const formData= new FormData();
+          formData.append("image",this.files, this.files.name);
+          formData.append("courseId",this.teacherAssignmentFormGroup.value.course_id);
+          formData.append("organisationId",this.teacherAssignmentFormGroup.value.organisationId);
+          formData.append("assignmentDescription",this.teacherAssignmentFormGroup.value.assignmentDescription);
+          formData.append("uploaded_by",this.teacherAssignmentFormGroup.value.uploaded_by);
+          formData.append("user_id",this.teacherAssignmentFormGroup.value.userId);
+          //this.syllabusObject=formData;
+          this.courseService.assignmentUploadSave(formData).subscribe(response=>{
+            this.data=response;
+            console.log("Save Assignment:",this.data);
+            this.syllabusObject=this.data;
+            if (this.data.success === 1) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Assignment has been saved',
+                showConfirmButton: false,
+                timer: 1500
+              });
+             
+              this.getAssignmentList(this.organisationId);
+              this.teacherAssignmentFormGroup = new FormGroup({
+                assignmentDescription: new FormControl(null, [Validators.required]),
+                course_id: new FormControl(null),
+                subject_id: new FormControl(null),
+                image: new FormControl(null),
+                organisationId:new FormControl(this.organisationId),
+                userId:new FormControl(this.UserID)
+              })
+              
+            }
+          })
+        }
+        else if((this.files) && (this.teacherAssignmentFormGroup.value.assignmentDescription)){
           const formData= new FormData();
           formData.append("image",this.files, this.files.name);
           formData.append("organisationId",this.teacherAssignmentFormGroup.value.organisationId);
