@@ -180,9 +180,7 @@ export class StudentUserComponent implements OnInit {
   clear(table: Table) {
     table.clear();
   } 
-  test(){
-    console.log("Interval Testing");
-  }
+  
   getEventValue($event:any) :string {
     return $event.target.value;
   }
