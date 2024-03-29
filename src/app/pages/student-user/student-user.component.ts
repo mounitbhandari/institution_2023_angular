@@ -119,7 +119,7 @@ export class StudentUserComponent implements OnInit {
   payAmountNgModel: number = 0;
   isShowBtn:boolean=false;
   tempNewsObj:object={};
-  counter:number=30;
+  counter:number=36;
   interval:any;
   constructor(private studentToCourseService: StudentToCourseService,
     private commonService: CommonService
@@ -180,9 +180,7 @@ export class StudentUserComponent implements OnInit {
   clear(table: Table) {
     table.clear();
   } 
-  test(){
-    console.log("Interval Testing");
-  }
+  
   getEventValue($event:any) :string {
     return $event.target.value;
   }
