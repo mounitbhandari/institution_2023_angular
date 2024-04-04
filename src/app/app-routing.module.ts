@@ -181,6 +181,8 @@ const routes: Routes = [
 
   { path: 'StudentAssignment', loadChildren: () => import('./pages/student-assignment/student-assignment.module').then(m => m.StudentAssignmentModule) },
 
+  { path: 'StudentRegistration', loadChildren: () => import('./pages/student-registration/student-registration.module').then(m => m.StudentRegistrationModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },

@@ -16,6 +16,30 @@ import { NgChartsModule } from 'ng2-charts';
 import {InputTextModule} from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import {NgxPrintModule} from 'ngx-print';
+
+import {ToastModule} from "primeng/toast";
+import {NgSelectModule} from "@ng-select/ng-select";
+
+import { FormGroup, FormControl, Validators, FormBuilder }  from '@angular/forms';
+import {FormsModule,ReactiveFormsModule} from '@angular/forms';
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {DialogModule} from "primeng/dialog";
+import {StepsModule} from "primeng/steps";
+import {PanelModule} from "primeng/panel";
+import {DropdownModule} from "primeng/dropdown";
+
+
+
+import {CalendarModule} from 'primeng/calendar';
+import {SliderModule} from 'primeng/slider';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {ContextMenuModule} from 'primeng/contextmenu';
+
+import {ProgressBarModule} from 'primeng/progressbar';
+
 @NgModule({
   declarations: [
     OwnerComponent
@@ -35,7 +59,22 @@ import {NgxPrintModule} from 'ngx-print';
     NgChartsModule,
     InputTextModule,
     ButtonModule,
-    NgxPrintModule
+    NgxPrintModule,
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ConfirmDialogModule,
+    DialogModule,
+    DropdownModule,
+    ToastModule,
+    CalendarModule,
+    SliderModule,
+    MultiSelectModule,
+    ContextMenuModule,
+    ProgressBarModule
   ]
 })
 export class OwnerModule { }
