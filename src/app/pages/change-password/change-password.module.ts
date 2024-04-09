@@ -13,6 +13,12 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatInputModule} from "@angular/material/input";
 
+
+import {NgSelectModule} from "@ng-select/ng-select";
+import {TableModule} from "primeng/table";
+import { ButtonModule } from 'primeng/button';
+import {InputTextModule} from 'primeng/inputtext';
+
 @NgModule({
   declarations: [
     ChangePasswordComponent
@@ -29,7 +35,11 @@ import {MatInputModule} from "@angular/material/input";
     MatMenuModule,
     MatToolbarModule,
     MatTabsModule,
-    MatInputModule
+    MatInputModule,
+    NgSelectModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule
   ]
 })
 export class ChangePasswordModule { }

@@ -86,6 +86,13 @@ export class StudentService {
         this.studentSubject.next([...this.studentList]);
       })));
   }
+  fetchAllStudentByOrdID($orgID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/students/studentByOrgId/'+ $orgID)
+   .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
+     this.studentList=response.data;
+     this.studentSubject.next([...this.studentList]);
+   })));
+}
   fetchAllTeachers($orgID:any){
     this.teacherList=[];
     return this.http.get<any>(this.commonService.getAPI() + '/getTeacher/'+ $orgID)
