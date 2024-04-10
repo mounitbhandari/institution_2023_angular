@@ -14,6 +14,7 @@ export interface StudentResponseData {
   status: boolean;
   message: string;
   $orgID:number;
+  
   data: {
     studentId: number;
 		episodeId: string;
@@ -44,6 +45,7 @@ export class StudentService {
   studentList: Student[] =[];
   teacherList: Student[] =[];
   stateList: any[] =[];
+  success:number=0;
   studentSubject = new Subject<Student[]>();
   stateSubject = new Subject<Student[]>();
   get nativeWindow() : any {
@@ -59,7 +61,24 @@ export class StudentService {
   } */
   
   //$orgID=1;
-  
+
+  updateStudentInforce($studentID:any){
+    this.studentList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/students/updateStudentInforce/'+ $studentID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
+      this.success=response.success;
+      this.studentList=response.data;
+      //this.studentSubject.next([...this.studentList]);
+    })));
+  }
+
+  fetchAllInactiveStudents($orgID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/students/inactiveStudentList/'+ $orgID)
+   .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
+     this.studentList=response.data;
+     this.studentSubject.next([...this.studentList]);
+   })));
+}
   fetchAllStudents($orgID:any){
        return this.http.get<any>(this.commonService.getAPI() + '/students/'+ $orgID)
       .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
@@ -67,6 +86,13 @@ export class StudentService {
         this.studentSubject.next([...this.studentList]);
       })));
   }
+  fetchAllStudentByOrdID($orgID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/students/studentByOrgId/'+ $orgID)
+   .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
+     this.studentList=response.data;
+     this.studentSubject.next([...this.studentList]);
+   })));
+}
   fetchAllTeachers($orgID:any){
     this.teacherList=[];
     return this.http.get<any>(this.commonService.getAPI() + '/getTeacher/'+ $orgID)
@@ -92,13 +118,20 @@ fetchTeacherProfile($ledgerID:any){
  })));
 }
   fetchAllStates(){
-    return this.http.get<any>(this.commonService.getAPI() + '/states')
+    return this.http.get<any>(this.commonService.getAPI() + '/statesList')
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
       this.stateList=response.data;
       this.stateSubject.next([...this.stateList]);
     })));
   }
-
+  fetchAllOrganisaction(){
+    this.stateList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/allOrganisation')
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.stateList=response.data;
+      this.stateSubject.next([...this.stateList]);
+    })));
+  }
   getStudents(){
     return [...this.studentList];
   }
@@ -106,6 +139,17 @@ fetchTeacherProfile($ledgerID:any){
     return this.studentSubject.asObservable();
   }
 
+  saveStudentRegistration(studentData:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/saveStudent', studentData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service',response);
+      if (response.status === true){
+        this.studentList.unshift(response.data);
+        this.studentSubject.next([...this.studentList]);
+      }
+    }))
+
+  }
   saveStudent(studentData:any){
     return this.http.post<any>(this.commonService.getAPI() + '/students', studentData)
     .pipe(catchError(this.errorService.serverError), tap(response => {
@@ -137,7 +181,6 @@ fetchTeacherProfile($ledgerID:any){
         this.studentSubject.next([...this.studentList]);
       }
     }))
-
   }
 
   deleteStudent(id:any){

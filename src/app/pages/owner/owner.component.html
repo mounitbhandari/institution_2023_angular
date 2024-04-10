@@ -328,6 +328,185 @@
                 </div>
                 <!-------------------------------end show Receipt bill voucher------------------------------------- -->
               </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon">list</mat-icon>
+                 &nbsp;  &nbsp; Inactive Student list &nbsp; <span style="height: 20px;width: 20px;border-radius: 50%;background-color: red; border: 1px solid red;"> {{AllInactiveStudentArray.length}}</span>
+                </ng-template>
+
+                <!-------------------------------start show Receipt bill voucher------------------------------------- -->
+                <div class="stutable">
+                  <p-table #AllInactiveStudent [value]="AllInactiveStudentArray" dataKey="id" [paginator]="true"
+                    [rows]="5" [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[5,10,25,50]" [globalFilterFields]="['studentName','guardianName','address']">
+          
+                    <ng-template pTemplate="caption">
+                      <div class="flex">
+                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                          (click)="clear(AllInactiveStudent)"></button>
+                        <span class="p-input-icon-left ml-auto">
+                          <i class="pi pi-search"></i>
+                          <input pInputText type="text"
+                            (input)="AllInactiveStudent.filterGlobal(getEventValue($event), 'contains')"
+                            placeholder="Search keyword" />
+                        </span>
+          
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>ID</th>
+                        <th pSortableColumn="studentName">Student Name <p-sortIcon field="studentName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="guardianName">Guardian Name <p-sortIcon field="guardianName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon>
+                        </th>
+                       
+                        <th>Entry Date</th>
+                        
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-course>
+          
+                      <tr>
+                        <td><button pButton class="p-button-rounded p-button-info p-button-outlined"
+                            (click)="onUpdateStudentInforce(course.studentId)">
+                            Active
+                          </button></td>
+                        <td>{{course.studentName}}</td>
+                        <td>{{course.guardianName}}</td>
+                        <td>{{course.address}}</td>
+                        <td>{{course.entryDate | date: 'dd/MM/yyyy'}}</td>
+                       
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorleft">
+                      <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                    </ng-template>
+                  </p-table>
+          
+                </div>
+                <!-------------------------------end show Receipt bill voucher------------------------------------- -->
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon">list</mat-icon>
+                 &nbsp;  &nbsp; Student To Course 
+                </ng-template>
+                <!-- ------------ Student To Course ---------- -->
+                <div class="p-3 flex-fill" style="width:100% ; background-color: white;">
+                  <div class="container">
+                    <form [formGroup]="studentToCourseFormGroup">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <ng-select [items]="studentArray" fxFlex="100" bindLabel="studentName" class="custom"
+                            bindValue="studentId" appendTo="body" formControlName="ledger_id" placeholder="Student Name"
+                            (change)="changeStudent($event)">
+                          </ng-select>
+                        </div>
+                        <div class="col-sm-6">
+                          <ng-select [items]="courses" fxFlex="100" bindLabel="full_name" class="custom" bindValue="id"
+                            (change)="changeFeesModeType($event)" appendTo="body" formControlName="course_id"
+                            placeholder="Course Name">
+                          </ng-select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <mat-form-field style="width:100%">
+                            <mat-label>Fees</mat-label>
+                            <input matInput formControlName="base_fee" [(ngModel)]="feesAmount" placeholder="Fees" readonly="yes">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                          <mat-form-field style="width:100%">
+                            <mat-label>Discount Allowed</mat-label>
+                            <input matInput formControlName="discount_allowed" placeholder="Discount" required>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group" *ngIf="hiddenInput">
+                            <mat-form-field class="col-12">
+                              <input matInput placeholder="Student Course ID" formControlName="studentToCourseID">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <mat-form-field style="width:100%">
+                            <mat-label>Joinig Date</mat-label>
+                            <input class="col-9" matInput #ref [matDatepicker]="joining_date" formControlName="joining_date"
+                              (dateInput)="setJoiningSQL(ref.value)">
+                            <div
+                              *ngIf="studentToCourseFormGroup.controls['joining_date'].errors && studentToCourseFormGroup.controls['joining_date'].touched">
+                              <mat-error class="text-right"
+                                *ngIf="studentToCourseFormGroup.controls['joining_date'].errors['required']">Joinig is
+                                required</mat-error>
+                            </div>
+                            <mat-datepicker-toggle matSuffix [for]="joining_date"></mat-datepicker-toggle>
+                            <mat-datepicker #joining_date></mat-datepicker>
+    
+                          </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                          <mat-form-field style="width:100%">
+                            <mat-label>Effective Date</mat-label>
+                            <input class="col-9" matInput #ref [matDatepicker]="effective_date"
+                              formControlName="effective_date" (dateInput)="setEffectiveSQL(ref.value)">
+                            <div
+                              *ngIf="studentToCourseFormGroup.controls['effective_date'].errors && studentToCourseFormGroup.controls['effective_date'].touched">
+                              <mat-error class="text-right"
+                                *ngIf="studentToCourseFormGroup.controls['effective_date'].errors['required']">Effective is
+                                required</mat-error>
+                            </div>
+                            <mat-datepicker-toggle matSuffix [for]="effective_date"></mat-datepicker-toggle>
+                            <mat-datepicker #effective_date></mat-datepicker>
+    
+                          </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group" *ngIf="hiddenInput">
+                            <mat-form-field class="col-12">
+                              <input matInput placeholder="Transaction ID" formControlName="transactionMasterID">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <mat-form-field style="width:100%">
+                            <mat-label>Duration:</mat-label>
+                            <input matInput formControlName="actual_course_duration" placeholder="100" required>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                          <ng-select [items]="durationTypes" bindLabel="durationName" class="custom"
+                            bindValue="durationTypeId" formControlName="duration_type_id" autofocus appendTo="body"
+                            placeholder="Duration Type">
+                          </ng-select>
+                        </div>
+                        <div class="col-sm-4">
+                          <ng-select [items]="section" fxFlex="100" bindLabel="sec" class="custom" bindValue="id"
+                            appendTo="body" formControlName="section"
+                            placeholder="Select Section">
+                          </ng-select>
+                        </div>
+                      </div>
+                      <div align="right">
+                        <button pButton [disabled]="!isValidForm()" (click)="saveStudentToCourse()" class="p-button-rounded p-button-info">
+                          <i class="bi bi-save" style="font-size: 1rem"> Save </i>
+                        </button>
+    
+                       
+                      </div>
+                    </form>
+                   
+                  </div>
+                </div>
+              </mat-tab>
             </mat-tab-group>
           </div>
         </div>

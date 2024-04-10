@@ -64,6 +64,7 @@ export class StudentUserComponent implements OnInit {
   tempReceicedObj_1!: object;
   tempCashChargeObj!: object;
 
+  AllInactiveStudentArray:any[]=[];
   organisationId:number=0;
   PhonepePaymentHistoryarray:any[]=[];
   AllOrgDetailsArray:any[]=[];
@@ -223,7 +224,7 @@ export class StudentUserComponent implements OnInit {
       console.log("studentNewsArray:",this.studentNewsArray);
     })
   }
-  
+
   /* onPayment(data:any){
     console.log(data);
   } */
@@ -307,7 +308,7 @@ export class StudentUserComponent implements OnInit {
         window.location.reload();
      }
     }
-    //console.log("success marchantId:",autoGenerateId);
+    
      this.reportService.fetchCheckMerchantTransactionId(autoGenerateId).subscribe(response => {
       console.log("success marchantId:",response.success);
       if (response.success === 1) {
