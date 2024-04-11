@@ -472,7 +472,56 @@ export class OwnerComponent implements OnInit {
       console.log("AllInactiveStudentArray:", this.AllInactiveStudentArray);
     })
   }
-  
+  onDeleteStudentInforce($studentID: any)
+  {
+    console.log("studentID:", $studentID);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Delete This Record...?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentService.deleteStudentInactive($studentID).subscribe(response => {
+          this.success = response.success;
+          console.log("After Delete Response:",this.success);
+          console.log("After Delete Data:",response.data);
+          if (response.success === 1) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Student Registration has been Deleted',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.getAllStudent(this.organisationId);
+            this.getInactiveStudentList(this.organisationId);
+            
+          }
+
+        }, (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+            footer: '<a href>Why do I have this issue?</a>',
+            timer: 0
+          });
+        });
+
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
+    })
+  }
   onUpdateStudentInforce($studentID: any) {
     console.log("studentID:", $studentID);
     Swal.fire({

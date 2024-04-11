@@ -356,7 +356,8 @@
                     </ng-template>
                     <ng-template pTemplate="header">
                       <tr>
-                        <th>ID</th>
+                        <th>Active</th>
+                        <th>Delete</th>
                         <th pSortableColumn="studentName">Student Name <p-sortIcon field="studentName"></p-sortIcon>
                         </th>
                         <th pSortableColumn="guardianName">Guardian Name <p-sortIcon field="guardianName"></p-sortIcon>
@@ -371,10 +372,17 @@
                     <ng-template pTemplate="body" let-course>
           
                       <tr>
-                        <td><button pButton class="p-button-rounded p-button-info p-button-outlined"
+                        <td><button pButton class="p-button-rounded p-button-success p-button-outlined"
                             (click)="onUpdateStudentInforce(course.studentId)">
                             Active
                           </button></td>
+                          <td><button pButton pRipple type="button" (click)="onDeleteStudentInforce(course.studentId)"
+                             class="p-button-rounded p-button-danger p-button-outlined"><i class="bi bi-trash3-fill"></i></button>
+                            <!-- <p-button label="Danger" [rounded]="true" severity="danger"> -->
+                           <!--  <button pButton class="p-button-rounded p-button-info p-button-outlined"
+                            (click)="onDeleteStudentInforce(course.studentId)"> -->
+                             <!--<i class="bi bi-trash3-fill"></i>
+                          </button></p-button> --></td>
                         <td>{{course.studentName}}</td>
                         <td>{{course.guardianName}}</td>
                         <td>{{course.address}}</td>
@@ -516,7 +524,7 @@
         <div class="upcom-1">
           <div class="upbday">
             <i class="bi bi-bell-fill"></i>&nbsp; Upcoming Birthday
-            <span> <a [routerLink]="['/UpcomingBirthday']">
+            <span> <a [routerLink]="['/UpcomingBirthday']"> &nbsp; &nbsp;<span style="background-color: red; border: 3px solid red;"> {{birthdayArray.length}}</span>
              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b>Click To View All</b>
             </a></span>
           </div>
@@ -548,7 +556,7 @@
         <!-- Duelist -->
         <div class="upcom-2 mt-4">
           <div class="upbday">
-            <i class="bi bi-bell-fill"></i>&nbsp; Upcoming Duelist
+            <i class="bi bi-bell-fill"></i>&nbsp; Upcoming Duelist &nbsp; &nbsp;<span style="background-color: red; border: 3px solid red;"> {{upcomingDueListArray.length}}</span>
             <span> <a [routerLink]="['/UpcomingDue']">
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b>Click To View All</b>
              </a></span>
@@ -604,7 +612,7 @@
     <div class="row mt-4 upcom">
       <div class="stuhisdtl">
         <i class="bi bi-person-video"></i>
-        &nbsp; Student / Subscriber History Details
+        &nbsp; Student / Subscriber History Details &nbsp; <span style="height: 20px;width: 20px;border-radius: 50%;background-color: red; border: 1px solid red;"> {{studentRegistrationHistoryArray.length}}</span>
       </div>
       <div class="stutable">
 
@@ -674,7 +682,7 @@
     <div class="row mt-4 upcom">
       <div class="stuhisdtl">
         <i class="bi bi-person-video"></i>
-        &nbsp; Monthly Auto Generate Fees Charge
+        &nbsp; Monthly Auto Generate Fees Charge &nbsp; <span style="height: 50px;width: 50px;border-radius: 50%;background-color: red; border: 3px solid red;"> {{monthlyStudentArray.length}}</span>
       </div>
       <div class="p-2 text-right">
         <button type="button" class="btn btn-success" (click)="saveAllStudentMonthly()">

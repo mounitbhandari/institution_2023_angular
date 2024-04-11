@@ -412,10 +412,10 @@ export class StudentComponent implements OnInit, OnChanges {
       this.students = response;
     });
 
-    // this.studentService.fetchAllStates().subscribe((response:any)=>{
-    //   this.stateList=response.data;
-    //   console.log(this.stateList);
-    // })
+    this.studentService.fetchAllStates().subscribe((response:any)=>{
+      this.stateList=response.data;
+      console.log(this.stateList);
+    })
     this.primengConfig.ripple = true;
     this.optionSelected = 'Father';
     this.stateSelected = 20;

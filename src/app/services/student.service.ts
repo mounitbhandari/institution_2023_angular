@@ -61,6 +61,22 @@ export class StudentService {
   } */
   
   //$orgID=1;
+  deleteStudentInactive($id:any){
+    this.studentList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/students/deleteInactiveStudent/'+ $id)
+   .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
+    /*  this.studentList=response.data;
+     this.studentSubject.next([...this.studentList]); */
+   })));
+  }
+  fetchCheckStudentExists($data:any){
+    this.studentList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/studentExists/'+ $data)
+   .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
+     this.studentList=response.data;
+     this.studentSubject.next([...this.studentList]);
+   })));
+  }
 
   updateStudentInforce($studentID:any){
     this.studentList=[];
