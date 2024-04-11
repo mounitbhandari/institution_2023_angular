@@ -9,6 +9,27 @@
                 <div style="background-color:whitesmoke; padding: 20px;">
                     <div class="row">
                         <div class="col-sm-12">
+                            <mat-form-field appearance="outline" style="width:100% ;">
+                                <mat-label>Enter Your Email ID / Moblile No to Check Your Name Is Exists No Not.</mat-label>
+                                <input matInput placeholder="Enter Your Email ID" (change)="onGo($event)"  formControlName="emailMobileNoCheck"
+                                    class="custom">
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 organisation-details" *ngIf="showDivStudentExists" style="border: 2px dotted black;">
+                                <i class="bi bi-person-circle"></i>&nbsp; Your Name :&nbsp; <b>{{studentName}}</b> &nbsp;&nbsp;
+                                 <i class="bi bi-envelope-fill"></i>&nbsp; Address :&nbsp; <b>{{address}}</b> &nbsp;&nbsp;
+                                <i class="bi bi-telephone-fill"></i>&nbsp; Date Of Birth : &nbsp; <b>{{dob}}</b>&nbsp;&nbsp;
+                                <i class="bi bi-geo-alt-fill"></i>&nbsp; Qualification : &nbsp; <b> {{qualification}}</b>
+                                <i class="bi bi-geo-alt-fill"></i>&nbsp; Organisation Name : &nbsp; <b> {{organisationName}}</b>
+                            </div>
+                            <div class="col-sm-12 organisation-details" *ngIf="!showDivStudentExists" style="border: 2px dotted black;">
+                                <h1 align="center">Sorry..! Your Name Not Registered</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="!showDivStudentExists">
+                        <div class="col-sm-12">
                             <!-- <mat-label> <i class="bi bi-building"></i> &nbsp; organisation Name</mat-label> -->
                             <ng-select [items]="organisationList" bindLabel="organisation_name" class="custom"
                                 bindValue="id" formControlName="organisationId" autofocus appendTo="body"
@@ -56,7 +77,7 @@
                             </div>
                             <div class="col-sm-5">
                                 <mat-form-field appearance="outline" style="width:100% ;">
-                                    <mat-label>Relation (Like e.g: Fater / Mother)</mat-label>
+                                    <mat-label>Relation (Like e.g: Father / Mother)</mat-label>
                                     <input matInput placeholder="Father" formControlName="relation" class="custom">
                                 </mat-form-field>
                             </div>

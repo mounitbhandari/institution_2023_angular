@@ -17,13 +17,21 @@ export class StudentRegistrationComponent implements OnInit {
   studentRegistrationFormGroup!: FormGroup;
   stateList: any[] = [];
   organisationList: any[] = [];
+  studentList:any[]=[];
   showDiv:boolean=false;
+  showDivStudentExists:boolean=false;
   organisationName: string = '';
   address: string = '';
   city: string = '';
   contactNumber: string = '';
+  studentName:any;
+  gurardainName:any;
+  dob:any;
+  qualification:any;
   emailId: string = '';
   organisationPin: string = '';
+    emailMobileNoCheckNgModel:string='';
+  successMessage:number=0;
   studentData: {
     studentId?: any;
     episodeId?: string;
@@ -94,6 +102,7 @@ export class StudentRegistrationComponent implements OnInit {
     })
   } 
   getOrganisationList(){
+    this.organisationList=[];
     this.studentService.fetchAllOrganisaction().subscribe(response => {
       this.organisationList=response.data;
       console.log("organisationList:",this.organisationList);
@@ -103,6 +112,7 @@ export class StudentRegistrationComponent implements OnInit {
     const now = new Date();
     let val = formatDate(now, 'yyyy-MM-dd', 'en');
     this.studentRegistrationFormGroup = new FormGroup({
+      emailMobileNoCheck: new FormControl(),
       organisationId: new FormControl(null,[Validators.required]),
       studentName: new FormControl(null,[Validators.required, Validators.maxLength(100), Validators.minLength(4)]),
       address: new FormControl(null,[Validators.required, Validators.maxLength(255), Validators.minLength(4)]),
@@ -193,6 +203,30 @@ export class StudentRegistrationComponent implements OnInit {
       }
     })
 
+  }
+
+  onGo($data:any){
+    //this.emailMobileNoCheck= this.studentRegistrationFormGroup.get('emailMobileNoCheck')?.value;
+    console.log("test:",$data.target.value);
+    let emailOrMobile=$data.target.value;
+    this.studentService.fetchCheckStudentExists(emailOrMobile).subscribe(response => {
+      this.studentList=response.data;
+      this.successMessage=response.success;
+      if(this.successMessage>0){
+        this.showDivStudentExists=true;
+        this.studentName = this.studentList[0].ledger_name;
+        this.address = this.studentList[0].address;
+        this.gurardainName = this.studentList[0].guardian_name;;
+        this.dob = this.studentList[0].dob;
+        this.qualification = this.studentList[0].qualification;
+        this.organisationName=this.studentList[0].organisation_name;
+      }
+      else{
+        this.showDivStudentExists=false;
+      }
+      console.log("studentList:",this.studentList);
+      console.log("successMessage:",this.successMessage);
+    })
   }
   sameAsWhatsAppNo() {
     this.studentRegistrationFormGroup.patchValue({ guardianContactNumber: this.studentRegistrationFormGroup.value.whatsappNumber });
