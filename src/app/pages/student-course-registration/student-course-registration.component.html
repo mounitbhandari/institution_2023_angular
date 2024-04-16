@@ -11,8 +11,78 @@
             animationDuration="200ms" style="background-image: linear-gradient(to bottom right, rgb(8, 2, 68), rgb(7, 32, 146)); color: aliceblue; padding: 12px; border-radius: 5px; padding:0px;">
             <mat-tab>
               <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">list</mat-icon>
+                View / Edit List &nbsp; <span style="height: 20px;width: 20px;border-radius: 50%;background-color: red; border: 1px solid red; font-weight: bolder;"> {{studentTocourses.length}}</span>
+              </ng-template>
+              <div class="p-3 flex-fill" style="width:100% ;">
+  
+                <div class="p-2 bd-highlight">
+                  <h3 style="color: white;">Student To Course Details</h3>
+                  <p-table #StudentTocourse [value]="studentTocourses" [columns]="cols" dataKey="id" [paginator]="true"
+                    [rows]="5" [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[5,10,25,50]" styleClass="p-datatable-striped"
+                    [globalFilterFields]="['ledger_name','full_name','base_fee']">
+  
+                    <ng-template pTemplate="caption">
+                      <div class="flex">
+                        <p-button type="button" icon="pi pi-plus" label="ADD" class="p-button-outlined" (click)="onClickAdd();"> </p-button>
+                        <span class="p-input-icon-left ml-auto">
+                          <i class="pi pi-search"></i>
+                          <input pInputText type="text"
+                            (input)="StudentTocourse.filterGlobal(getEventValue($event), 'contains')"
+                            placeholder="Search keyword" />
+                        </span>
+  
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>ID</th>
+                        <th pSortableColumn="ledger_id">Student Name <p-sortIcon field="ledger_name"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="course_id">Course Name <p-sortIcon field="full_name"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="base_fee">Base Fee <p-sortIcon field="base_fee"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="edit">Edit <p-sortIcon field="edit"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="delete">Delete <p-sortIcon field="delete"></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-course>
+  
+                      <tr>
+                        <td>{{course.id}}</td>
+                        <td>{{course.ledger_name}}</td>
+                        <td>{{course.full_name}}</td>
+                        <td>{{course.base_fee}}</td>
+                        <td>
+                          <p-button type="button" (click)="editStudentToCourse(course)" icon="pi pi-pencil"
+                            styleClass="p-button-text"></p-button>
+                        </td>
+                        <td>
+                          <p-button type="button" (click)="deleteStudentToCourse(course)" icon="pi pi-trash"
+                            styleClass="p-button-text"></p-button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorleft">
+                      <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                      (click)="clear(StudentTocourse)"></button>
+                      
+                    </ng-template>
+                  </p-table>
+                </div>
+  
+              </div>
+            </mat-tab>
+  
+            <mat-tab>
+              <ng-template mat-tab-label>
                 <mat-icon class="example-tab-icon">trending_up</mat-icon>
-                Entry Tab
+                Student To Course Entry Tab
               </ng-template>
               <div class="p-3 flex-fill" style="width:100% ; background-color: white;">
                 <div class="container">
@@ -143,76 +213,6 @@
                 </div>
               </div>
             </mat-tab>
-  
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon class="example-tab-icon">list</mat-icon>
-                View List
-              </ng-template>
-              <div class="p-3 flex-fill" style="width:100% ;">
-  
-                <div class="p-2 bd-highlight">
-                  <h3 style="color: white;">Student To Course Details</h3>
-                  <p-table #StudentTocourse [value]="studentTocourses" [columns]="cols" dataKey="id" [paginator]="true"
-                    [rows]="5" [showCurrentPageReport]="true"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                    [rowsPerPageOptions]="[5,10,25,50]" styleClass="p-datatable-striped"
-                    [globalFilterFields]="['ledger_name','full_name','base_fee']">
-  
-                    <ng-template pTemplate="caption">
-                      <div class="flex">
-                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
-                          (click)="clear(StudentTocourse)"></button>
-                        <span class="p-input-icon-left ml-auto">
-                          <i class="pi pi-search"></i>
-                          <input pInputText type="text"
-                            (input)="StudentTocourse.filterGlobal(getEventValue($event), 'contains')"
-                            placeholder="Search keyword" />
-                        </span>
-  
-                      </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th>ID</th>
-                        <th pSortableColumn="ledger_id">Student Name <p-sortIcon field="ledger_name"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="course_id">Course Name <p-sortIcon field="full_name"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="base_fee">Base Fee <p-sortIcon field="base_fee"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="edit">Edit <p-sortIcon field="edit"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="delete">Delete <p-sortIcon field="delete"></p-sortIcon>
-                        </th>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-course>
-  
-                      <tr>
-                        <td>{{course.id}}</td>
-                        <td>{{course.ledger_name}}</td>
-                        <td>{{course.full_name}}</td>
-                        <td>{{course.base_fee}}</td>
-                        <td>
-                          <p-button type="button" (click)="editStudentToCourse(course)" icon="pi pi-pencil"
-                            styleClass="p-button-text"></p-button>
-                        </td>
-                        <td>
-                          <p-button type="button" (click)="deleteStudentToCourse(course)" icon="pi pi-trash"
-                            styleClass="p-button-text"></p-button>
-                        </td>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="paginatorleft">
-                      <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-                    </ng-template>
-                  </p-table>
-                </div>
-  
-              </div>
-            </mat-tab>
-  
             <mat-tab>
               <ng-template mat-tab-label>
                 <mat-icon class="example-tab-icon">thumb_up</mat-icon>

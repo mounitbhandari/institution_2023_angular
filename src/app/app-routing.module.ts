@@ -183,6 +183,8 @@ const routes: Routes = [
 
   { path: 'StudentRegistration', loadChildren: () => import('./pages/student-registration/student-registration.module').then(m => m.StudentRegistrationModule) },
 
+  { path: 'TeacherUpdate', loadChildren: () => import('./pages/teacher-update/teacher-update.module').then(m => m.TeacherUpdateModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },

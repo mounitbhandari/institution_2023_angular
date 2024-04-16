@@ -331,6 +331,7 @@ export class StudentCourseRegistrationComponent implements OnInit {
             this.getMonthlyActiveStudent(this.organisationId);
             this.getFullCourseActiveStudent(this.organisationId);
             this.getStudentToCourseRegistrationList(this.organisationId);
+            this.selectedIndex=0;
           }
           
         }, (error) => {
@@ -357,7 +358,7 @@ export class StudentCourseRegistrationComponent implements OnInit {
   }
   editStudentToCourse(courseTostudentData: any) {
     this.isShown = true;
-    this.selectedIndex = 0;
+    this.selectedIndex = 1;
     this.event = 0;
     this.onTabChanged(this.event);
     console.log("courseTostudentData:", courseTostudentData);
@@ -397,7 +398,7 @@ export class StudentCourseRegistrationComponent implements OnInit {
             this.showSuccess("Record added successfully");
             console.log("index...", index);
           }
-
+          this.selectedIndex = 0;
         }, error => {
           this.showErrorMessage = true;
           this.errorMessage = error.message;
@@ -485,6 +486,7 @@ export class StudentCourseRegistrationComponent implements OnInit {
             this.getMonthlyActiveStudent(this.organisationId);
             this.getFullCourseActiveStudent(this.organisationId);
             this.getStudentToCourseRegistrationList(this.organisationId);
+            this.selectedIndex=0;
           }
           
         }, (error) => {
@@ -507,8 +509,9 @@ export class StudentCourseRegistrationComponent implements OnInit {
         )
       }
     })
-   
-
+  }
+  onClickAdd(){
+    this.selectedIndex = 1;
   }
   clearStudentToCourse() {
     this.isCourseDetails=false;

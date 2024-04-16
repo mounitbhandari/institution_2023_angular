@@ -735,7 +735,7 @@ export class FeesReceivedComponent implements OnInit {
           amount: this.amount
         }
         this.tempReceicedObj = {
-          ledgerId: 2,
+          ledgerId: this.ledgerId,
           transactionTypeId: 1,
           amount: this.amount
         }
