@@ -120,6 +120,7 @@ export class OwnerComponent implements OnInit {
   totalYearlyIncome: number = 0;
   registratedData: BijoyaRegistration[] = [];
   showMessage: boolean = false;
+  showCourseDetails:boolean=false;
   isDeviceXS = false;
   studentArray: any[] = [];
   courses: any[] = [];
@@ -242,8 +243,8 @@ export class OwnerComponent implements OnInit {
       discount_allowed: new FormControl(0, [Validators.required]),
       joining_date: new FormControl(val),
       effective_date: new FormControl(val),
-      actual_course_duration: new FormControl(null, [Validators.required]),
-      duration_type_id: new FormControl(1, [Validators.required]),
+      actual_course_duration: new FormControl(6, [Validators.required]),
+      duration_type_id: new FormControl(4, [Validators.required]),
       studentToCourseID: new FormControl(0, [Validators.required]),
       transactionMasterID: new FormControl(0, [Validators.required]),
       section: new FormControl(null),
@@ -316,7 +317,8 @@ export class OwnerComponent implements OnInit {
               timer: 1500
             });
             this.clearStudentToCourse();
-            this.selectedIndex=3;
+            this.selectedIndex=2;
+            this.showCourseDetails=false;
             this.getTotalActiveStudent(this.organisationId);
             this.getStudentToCourseRegistrationList(this.organisationId);
           }
@@ -358,8 +360,8 @@ export class OwnerComponent implements OnInit {
       discount_allowed: new FormControl(0, [Validators.required]),
       joining_date: new FormControl(val),
       effective_date: new FormControl(val),
-      actual_course_duration: new FormControl(null, [Validators.required]),
-      duration_type_id: new FormControl(1, [Validators.required]),
+      actual_course_duration: new FormControl(6, [Validators.required]),
+      duration_type_id: new FormControl(4, [Validators.required]),
       studentToCourseID: new FormControl(0, [Validators.required]),
       //transactionMasterID: new FormControl(0, [Validators.required])
     })
@@ -409,8 +411,8 @@ export class OwnerComponent implements OnInit {
   }
   changeFeesModeType($event: any) {
     /* this.isCourseDetails=true;
-    this.isDashboard=false;
-    this.isStudentDetails=false; */
+    this.isDashboard=false;*/
+    this.showCourseDetails=true; 
     this.feesAmount=0;
     this.tempGetActiveCourseObj = {
       id: $event.id,
@@ -441,7 +443,7 @@ export class OwnerComponent implements OnInit {
     this.totalRecepitAmount = 0;
     this.rupeeInWords = '';
     this.showReceipt = true;
-    this.selectedIndex = 2;
+    this.selectedIndex = 4;
 
     this.tempGetActiveCourseObj = {};
     this.tempGetActiveCourseObj = {
@@ -498,7 +500,7 @@ export class OwnerComponent implements OnInit {
             });
             this.getAllStudent(this.organisationId);
             this.getInactiveStudentList(this.organisationId);
-            
+            this.selectedIndex = 2;
           }
 
         }, (error) => {
@@ -545,7 +547,7 @@ export class OwnerComponent implements OnInit {
             });
             this.getAllStudent(this.organisationId);
             this.getInactiveStudentList(this.organisationId);
-            this.selectedIndex=4;
+            this.selectedIndex=3;
             this.studentToCourseFormGroup.patchValue({ ledger_id: $studentID });
           }
 
