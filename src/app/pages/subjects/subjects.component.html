@@ -10,9 +10,80 @@
                             animationDuration="200ms"
                             style="background-image: linear-gradient(to bottom right, rgb(8, 2, 68), rgb(7, 32, 146)); color: aliceblue; padding: 12px; border-radius: 5px; padding:0px;">
                             <mat-tab>
+                              <ng-template mat-tab-label>
+                                  <mat-icon class="example-tab-icon">list</mat-icon>
+                                  View / Edit Subjects  &nbsp; <span style="height: 20px;width: 20px;border-radius: 50%;background-color: red; border: 1px solid red; font-weight: bolder;"> {{subjectArray.length}}</span>
+                              </ng-template>
+                             <!--  <pre>
+                                  subjectNamearray = {{this.tempSubjectDataObject | json}}
+                                </pre> -->
+                              <div class="card-body">
+                                  <p-table #subjectList [value]="subjectArray" dataKey="id" [paginator]="true"
+                                      [rows]="5" [showCurrentPageReport]="true"
+                                      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                      [rowsPerPageOptions]="[5,10,25,50]"
+                                      [globalFilterFields]="['id','subject_short_name','subject_full_name']">
+                                      <ng-template pTemplate="caption">
+                                          <div class="flex">
+                                            <p-button type="button" icon="pi pi-plus" label="ADD" class="p-button-outlined" (click)="onClickAdd();"> </p-button>
+                                            <span class="p-input-icon-left ml-auto">
+                                                 <i class="pi pi-search"></i>
+                                                  <input pInputText type="text"
+                                                      (input)="subjectList.filterGlobal(getEventValue($event), 'contains')"
+                                                      placeholder="Search keyword" />
+                                              </span>
+
+                                          </div>
+                                      </ng-template>
+
+                                      <ng-template pTemplate="header">
+                                          <tr>
+                                              <th>ID</th>
+
+                                              <th pSortableColumn="subject_short_name">Short Name <p-sortIcon
+                                                      field="subject_short_name"></p-sortIcon>
+                                              </th>
+                                              <th pSortableColumn="subject_full_name">Subject Full Name <p-sortIcon
+                                                      field="subject_full_name"></p-sortIcon>
+                                              </th>
+                                             
+                                              <th pSortableColumn="edit">Edit <p-sortIcon field="edit"></p-sortIcon>
+                                              </th>
+                                              <th pSortableColumn="delete">Delete <p-sortIcon
+                                                      field="delete"></p-sortIcon>
+                                              </th>
+                                          </tr>
+                                      </ng-template>
+                                      <ng-template pTemplate="body" let-subject let-rowIndex="rowIndex">
+                                          <tr>
+                                              <td>{{rowIndex+1}}</td>
+                                              <td>{{subject.subject_short_name}}</td>
+                                              <td>{{subject.subject_full_name}}</td>
+                                              <td>
+                                                  <p-button type="button" icon="pi pi-pencil" (click)="editSubject(subject)"
+                                                      styleClass="p-button-text">
+                                                  </p-button>
+                                              </td>
+                                              <td>
+                                                  <p-button type="button" icon="pi pi-trash"
+                                                      (click)="deleteSubject(subject)"
+                                                      styleClass="p-button-text"></p-button>
+                                              </td>
+                                          </tr>
+                                      </ng-template>
+                                      <ng-template pTemplate="paginatorleft">
+                                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                                        (click)="clear(subjectList)"></button>
+                                      </ng-template>
+                                  </p-table>
+
+
+                              </div>
+                          </mat-tab>
+                            <mat-tab>
                                 <ng-template mat-tab-label>
                                     <mat-icon class="example-tab-icon">trending_up</mat-icon>
-                                    News & Announcements Entry
+                                    Subject Entry Tab
                                 </ng-template>
 
                                 <!--  ---- 1st Tab setting start---- -->
@@ -133,78 +204,7 @@
 
                                 </div>
                             </mat-tab>
-                            <mat-tab>
-                                <ng-template mat-tab-label>
-                                    <mat-icon class="example-tab-icon">list</mat-icon>
-                                    View News & Announcements
-                                </ng-template>
-                               <!--  <pre>
-                                    subjectNamearray = {{this.tempSubjectDataObject | json}}
-                                  </pre> -->
-                                <div class="card-body">
-                                    <p-table #subjectList [value]="subjectArray" dataKey="id" [paginator]="true"
-                                        [rows]="5" [showCurrentPageReport]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                                        [rowsPerPageOptions]="[5,10,25,50]"
-                                        [globalFilterFields]="['id','subject_short_name','subject_full_name']">
-                                        <ng-template pTemplate="caption">
-                                            <div class="flex">
-                                                <button pButton label="Clear" class="p-button-outlined"
-                                                    icon="pi pi-filter-slash" (click)="clear(subjectList)"></button>
-                                                <span class="p-input-icon-left ml-auto">
-                                                    <i class="pi pi-search"></i>
-                                                    <input pInputText type="text"
-                                                        (input)="subjectList.filterGlobal(getEventValue($event), 'contains')"
-                                                        placeholder="Search keyword" />
-                                                </span>
-
-                                            </div>
-                                        </ng-template>
-
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th>ID</th>
-
-                                                <th pSortableColumn="subject_short_name">Short Name <p-sortIcon
-                                                        field="subject_short_name"></p-sortIcon>
-                                                </th>
-                                                <th pSortableColumn="subject_full_name">Subject Full Name <p-sortIcon
-                                                        field="subject_full_name"></p-sortIcon>
-                                                </th>
-                                               
-                                                <th pSortableColumn="edit">Edit <p-sortIcon field="edit"></p-sortIcon>
-                                                </th>
-                                                <th pSortableColumn="delete">Delete <p-sortIcon
-                                                        field="delete"></p-sortIcon>
-                                                </th>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-subject let-rowIndex="rowIndex">
-                                            <tr>
-                                                <td>{{rowIndex+1}}</td>
-                                                <td>{{subject.subject_short_name}}</td>
-                                                <td>{{subject.subject_full_name}}</td>
-                                                <td>
-                                                    <p-button type="button" icon="pi pi-pencil" (click)="editSubject(subject)"
-                                                        styleClass="p-button-text">
-                                                    </p-button>
-                                                </td>
-                                                <td>
-                                                    <p-button type="button" icon="pi pi-trash"
-                                                        (click)="deleteSubject(subject)"
-                                                        styleClass="p-button-text"></p-button>
-                                                </td>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="paginatorleft">
-                                            <p-button type="button" icon="pi pi-plus"
-                                                styleClass="p-button-text"></p-button>
-                                        </ng-template>
-                                    </p-table>
-
-
-                                </div>
-                            </mat-tab>
+                           
 
                             <mat-tab>
                                 <ng-template mat-tab-label>

@@ -172,7 +172,7 @@ export class CourseComponent implements OnInit {
             this.courses.splice(index, 1);
             console.log("index...", index);
           }
-
+          this.selectedIndex = 1;
         }, error => {
           this.showErrorMessage = true;
           this.errorMessage = error.message;
@@ -239,6 +239,7 @@ export class CourseComponent implements OnInit {
             this.getFullTotalCourse(this.organisationId);
             this.getLastCourse(this.organisationId);
             this.getCourseList(this.organisationId);
+            this.selectedIndex = 0;
           }
         }, (error) => {
           Swal.fire({
@@ -304,14 +305,14 @@ export class CourseComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500
             });
-            // this.showSuccess("Record added successfully");
+           
             this.clearCourse();
             this.getTotalCourse(this.organisationId);
             this.getMonthlyTotalCourse(this.organisationId);
             this.getFullTotalCourse(this.organisationId);
             this.getLastCourse(this.organisationId);
             this.getCourseList(this.organisationId);
-            //console.log("success:",response.success);
+            this.selectedIndex = 0;
           }
         }, (error) => {
           Swal.fire({
@@ -333,8 +334,9 @@ export class CourseComponent implements OnInit {
         )
       }
     })
-
-
+  }
+  onClickAdd(){
+    this.selectedIndex = 1;
   }
   clearCourse() {
     this.isShown = false;
@@ -354,7 +356,7 @@ export class CourseComponent implements OnInit {
   }
   editCourse(courseData: any) {
     //this.isShown = true;
-    this.selectedIndex = 0
+    this.selectedIndex = 1
     this.event = 0;
     this.onTabChanged(this.event);
     console.log(courseData);

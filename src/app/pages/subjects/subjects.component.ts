@@ -47,6 +47,9 @@ export class SubjectsComponent implements OnInit {
   onTabChanged(event:any){
     console.log(event)
   }
+  onClickAdd(){
+    this.selectedIndex = 1;
+  }
   getDuratioinTypes() {
     this.courseService.fetchAllDurationType().subscribe(response => {
       this.durationTypes = response.data;
@@ -99,10 +102,10 @@ export class SubjectsComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500
             });
-            
+            this.clearSubject();
+            this.getSubjectList(this.organisationId);
+            this.selectedIndex = 0;
           }
-          this.clearSubject();
-          this.getSubjectList(this.organisationId);
         }, (error) => {
           Swal.fire({
             icon: 'error',

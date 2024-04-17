@@ -164,7 +164,16 @@ fetchTeacherProfile($ledgerID:any){
         this.studentSubject.next([...this.studentList]);
       }
     }))
-
+  }
+  saveTeacherRegistration(studentData:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/saveTeacher', studentData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service',response);
+      if (response.status === true){
+        this.studentList.unshift(response.data);
+        this.studentSubject.next([...this.studentList]);
+      }
+    }))
   }
   saveStudent(studentData:any){
     return this.http.post<any>(this.commonService.getAPI() + '/students', studentData)
