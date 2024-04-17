@@ -498,6 +498,6 @@ export class StudentUserComponent implements OnInit {
     this.selectedIndex = 0;
   }
   randomNum(min:number, max:number) {
-    this.autoGenerateId=Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+    this.autoGenerateId=Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 }
