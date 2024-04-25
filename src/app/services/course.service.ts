@@ -50,6 +50,18 @@ export class CourseService {
       }
     }))
   }
+  questionUploadSave(data:any){
+    const headers=new HttpHeaders();
+    return this.http.post<any>(this.commonService.getAPI() + '/questionUpload', data,{
+      headers:headers
+    }).pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service image:',response);
+      if (response.success === 1){
+        this.courseList.unshift(response.data);
+        this.durationTypeSubject.next([...this.courseList]);
+      }
+    }))
+  }
   assignmentUploadSave(data:any){
     const headers=new HttpHeaders();
     return this.http.post<any>(this.commonService.getAPI() + '/assignmentUpload', data,{
@@ -84,7 +96,7 @@ export class CourseService {
     }))
   }
 
-  fetchAllCourses($orgID:any){
+   fetchAllCourses($orgID:any){
     return this.http.get<any>(this.commonService.getAPI() + '/courses/'+$orgID)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Course[]}) => {
       this.courseList=response.data;

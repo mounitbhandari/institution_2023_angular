@@ -88,16 +88,22 @@
                 <div class="container">
                   <form [formGroup]="studentToCourseFormGroup">
                     <div class="row">
-                      <div class="col-sm-6">
+                      <div class="col-sm-5">
                         <ng-select [items]="students" fxFlex="100" bindLabel="studentName" class="custom"
                           bindValue="studentId" appendTo="body" formControlName="ledger_id" placeholder="Student Name"
                           (change)="changeStudent($event)">
+                          <ng-template ng-option-tmp let-item="item">
+                            {{item.studentName}} ({{item.qualification}}) 
+                           </ng-template> 
                         </ng-select>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-7">
                         <ng-select [items]="courses" fxFlex="100" bindLabel="full_name" class="custom" bindValue="id"
                           (change)="changeFeesModeType($event)" appendTo="body" formControlName="course_id"
                           placeholder="Course Name">
+                          <ng-template ng-option-tmp let-item="item">
+                            <small> {{item.full_name}}| ({{item.fees_amount  | currency:'INR'}}) | {{item.fees_mode_type_name}} </small> 
+                          </ng-template> 
                         </ng-select>
                       </div>
                     </div>

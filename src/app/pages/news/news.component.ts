@@ -243,7 +243,6 @@ export class NewsComponent implements OnInit {
     })
   }
   onChange(status:number,id:any) {
-    
     this.itemValue={
       id:id,
       inforce:status

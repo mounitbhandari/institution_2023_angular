@@ -57,7 +57,7 @@ export class OwnerComponent implements OnInit {
   organisationEmail: string = '';
   organizationArray: any = [];
   monthlyStudentArray: any = [];
-
+  itemValue!: object;
   whatsapp_number: string = '';
   billing_name: string = '';
   full_name: any;
@@ -703,7 +703,59 @@ export class OwnerComponent implements OnInit {
       console.log("StudentToCourseRegistration:", this.studentRegistrationHistoryArray);
     })
   }
-
+  onStatusChange(id:any) {
+    this.itemValue={
+      id:id,
+      inforce:status
+    }
+    Swal.fire({
+      text: '',
+      title: 'Are you sure ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Save it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        this.reportService.fetchCourseCompletedId(id).subscribe(
+          (response: { success: number; }) => {
+          if (response.success === 1) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Course has been completed..',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.getStudentToCourseRegistrationList(this.organisationId);
+            this.getStudentUpcomingDueList(this.organisationId);
+            // this.showSuccess("Record added successfully");
+            
+            //console.log("success:",response.success);
+          }
+          }, (error: any) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error,
+              footer: '<a href>Why do I have this issue?</a>',
+              timer: 0
+            });
+          });
+        
+      // For more information about handling dismissals please visit
+      // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
+    })   
+   
+  }
   onlineExam() {
     /* window.location.href='https://easytestmaker.com/'; */
     window.open('https://easytestmaker.com/', '_blank', 'noopener, noreferrer');

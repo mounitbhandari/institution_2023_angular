@@ -23,6 +23,12 @@ export class ReportService {
       this.newsDataList=response.data;
       })));
   }
+  fetchCourseCompletedId($id:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/updateCourseCompleted/'+$id)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
   fetchPivotTableIncomeList($orgID:any){
     this.newsDataList=[];
      return this.http.get<any>(this.commonService.getAPI() + '/getPivotTableIncomeListReport/'+$orgID)
@@ -113,6 +119,12 @@ export class ReportService {
   }
   fetchAssignmentListReport($orgID:any){
     return this.http.get<any>(this.commonService.getAPI() + '/getAssignmentList/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
+  fetchQuestionPaperListReport($orgID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/getQuestionPaperList/'+$orgID)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
       this.newsDataList=response.data;
       })));

@@ -185,6 +185,8 @@ const routes: Routes = [
 
   { path: 'TeacherUpdate', loadChildren: () => import('./pages/teacher-update/teacher-update.module').then(m => m.TeacherUpdateModule) },
 
+  { path: 'TeacherQuestionPaper', loadChildren: () => import('./teacher-question-paper/teacher-question-paper.module').then(m => m.TeacherQuestionPaperModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },
