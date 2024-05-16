@@ -22,11 +22,11 @@
     </div>
     <div>
       <a mat-list-item routerLinkActive="list-item-active">
-        <i class="bi bi-mortarboard-fill"></i> &nbsp; online Exam
+        <i class="bi bi-mortarboard-fill"></i> &nbsp; Online Exam
       </a>
     </div>
     <div>
-      <a mat-list-item routerLinkActive="list-item-active">
+      <a mat-list-item [routerLink]="['/TeacherOnlineClass']" routerLinkActive="list-item-active">
         <i class="bi bi-brush"></i>&nbsp; Online Class
       </a>
     </div>
@@ -41,7 +41,7 @@
       </a>
     </div>
     <div>
-      <a mat-list-item routerLinkActive="list-item-active">
+      <a mat-list-item [routerLink]="['/TeacherEbook']" routerLinkActive="list-item-active">
         <i class="bi bi-journal-bookmark-fill"></i> &nbsp; E-Book
       </a>
     </div>

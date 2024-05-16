@@ -177,6 +177,7 @@ export class StudentUserComponent implements OnInit {
       this.merchantUserId=this.studentProfileDetalilsArray[0].merchantUserId;
       console.log("studentProfileDetalilsArray :", this.studentProfileDetalilsArray);
     }) 
+    //window.location.reload();
   }
   clear(table: Table) {
     table.clear();

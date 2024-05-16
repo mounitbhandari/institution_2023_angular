@@ -50,6 +50,18 @@ export class CourseService {
       }
     }))
   }
+  ebookUploadSave(data:any){
+    const headers=new HttpHeaders();
+    return this.http.post<any>(this.commonService.getAPI() + '/ebookUpload', data,{
+      headers:headers
+    }).pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service image:',response);
+      if (response.success === 1){
+        this.courseList.unshift(response.data);
+        this.durationTypeSubject.next([...this.courseList]);
+      }
+    }))
+  }
   questionUploadSave(data:any){
     const headers=new HttpHeaders();
     return this.http.post<any>(this.commonService.getAPI() + '/questionUpload', data,{
@@ -71,6 +83,17 @@ export class CourseService {
       if (response.success === 1){
         this.courseList.unshift(response.data);
         this.durationTypeSubject.next([...this.courseList]);
+      }
+    }))
+  }
+  saveOnlineClass(data:any){
+    this.subjectList=[];
+    return this.http.post<any>(this.commonService.getAPI() + '/saveOnlineClass', data)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at subject',response);
+      if (response.status === true){
+        this.subjectList.unshift(response.data);
+        this.durationTypeSubject.next([...this.subjectList]);
       }
     }))
   }

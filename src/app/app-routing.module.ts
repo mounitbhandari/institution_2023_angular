@@ -187,6 +187,26 @@ const routes: Routes = [
 
   { path: 'TeacherQuestionPaper', loadChildren: () => import('./teacher-question-paper/teacher-question-paper.module').then(m => m.TeacherQuestionPaperModule) },
 
+  { path: 'StudentQuestionPaper', loadChildren: () => import('./pages/student-question-paper/student-question-paper.module').then(m => m.StudentQuestionPaperModule) },
+
+  { path: 'TeacherEbook', loadChildren: () => import('./pages/teacher-ebook/teacher-ebook.module').then(m => m.TeacherEbookModule) },
+
+  { path: 'StudentEbook', loadChildren: () => import('./pages/student-ebook/student-ebook.module').then(m => m.StudentEbookModule) },
+
+  { path: 'IdentityCard', loadChildren: () => import('./pages/identity-card/identity-card.module').then(m => m.IdentityCardModule) },
+
+  { path: 'TeacherAdmitCard', loadChildren: () => import('./pages/teacher-admit-card/teacher-admit-card.module').then(m => m.TeacherAdmitCardModule) },
+
+  { path: 'StudentAdmitCard', loadChildren: () => import('./pages/student-admit-card/student-admit-card.module').then(m => m.StudentAdmitCardModule) },
+
+  { path: 'StudentOnlinePayment', loadChildren: () => import('./pages/student-online-payment/student-online-payment.module').then(m => m.StudentOnlinePaymentModule) },
+
+  { path: 'TeacherOnlineClass', loadChildren: () => import('./pages/teacher-online-class/teacher-online-class.module').then(m => m.TeacherOnlineClassModule) },
+
+  { path: 'StudentOnlineClass', loadChildren: () => import('./pages/student-online-class/student-online-class.module').then(m => m.StudentOnlineClassModule) },
+
+  { path: 'Profile', loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },

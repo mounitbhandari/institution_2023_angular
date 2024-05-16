@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 import {BehaviorSubject, Subject, throwError} from 'rxjs';
 import {Router} from '@angular/router';
@@ -32,6 +32,7 @@ export interface AuthResponseData {
 export class AuthService {
   private BASE_API_URL = environment.BASE_API_URL;
   userRegisterArray:any[]=[];
+  newsDataList:any[]=[];
   userRegisterSubject = new Subject<any[]>();
   // @ts-ignore
   userBehaviorSubject = new BehaviorSubject<User>(null);
@@ -150,6 +151,12 @@ export class AuthService {
       }
     }))
   }
+  fetchProfileImage($orgID:any,$ledgerID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/getProfileImage/'+$orgID +'/'+$ledgerID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
   saveUser(userData:any){
     return this.http.post<any>(this.commonService.getAPI() + '/register', userData)
     .pipe(catchError(this.errorService.serverError), tap(response => {
@@ -263,6 +270,14 @@ export class AuthService {
       this.userRegisterSubject.next([...this.userRegisterArray]);
     })));
   }
+  fetchProfileImageList(){
+    return this.http.get<any>(this.commonService.getAPI() + '/getProfileImage')
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.userRegisterArray=response.data;
+      console.log("Student to courseList:",this.userRegisterArray); 
+      this.userRegisterSubject.next([...this.userRegisterArray]);
+    })));
+  }
     logoutAll() {
       // this.userBehaviorSubject.next(null);
       // localStorage.removeItem('user');
@@ -285,8 +300,31 @@ export class AuthService {
         });
       });
     }
-
-  upload(file: string | Blob | undefined): Observable<any> {
+    
+    upload(data: any): Observable<any> {
+      const headers=new HttpHeaders();
+      return this.http.post<any>(this.commonService.getAPI() + '/uploadPicture', data,{
+        headers:headers
+      }).pipe(catchError(this.errorService.serverError), tap(response => {
+        console.log('at service image:',response);
+        if (response.success === 1){
+         /*  this.courseList.unshift(response.data);
+          this.durationTypeSubject.next([...this.courseList]); */
+        }
+      }))
+      // Create form data
+      const formData = new FormData();
+  
+      // Store form name as "file" with file data
+      // @ts-ignore
+      formData.append('file', file);
+      formData.append('filename', 'profile_pic_' + JSON.parse(<string>localStorage.getItem('user')).uniqueId + '.jpeg');
+      // Make http post request over api
+      // with formData as req
+      // return this.http.post('http://127.0.0.1/gold_project/new_gold_api/public/api/uploadPicture', formData);
+      return this.http.post(this.commonService.getAPI() + '/uploadPicture', formData);
+    }
+  upload_orginal(file: string | Blob | undefined): Observable<any> {
 
     // Create form data
     const formData = new FormData();

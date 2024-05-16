@@ -10,7 +10,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-
+import {TableModule} from "primeng/table";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,11 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     MatFormFieldModule,
     MatMenuModule,
     MatToolbarModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    TableModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class HeaderModule { }

@@ -125,6 +125,14 @@ export class StudentService {
      this.studentSubject.next([...this.studentList]);
    })));
 }
+  fetchAllProfile($ledgerID:any){
+  this.studentList=[];
+  return this.http.get<any>(this.commonService.getAPI() + '/students/allProfileId/'+ $ledgerID)
+ .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Student[]}) => {
+   this.studentList=response.data;
+   this.studentSubject.next([...this.studentList]);
+ })));
+}
 fetchTeacherProfile($ledgerID:any){
   this.studentList=[];
   return this.http.get<any>(this.commonService.getAPI() + '/students/teacherProfileId/'+ $ledgerID)

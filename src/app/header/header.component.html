@@ -99,6 +99,20 @@
               <mat-icon>power_settings_new</mat-icon>
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+              <form [formGroup]="teacherEbookPaperFormGroup">
+                <li>
+                  <div class="col-sm-3" style="display: none;">
+                    <input class="form-control" type="text" value=""
+                        formControlName="organisationId">
+                </div>
+                </li>
+                <li>
+                  <div class="col-sm-3" style="display: none;">
+                    <input class="form-control" type="text" value=""
+                        formControlName="ledgerId">
+                </div>
+                </li>
+            </form>
               <li>
                 <a class="dropdown-item" [routerLink]="" (click)="logOutCurrentUser()">
                   <fa-icon [icon]="faSignOutAlt"></fa-icon> Logout
@@ -120,7 +134,7 @@
   <mat-menu #test1="matMenu">
     <input type="file" (change)="onChange($event)" name="filename">
   </mat-menu>
-  <div>{{authService.getUserName()}}</div>
+  <div>{{authService.getUserName()}} &nbsp;<span *ngIf="isShowProfile"><a class="btn btn-outline-success" href="#" role="button" rel="My Profile" [routerLink]="['/Profile']"><i class="bi bi-person-circle"></i></a></span></div>
  
 
 <!--    <div>-->

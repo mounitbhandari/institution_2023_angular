@@ -75,7 +75,36 @@ export class ReportService {
       }
     }))
   }
+  fetchStudentOnlineClassList(data:any){
+    this.newsDataList=[];
+    return this.http.post<any>(this.commonService.getAPI() + '/getStudentOnlineClassList', data)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service newsDataList:',response);
+      if (response.success === 1){
+        this.newsDataList.unshift(response.data);
+      }
+    }))
+  }
+  fetchStudentEbookList(ebookData:any){
+    this.newsDataList=[];
+    return this.http.post<any>(this.commonService.getAPI() + '/getStudentEbookList', ebookData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service newsDataList:',response);
+      if (response.success === 1){
+        this.newsDataList.unshift(response.data);
+      }
+    }))
+  }
 
+  fetchStudentQuestionPaperList(questionData:any){
+    return this.http.post<any>(this.commonService.getAPI() + '/getStudentQuestionPaperList', questionData)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at service newsDataList:',response);
+      if (response.success === 1){
+        this.newsDataList.unshift(response.data);
+      }
+    }))
+  }
   fetchStudentAssignmentListReport(assignmentData:any){
     return this.http.post<any>(this.commonService.getAPI() + '/getStudentAssignmentList', assignmentData)
     .pipe(catchError(this.errorService.serverError), tap(response => {
@@ -112,18 +141,36 @@ export class ReportService {
   }
 
   fetchSyllabusListReport($orgID:any){
+    this.newsDataList=[];
     return this.http.get<any>(this.commonService.getAPI() + '/getSyllabusList/'+$orgID)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
       this.newsDataList=response.data;
       })));
   }
   fetchAssignmentListReport($orgID:any){
+    this.newsDataList=[];
     return this.http.get<any>(this.commonService.getAPI() + '/getAssignmentList/'+$orgID)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
       this.newsDataList=response.data;
       })));
   }
+  fetchEbookListReport($orgID:any){
+    this.newsDataList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/getEbookList/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
+  fetchOnlineClassReport($orgID:any){
+    this.newsDataList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/getOnlineClassList/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.newsDataList=response.data;
+      })));
+  }
+
   fetchQuestionPaperListReport($orgID:any){
+    this.newsDataList=[];
     return this.http.get<any>(this.commonService.getAPI() + '/getQuestionPaperList/'+$orgID)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
       this.newsDataList=response.data;

@@ -1,5 +1,5 @@
 <div class="container-fluid page">
-    <div class="page__box p-3 mt-1 ml-1">Question Paper Entry Form</div>
+    <div class="page__box p-3 mt-1 ml-1">Online Class Entry Form</div>
     <div class="page__content shadow p-3 position-relative">
         <div class="container">
             <div class="row">
@@ -14,69 +14,63 @@
                                     View / Edit List
                                 </ng-template>
                                 <div class="card-body">
-                                    <p-table #assignmentList [value]="questionDataArray" dataKey="id" [paginator]="true"
+                                    <p-table #onlineClass [value]="onlineClassDataArray" dataKey="id" [paginator]="true"
                                         [rows]="5" [showCurrentPageReport]="true"
                                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                                         [rowsPerPageOptions]="[5,10,25,50]"
-                                        [globalFilterFields]="['id','question_description','subject_full_name','status','created_at']">
+                                        [globalFilterFields]="['id','online_class_url','subject_full_name','status','created_at']">
                                         <ng-template pTemplate="caption">
                                             <div class="flex">
                                                 <p-button type="button" icon="pi pi-plus" label="ADD" class="p-button-outlined" (click)="onClickAdd();"> </p-button>
                                                 <!-- <button pButton label="Clear" class="p-button-outlined"
-                                                    icon="pi pi-filter-slash" (click)="clear(assignmentList)"></button> -->
+                                                    icon="pi pi-filter-slash" (click)="clear(onlineClass)"></button> -->
                                                 <span class="p-input-icon-left ml-auto">
                                                     <i class="pi pi-search"></i>
                                                     <input pInputText type="text"
-                                                        (input)="assignmentList.filterGlobal(getEventValue($event), 'contains')"
+                                                        (input)="onlineClass.filterGlobal(getEventValue($event), 'contains')"
                                                         placeholder="Search keyword" />
                                                 </span>
                                             </div>
                                         </ng-template>
-
+  
                                         <ng-template pTemplate="header">
                                             <tr>
                                                 <th>ID</th>
-                                                <th pSortableColumn="question_description">Question Description <p-sortIcon
-                                                        field="question_description"></p-sortIcon>
-                                                </th>
+                                               <!--  <th pSortableColumn="online_class_url">Online Class URL <p-sortIcon
+                                                        field="online_class_url"></p-sortIcon>
+                                                </th> -->
+                                                <th pSortableColumn="full_name">Course / Class <p-sortIcon
+                                                  field="full_name"></p-sortIcon>
+                                              </th>
                                                 <th pSortableColumn="subject_full_name">Subjects <p-sortIcon
                                                     field="subject_full_name"></p-sortIcon>
                                                 </th>
-                                                <th>Download Attechment </th>
+                                                <th>Click Attend Online Class </th>
                                                 <th pSortableColumn="status">Status <p-sortIcon
                                                         field="status"></p-sortIcon>
                                                 </th>
-
+  
                                                 <th pSortableColumn="created_at">Date & time <p-sortIcon
                                                         field="created_at"></p-sortIcon>
                                                 </th>
                                                 <th>
                                                     Action
                                                 </th>
-                                                <th pSortableColumn="edit">Edit <p-sortIcon field="edit"></p-sortIcon>
+                                                <th>Edit 
                                                 </th>
-                                                <th pSortableColumn="delete">Delete <p-sortIcon
-                                                        field="delete"></p-sortIcon>
+                                                <th>Delete 
                                                 </th>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="body" let-assignment let-rowIndex="rowIndex">
                                             <tr>
                                                 <td>{{rowIndex+1}}</td>
-                                                <td>{{assignment.question_description}}</td>
+                                               <!--  <td>{{assignment.online_class_url}}</td> -->
+                                                <td>{{assignment.full_name}}</td>
                                                 <td>{{assignment.subject_full_name}}</td>
                                                 <td>
-                                                    <div *ngIf="assignment.file_url; then thenBlock; else elseBlock">
-                                                    </div>
-                                                    <p><ng-template #thenBlock>
-                                                            <span><a href={{defaultPicture}}{{assignment.file_url}}
-                                                                    download="filename"><i
-                                                                        class="bi bi-download"></i></a>{{assignment.file_url}}</span>
-                                                        </ng-template></p>
-                                                    <p><ng-template #elseBlock>
-                                                        </ng-template></p>
-
-
+                                                    <a mat-raised-button color="accent" href={{assignment.online_class_url}} target="_blank"><i class="bi bi-camera-reels"></i> &nbsp;  &nbsp; Go To Link</a>
+  
                                                 </td>
                                                 <td>{{assignment.status}}</td>
                                                 <td>{{assignment.created_at}}</td>
@@ -109,23 +103,23 @@
                                         </ng-template>
                                         <ng-template pTemplate="paginatorleft">
                                             <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
-                                            (click)="clear(assignmentList)"></button>
+                                            (click)="clear(onlineClass)"></button>
                                           
                                         </ng-template>
                                     </p-table>
-
-
+  
+  
                                 </div>
                             </mat-tab>
                             <mat-tab>
                                 <ng-template mat-tab-label>
                                     <mat-icon class="example-tab-icon">trending_up</mat-icon>
-                                    Question Paper Entry
+                                    Online Class Entry
                                 </ng-template>
                                 <div class="card">
                                     <!--Card content-->
                                     <div class="card-body">
-                                        <form [formGroup]="teacherQuestionPaperFormGroup">
+                                        <form [formGroup]="teacherOnlineClassFormGroup">
                                             <div class="row">
                                                 <div class="col-sm-8">
                                                     <ng-select [items]="courseArray" fxFlex="100" bindLabel="full_name"
@@ -145,10 +139,13 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" type="file" id="formFile"
-                                                        (change)="uploadImage($event)" formControlName="image">
-                                                </div>
+                                               <!--  <div class="col-sm-6">
+                                                    <mat-form-field appearance="outline" style="width:100% ;">
+                                                        <mat-label> <i class="bi bi-person-fill"></i> &nbsp;Paste URL</mat-label>
+                                                        <input matInput placeholder="Paste URL" formControlName="pasteUrl"
+                                                            class="custom">
+                                                    </mat-form-field>
+                                                </div> -->
                                                 <div class="col-sm-3" style="display: none;">
                                                     <input class="form-control" type="text" value=""
                                                         formControlName="organisationId">
@@ -161,20 +158,23 @@
                                             <div class="row">
                                                 <div class="col-sm-8">
                                                     <mat-form-field class="example-full-width">
-                                                        <mat-label>Description</mat-label>
+                                                        <mat-label>Paste URL</mat-label>
                                                         <textarea matInput #message
-                                                            formControlName="questionDescription"
-                                                            placeholder="Ex. Examination will be held from 25th Dec 2023..."
+                                                            formControlName="pasteUrl"
+                                                            placeholder="Google Meet Link.."
                                                             maxlength="1000"></textarea>
                                                         <mat-hint align="start" style="color: brown;"><strong>Broadcast
-                                                                Your Question Paper To
+                                                            Google Meet Link To
                                                                 Every Student </strong> </mat-hint>
                                                         <mat-hint align="end"
                                                             style="color: brown;">{{message.value.length}} /
                                                             1000</mat-hint>
                                                     </mat-form-field>
                                                 </div>
-
+                                                <div class="col-sm-2">
+                                                    <a mat-raised-button color="accent" href="https://meet.google.com/?hs=197&authuser=0&pli=1" target="_blank"><i class="bi bi-camera-reels"></i> &nbsp;  &nbsp; Create Link</a>
+                                                </div>
+  
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-5">
@@ -185,8 +185,8 @@
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    <button pButton (click)="saveQuestionPaper()"
-                                                        [disabled]="!teacherQuestionPaperFormGroup.valid"
+                                                    <button pButton (click)="saveOnline()"
+                                                        [disabled]="!teacherOnlineClassFormGroup.valid"
                                                         class="p-button-rounded p-button-info">
                                                         <i class="bi bi-save" style="font-size: 1rem"> Save </i>
                                                     </button>
@@ -203,4 +203,5 @@
             </div>
         </div>
     </div>
-</div>
+  </div>
+  

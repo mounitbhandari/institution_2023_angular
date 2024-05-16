@@ -53,16 +53,21 @@ export class LoginComponent implements OnInit {
         if (response.status === true) {
           if (this.authService.isOwner()) {
             this.router.navigate(['/owner']).then(r => { });
+            //window.location.reload();
           }
           if (this.authService.isDeveloper()) {
             this.router.navigate(['/developer']).then(r => { });
+            //window.location.reload();
           }
           if (this.authService.isStudent()) {
             this.router.navigate(['/StudentUser']).then(r => { });
+            //window.location.reload();
           }
           if (this.authService.isOfficeStaff()) {
             this.router.navigate(['/TeacherDashboard']).then(r => { });
+            //window.location.reload();
           }
+          
         }else{
           console.log(response.message);
           alert(response.message);
