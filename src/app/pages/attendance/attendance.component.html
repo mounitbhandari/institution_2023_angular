@@ -1,0 +1,211 @@
+<div class="container-fluid page">
+    <div class="page__box p-3 mt-1 ml-1 bg-info text-danger">Attendance Entry Form</div>
+    <div class="page__content shadow p-3 position-relative">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-12">
+                    <div class="main-div">
+                        <mat-tab-group (selectedIndexChange)="onTabChanged($event)" [(selectedIndex)]="selectedIndex"
+                            animationDuration="200ms"
+                            style="background-image: linear-gradient(to bottom right, rgb(8, 2, 68), rgb(7, 32, 146)); color: aliceblue; padding: 12px; border-radius: 5px; padding:0px;">
+                            <mat-tab>
+                              <ng-template mat-tab-label>
+                                  <mat-icon class="example-tab-icon">list</mat-icon>
+                                  All Present Details  &nbsp; <span style="height: 20px;width: 20px;border-radius: 50%;background-color: red; border: 1px solid red; font-weight: bolder;"> {{allPresentAttendanceArray.length}}</span>
+                              </ng-template>
+                            
+                              <div class="card-body">
+                                  <p-table #allPresentAttendance [value]="allPresentAttendanceArray" dataKey="id" [paginator]="true"
+                                      [rows]="5" [showCurrentPageReport]="true"
+                                      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                      [rowsPerPageOptions]="[5,10,25,50]"
+                                      [globalFilterFields]="['id','present_date','full_name','section']">
+                                      <ng-template pTemplate="caption">
+                                          <div class="flex">
+                                            <p-button type="button" icon="pi pi-plus" label="ADD" class="p-button-outlined" (click)="onClickAdd();"> </p-button>
+                                            <span class="p-input-icon-left ml-auto">
+                                                 <i class="pi pi-search"></i>
+                                                  <input pInputText type="text"
+                                                      (input)="allPresentAttendance.filterGlobal(getEventValue($event), 'contains')"
+                                                      placeholder="Search keyword" />
+                                              </span>
+
+                                          </div>
+                                      </ng-template>
+
+                                      <ng-template pTemplate="header">
+                                          <tr>
+                                              <th>ID</th>
+
+                                              <th pSortableColumn="present_date">Present Date <p-sortIcon
+                                                      field="present_date"></p-sortIcon>
+                                              </th>
+                                              <th pSortableColumn="full_name">Full Name <p-sortIcon
+                                                      field="full_name"></p-sortIcon>
+                                              </th>
+                                              <th pSortableColumn="section">Section<p-sortIcon
+                                                field="section"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="total_present">Total Present<p-sortIcon
+                                                field="total_present"></p-sortIcon>
+                                            </th>
+                                              <th pSortableColumn="edit">History <p-sortIcon field="edit"></p-sortIcon>
+                                              </th>
+                                          </tr>
+                                      </ng-template>
+                                      <ng-template pTemplate="body" let-attendance let-rowIndex="rowIndex">
+                                          <tr>
+                                              <td>{{rowIndex+1}}</td>
+                                              <td>{{attendance.present_date}}</td>
+                                              <td>{{attendance.full_name}}</td>
+                                              <td>{{attendance.section}}</td>
+                                              <td>{{attendance.total_present}}</td>
+                                              <td>
+                                                <p-button type="button" icon="pi pi-pencil" label="Details" class="p-button-outlined" (click)="historyPresent(attendance)"> </p-button>
+                                              </td>
+                                          </tr>
+                                      </ng-template>
+                                      <ng-template pTemplate="paginatorleft">
+                                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                                        (click)="clear(allPresentAttendance)"></button>
+                                      </ng-template>
+                                  </p-table>
+
+
+                              </div>
+                          </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <mat-icon class="example-tab-icon">trending_up</mat-icon>
+                                    Attendance Entry Tab
+                                </ng-template>
+
+                                <!--  ---- 1st Tab setting start---- -->
+                                <!-- Card 1 start-->
+
+
+                                <div class="card">
+                                    <!--Card content-->
+                                    
+                                       
+                                            <div class="card-body">
+                      
+                                                <form [formGroup]="attendanceFormGroup">
+                                                  <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <ng-select [items]="courseArray" bindLabel="full_name" class="custom"
+                                                          bindValue="id" formControlName="courseId" autofocus appendTo="body"
+                                                          placeholder="Class / Course" style="width:100%">
+                                                        </ng-select>
+                                                      </div>
+                                                      <div class="col-sm-4">
+                                                        <ng-select [items]="section" fxFlex="100" bindLabel="sec" class="custom" bindValue="id"
+                                                          appendTo="body" formControlName="section"
+                                                          placeholder="Select Section">
+                                                        </ng-select>
+                                                      </div>
+                                                  </div>
+                                                 
+                                                  
+                                                  <div align="right">
+                                                    <button pButton (click)="clearSubject()"
+                                                      class="p-button-rounded p-button-info p-button-outlined">
+                                                      <i class="bi bi-clear" style="font-size: 1rem"> Clear </i>
+                                                    </button>&nbsp;&nbsp;&nbsp;
+                        
+                                                    <button pButton (click)="goAttandance()" [disabled]="!attendanceFormGroup.valid"
+                                                      *ngIf="!isShown" class="p-button-rounded p-button-info">
+                                                      <i class="bi bi-save" style="font-size: 1rem"> Go </i>
+                                                    </button>
+                        
+                                                   
+                                                  </div>
+                                                </form>
+                        
+                        
+                        
+                        
+                                              
+                                              <!--End Card content-->
+                                            </div>
+                                        
+
+                                </div>
+                            </mat-tab>
+                           
+
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <mat-icon class="example-tab-icon">thumb_up</mat-icon>
+                                    Click to Absent Student 
+                                </ng-template>
+
+                                <div class="card-body">
+                                    <p-table #attendance [value]="attendanceArray" dataKey="id" [paginator]="true"
+                                        [rows]="5" [showCurrentPageReport]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [rowsPerPageOptions]="[5,10,25,50]"
+                                        [globalFilterFields]="['id','ledger_name','full_name']">
+                                        <ng-template pTemplate="caption">
+                                            <div class="flex">
+                                              <p-button type="button" icon="pi pi-plus" label="Back" class="p-button-outlined" (click)="onClickAdd();"> </p-button> &nbsp;&nbsp;
+                                              <button pButton pRipple type="button" label="Total Present: {{PresentFiltered.length}}" class="p-button-rounded p-button-help"></button>&nbsp;&nbsp;
+                                              <button pButton pRipple type="button" label="Total Absent: {{AbsentFiltered.length}}" class="p-button-rounded p-button-help"></button>&nbsp;&nbsp;
+                                              <p-button type="button" icon="bi bi-save" label="Save" class="p-button-outlined" (click)="onSave();"> </p-button>
+                                              <span class="p-input-icon-left ml-auto">
+                                                   <i class="pi pi-search"></i>
+                                                    <input pInputText type="text"
+                                                        (input)="attendance.filterGlobal(getEventValue($event), 'contains')"
+                                                        placeholder="Search keyword" />
+                                                </span>
+  
+                                            </div>
+                                        </ng-template>
+  
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>ID</th>
+  
+                                                <th pSortableColumn="ledger_name">Student Name <p-sortIcon
+                                                        field="ledger_name"></p-sortIcon>
+                                                </th>
+                                                <th pSortableColumn="full_name">Course/ Class <p-sortIcon
+                                                        field="full_name"></p-sortIcon>
+                                                </th>
+                                               
+                                                <th>Section</th>
+                                                <th>Absent</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-subject let-rowIndex="rowIndex">
+                                            <tr>
+                                                <td>{{rowIndex+1}}</td>
+                                                <td>{{subject.ledger_name}}</td>
+                                                <td>{{subject.full_name}}</td>
+                                                <td>{{subject.section}}</td>
+                                                <td>
+                                                    <button pButton pRipple *ngIf="subject.present==1" type="button" label="Present" icon="pi pi-pencil" class="p-button-rounded p-button-success" (click)="editAbsent(subject)"></button>
+                                                    <button pButton pRipple type="button" *ngIf="subject.present==0" icon="pi pi-pencil" label="Absent" class="p-button-rounded p-button-danger" (click)="editAbsent(subject)"></button>
+                                                </td>
+                                               
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="paginatorleft">
+                                          <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                                          (click)="clear(attendance)"></button>
+                                        </ng-template>
+                                    </p-table>
+  
+                                <pre>
+                                  AttendanceArray = {{attendanceDetailsObj | json}}
+                                </pre> 
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

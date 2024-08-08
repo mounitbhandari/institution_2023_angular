@@ -48,19 +48,24 @@
             <h3>Total Received (Year)</h3>
             <hr class="rule">
             <a [routerLink]="['/AllIncomeReport']">
-              <h1><b>{{totalYearlyCash + totalYearlyBank | currency:'INR'}}</b></h1>
+              <h1><b>{{totalMonthlyCash + totalMonthlyBank | currency:'INR'}}</b></h1>
             </a>
           </div>
 
-          <div class="item col-2 active act3 me-2">
+          <div class="item col-2 active act3 me-2" style="line-height: .5;">
             <i class="bi bi-journal-text botic"></i>
             <h3>Online Exam</h3>
-            <hr class="rule">
             <button pButton pRipple type="button" label="Active" class="p-button-rounded p-button-success"
-              (click)="onlineExam()">
-              <i class="bi bi-activity"> </i>
-            </button>
+            (click)="onlineExam()">
+            <i class="bi bi-activity"> </i>
+          </button>
+            <hr class="rule">
+            <div *ngIf="monthlyStudentArray.length>0">
+            <h3>Monthly Student</h3>
+            <a class="btn btn-danger" href="#monthlyStudent" role="button">{{monthlyStudentArray.length}}</a>
           </div>
+        </div>
+           
         </div>
 
         <!-- tabhere 
@@ -765,7 +770,7 @@
 
    
     <!-- Auto Generate Fees Charge details -->
-    <div class="row mt-4 upcom">
+    <div class="row mt-4 upcom" id="monthlyStudent">
       <div class="stuhisdtl">
         <i class="bi bi-person-video"></i>
         &nbsp; Monthly Auto Generate Fees Charge &nbsp; <span

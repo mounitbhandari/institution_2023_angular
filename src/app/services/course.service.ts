@@ -19,8 +19,17 @@ export class CourseService {
   //$orgID=1;
 
   fetchAllSubject($orgID:any){
+    this.subjectList=[];
     return this.http.get<any>(this.commonService.getAPI() + '/subjects/'+$orgID)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: Course[]}) => {
+      this.subjectList=response.data;
+       console.log("courseList:",this.subjectList); 
+      })));
+  }
+  fetchAllPresentAttendance($orgID:any){
+    this.subjectList=[]; 
+    return this.http.get<any>(this.commonService.getAPI() + '/getAllPresentAttendance/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
       this.subjectList=response.data;
        console.log("courseList:",this.subjectList); 
       })));
@@ -97,6 +106,17 @@ export class CourseService {
       }
     }))
   }
+  saveAttendance(data:any){
+    this.subjectList=[];
+    return this.http.post<any>(this.commonService.getAPI() + '/saveAttendance', data)
+    .pipe(catchError(this.errorService.serverError), tap(response => {
+      console.log('at subject',response);
+      if (response.status === true){
+        this.subjectList.unshift(response.data);
+        this.durationTypeSubject.next([...this.subjectList]);
+      }
+    }))
+  }
   saveSubject(data:any){
     this.subjectList=[];
     return this.http.post<any>(this.commonService.getAPI() + '/subject', data)
@@ -148,7 +168,22 @@ export class CourseService {
       this.durationTypeSubject.next([...this.durationTypeList]);
     })));
   }
-
+  fetchAllAttendance($orgID:any,$courseId:any,$sec:any){
+    this.subjectList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/getStudentAttendance/'+$orgID+'/'+$courseId+'/'+$sec)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.subjectList=response.data;
+      this.durationTypeSubject.next([...this.subjectList]);
+    })));
+  }
+  fetchAllAttendanceByCourse($orgID:any,$courseId:any){
+    this.subjectList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/getStudentAttendanceByCourse/'+$orgID+'/'+$courseId)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.subjectList=response.data;
+      this.durationTypeSubject.next([...this.subjectList]);
+    })));
+  }
   saveCourse(coursetData:any){
     return this.http.post<any>(this.commonService.getAPI() + '/courses', coursetData)
     .pipe(catchError(this.errorService.serverError), tap(response => {

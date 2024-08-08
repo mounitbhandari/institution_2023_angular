@@ -207,6 +207,8 @@ const routes: Routes = [
 
   { path: 'Profile', loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule) },
 
+  { path: 'Attendance', loadChildren: () => import('./pages/attendance/attendance.module').then(m => m.AttendanceModule) },
+
 
 
   // { path: 'JavaHome', loadChildren: () => import('./pages/course-content/java/java-home/java-home.module').then(m => m.JavaHomeModule) },
