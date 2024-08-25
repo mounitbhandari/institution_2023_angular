@@ -172,6 +172,8 @@ export class AttendanceComponent implements OnInit {
     console.log("attancdance:",data);
   }
   editAbsent(data:any){
+    this.PresentFiltered=[];
+    this.AbsentFiltered=[];
     console.log("attancdance:",data);
     console.log("ledgerId:",data.ledgerId);
     //const tempCourse = data.course_id;

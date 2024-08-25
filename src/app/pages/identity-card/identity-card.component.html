@@ -14,7 +14,7 @@
             <!-- Text in the middle at the top -->
             <div class="id-card-text"
               style="background-color: brown; width: 100%; padding: 10px;border-radius: 25px 5px 25px;">
-              <P style="font-size: large;font-family:sans-serif;letter-spacing: 3px;">{{organisationName}}</P>
+              <P style="font-size: large;font-family:sans-serif;letter-spacing: 3px;line-height: 1;">{{organisationName}}</P>
             </div>
             <h1 class="text-center"
               style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;color: white; text-shadow: 2px 2px 4px #000000;">{{studentName}}</h1>
@@ -24,9 +24,9 @@
 
           </div>
           <!-- Rest of the ID card content -->
-          <div class="id-card-info">
+          <div class="id-card-info" style="line-height: 1;">
 
-            <table border="0" align="center" style="line-height: 20px;">
+            <table border="0" align="center">
               <tr>
                 <th>ID </th>
                 <td>:</td>
@@ -68,7 +68,7 @@
         </div>
       </div>
       <div class="col-sm-4" style="background-color:rgba(176, 241, 91, 0.897);border-radius: 25px 5px 25px;">
-        <div class="id-card" style="width: 275px; height: 420px;">
+        <div class="id-card" style="width: 275px; height: 420px; line-height: 1;">
           <div class="id-card-header">
             <!-- Text in the middle at the top -->
             <div class="id-card-text"
@@ -94,7 +94,6 @@
             <div>
               <p align="center" class="date" style="color: #000000;">
                 <strong> Joined Date: </strong> {{studentEntryDate | date}} <br>
-                <strong> Expire Date: </strong>Jan 30, 2025
               </p>
               <!-- Company Logo Space -->
               <p class="company-logo" >

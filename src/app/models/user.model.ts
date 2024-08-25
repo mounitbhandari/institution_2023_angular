@@ -46,7 +46,7 @@ export class User{
   }
   get isOfficeStaff(){
     // tslint:disable-next-line:triple-equals
-    return this.userTypeId == 9;
+    return this.userTypeId == 7;
   }
   get isWorker(){
     // tslint:disable-next-line:triple-equals
