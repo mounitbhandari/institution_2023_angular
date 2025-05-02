@@ -225,6 +225,14 @@ export class ReportService {
       //console.log("Birthday List:",this.incomeReportList);
     })));
   }
+  fetchDropStudentToCourseRegistrationReport($orgID:any){
+    return this.http.get<any>(this.commonService.getAPI() + '/reportDropStudentToCourseRegistrationList/'+$orgID)
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.incomeReportList=response.data;
+      this.incomeReportSubject.next([...this.incomeReportList]);
+      //console.log("Birthday List:",this.incomeReportList);
+    })));
+  }
   fetchStudentToCourseRegistrationReportLedgerId($ledgerID:any){
     return this.http.get<any>(this.commonService.getAPI() + '/reportStudentToCourseRegistrationListLedgerId/'+$ledgerID)
     .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {

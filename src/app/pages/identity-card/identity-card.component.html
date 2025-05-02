@@ -9,7 +9,7 @@
   <div class="container">
     <div class="row" id="print-icard">
       <div class="col-sm-4" style="background-color:rgb(136, 136, 133);border-radius: 25px 5px 25px;">
-        <div class="id-card" style="width: 275px; height: 420px;">
+        <div class="id-card" style="width: 300px; height: 450px;">
           <div class="id-card-header">
             <!-- Text in the middle at the top -->
             <div class="id-card-text"
@@ -98,7 +98,8 @@
               <!-- Company Logo Space -->
               <p class="company-logo" >
                 <!-- Company Logo -->
-                <img src="assets/img/simplifyist.png" alt="Company Logo" class="eduvenv" />
+                <!-- <img src="assets/img/simplifyist.png" alt="Company Logo" class="eduvenv" /> -->
+                <img [src]="orgLogoPath" (error)="imageSrc = defaultPicture" style="border: 2px dotted rgb(182, 5, 195);">
               </p>
             </div>
            

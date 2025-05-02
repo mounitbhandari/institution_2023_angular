@@ -137,7 +137,8 @@
                 <button pButton (click)="onSave();" [disabled]="!isSave" *ngIf="!isShown"
                   class="p-button-rounded p-button-info">
                   <i class="bi bi-save" style="font-size: 1rem"> Save </i>
-                </button>
+                </button>&nbsp;
+                <a [routerLink]="['/owner']"  class="btn btn-outline-success" role="button" data-bs-toggle="button"><i class="bi bi-house"></i> &nbsp;Home</a>
               </p>
             </form>
             <!--  <fieldset class="border p-2"> -->

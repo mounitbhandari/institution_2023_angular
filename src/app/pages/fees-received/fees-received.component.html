@@ -10,7 +10,7 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon class="example-tab-icon">trending_up</mat-icon>
-            Entry
+            Fees Received Entry
           </ng-template>
           <!-- start working with Left div (panel) -->
           <div class="p-3 flex-fill" style="background-color: white">
@@ -179,13 +179,15 @@
               </div>
             </form>
             <p class="text-right">
+              
               <button pButton (click)="clearFeesReceived();" class="p-button-rounded p-button-info p-button-outlined">
                 <i class="bi bi-clear" style="font-size: 1rem"> Clear </i>
               </button>&nbsp;&nbsp;&nbsp;
               <button pButton (click)="onSingleReceiptVoucher();" *ngIf="isPrintBoolean"
                 class="p-button-rounded p-button-info p-button-outlined">
                 <i class="bi bi-printer"> Print </i>
-              </button>
+              </button>&nbsp;
+              <a [routerLink]="['/owner']"  class="btn btn-outline-success" role="button" data-bs-toggle="button"><i class="bi bi-house"></i> &nbsp;Home</a>
 
 
             </p>

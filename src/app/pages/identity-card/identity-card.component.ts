@@ -41,6 +41,7 @@ export class IdentityCardComponent implements OnInit {
   studentCourseHistoryArray:any=[];
   profileImageArray:any[]=[];
   defaultPicture: string = "";
+  orgLogoPath:string="";
   imageSrc: string | ArrayBuffer | null ="";
   constructor(private studentToCourseService: StudentToCourseService,
     private commonService: CommonService
@@ -66,6 +67,7 @@ export class IdentityCardComponent implements OnInit {
         this.getStudentProfile(this.ledgerId);
         this.getStudentToCourseRegistrationListLedgerId(this.ledgerId);
          this.getProfileImageById(this.organisationId,this.ledgerId);
+         this.orgLogoPath=this.imageSrc = this.commonService.getPublic() + '/profile_pic/BAITweb-removebg-preview.png';
       }
      }
 

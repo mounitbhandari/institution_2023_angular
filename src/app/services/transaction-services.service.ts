@@ -17,6 +17,7 @@ export class TransactionServicesService {
   studentNameList:any[]=[];
   feesReceivedList:any[]=[];
   advReceivedList:any[]=[];
+  paymentHeadList:any[]=[];
   feesReceivedDetailsList:any[]=[];
   transactionList:any[]=[];
   paymentHistoryDetails:any[]=[];
@@ -31,6 +32,14 @@ export class TransactionServicesService {
 
   }
 
+  fetchAllPaymentHead(){
+    this.advReceivedList=[];
+    return this.http.get<any>(this.commonService.getAPI() + '/transactions/getPaymentHead')
+    .pipe(catchError(this.errorService.serverError), tap(((response: {success: number, data: any[]}) => {
+      this.paymentHeadList=response.data;
+      this.feesReceivedSubject.next([...this.paymentHeadList]);
+    })));
+  }
 
  fetchPhonepeApi(amount:any,merchantId:any,apiKey:any,merchantUserId:any){
   this.paymentHistoryDetails=[];

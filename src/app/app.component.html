@@ -1,17 +1,36 @@
-<mat-drawer-container>
-    <mat-drawer mode="side" [opened]="sideBarOpen" *ngIf="commonService.isHeaderVisible()">
-      <app-sidenav *ngIf="authService.isNotAuthenticated()"></app-sidenav>
-      <app-sidenav-owner *ngIf="authService.isOwner()"></app-sidenav-owner>
-      <app-sidenav-developer *ngIf="authService.isDeveloper()"></app-sidenav-developer>
-      <app-sidenav-student *ngIf="authService.isStudent()"></app-sidenav-student>
-      <app-sidenav-teacher *ngIf="authService.isOfficeStaff()"></app-sidenav-teacher>
-    </mat-drawer>
+<!-- <mat-drawer-container>
+  <mat-drawer mode="side" [opened]="sideBarOpen" *ngIf="commonService.isHeaderVisible()">
+    <app-sidenav *ngIf="authService.isNotAuthenticated()"></app-sidenav> 
+    <app-sidenav-owner *ngIf="authService.isOwner()"></app-sidenav-owner>
+    <app-sidenav-developer *ngIf="authService.isDeveloper()"></app-sidenav-developer>
+    <app-sidenav-student *ngIf="authService.isStudent()"></app-sidenav-student>
+    <app-sidenav-teacher *ngIf="authService.isOfficeStaff()"></app-sidenav-teacher>
+  </mat-drawer>
 
-    <mat-drawer-content style="background-color:white ;color:black;">
-        <app-header (toggleSidebarForMe)="sideBarToggler($event)"></app-header>
-      <div *ngIf="isNavigating"  id="loading-screen" class="text-center">
-        <mat-spinner></mat-spinner>
-      </div>
-        <router-outlet></router-outlet>
-    </mat-drawer-content>
-</mat-drawer-container>
+  <mat-drawer-content style="background-color:white ;color:black;">
+
+      <app-header (toggleSidebarForMe)="sideBarToggler($event)" *ngIf="authService.isAuthenticated()"></app-header>
+    <div *ngIf="isNavigating"  id="loading-screen" class="text-center">
+      <mat-spinner></mat-spinner>
+    </div>
+     <router-outlet></router-outlet> 
+  </mat-drawer-content>
+</mat-drawer-container> overflow-y: hidden; /* Hide vertical scrollbar */
+  overflow-x: hidden; /* Hide horizontal scrollbar */-->
+<mat-drawer-container style="height:100vh; background-image: linear-gradient(rgb(10, 146, 173), rgba(246, 246, 246, 0.643));overflow-y: hidden;overflow-x: hidden;">
+  <mat-drawer mode="side" [opened]="sideBarOpen" *ngIf="commonService.isHeaderVisible()">
+    <app-sidenav *ngIf="authService.isNotAuthenticated()"></app-sidenav>
+    <app-sidenav-owner *ngIf="authService.isOwner()"></app-sidenav-owner>
+    <app-sidenav-developer *ngIf="authService.isDeveloper()"></app-sidenav-developer>
+    <app-sidenav-student *ngIf="authService.isStudent()"></app-sidenav-student>
+    <app-sidenav-teacher *ngIf="authService.isOfficeStaff()"></app-sidenav-teacher>
+  </mat-drawer>
+
+  <mat-drawer-content>
+      <app-header (toggleSidebarForMe)="sideBarToggler($event)"></app-header>
+    <div *ngIf="isNavigating"  id="loading-screen" class="text-center">
+      <mat-spinner></mat-spinner>
+    </div>
+      <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container> 

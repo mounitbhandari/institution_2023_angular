@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-card-content>
+  <mat-card-content style="border-radius: 10px;">
     <div class="header">
       <h3>Sign Into Your Account </h3>
     </div>
@@ -37,8 +37,9 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <button mat-flat-button color="primary" (click)="login()">Login</button>
-      <button mat-flat-button color="accent" [routerLink]="['/home']">Cancel</button>
+      <div align="right">
+      <button mat-flat-button color="primary" (click)="login()">Login</button> &nbsp;&nbsp;
+      <button mat-flat-button color="accent" [routerLink]="['/home']">Cancel</button></div>
     </form>
   </mat-card-content>
 </mat-card>

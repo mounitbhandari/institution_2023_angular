@@ -105,6 +105,7 @@ export class OwnerComponent implements OnInit {
   birthdayArray: any = [];
   upcomingDueListArray: any = [];
   studentRegistrationHistoryArray: any = [];
+  studentDropRegistrationHistoryArray: any = [];
   pivotTableAdmissionArray: any[] = [];
   pivotTableIncomeArray: any[] = [];
   workingEndDate: any;
@@ -204,6 +205,7 @@ export class OwnerComponent implements OnInit {
     this.getStudentBirthDay(this.organisationId);
     this.getStudentUpcomingDueList(this.organisationId);
     this.getStudentToCourseRegistrationList(this.organisationId);
+    this.getDropStudentToCourseRegistrationList(this.organisationId);
     this.getAllMonthlyStudent(this.organisationId);
     this.getPivotTableAdmissioin(this.organisationId);
     this.getPivotTableIncomeReport(this.organisationId);
@@ -701,6 +703,12 @@ export class OwnerComponent implements OnInit {
     this.reportService.fetchStudentToCourseRegistrationReport($orgID).subscribe(response => {
       this.studentRegistrationHistoryArray = response.data;
       console.log("StudentToCourseRegistration:", this.studentRegistrationHistoryArray);
+    })
+  }
+  getDropStudentToCourseRegistrationList($orgID: any) {
+    this.reportService.fetchDropStudentToCourseRegistrationReport($orgID).subscribe(response => {
+      this.studentDropRegistrationHistoryArray = response.data;
+      console.log("studentDropRegistrationHistoryArray:", this.studentDropRegistrationHistoryArray);
     })
   }
   onStatusChange(id:any) {
